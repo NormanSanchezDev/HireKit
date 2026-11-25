@@ -18,7 +18,7 @@ import SwiftUI
 /// Reduce Motion is on, extends under the safe areas and is hidden from
 /// accessibility.
 public struct HKBackground: View {
-    @Environment(HKThemeManager.self) private var themeManager
+    @Environment(\.hkTheme) private var theme
     @Environment(\.colorScheme) private var colorScheme
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
 
@@ -31,8 +31,7 @@ public struct HKBackground: View {
     public init() {}
 
     public var body: some View {
-        let theme = themeManager.current(for: colorScheme)
-        let isDark = (themeManager.selectedMode.colorScheme ?? colorScheme) == .dark
+        let isDark = colorScheme == .dark
         TimelineView(.animation(minimumInterval: 1.0 / 30, paused: reduceMotion)) { timeline in
             Canvas { context, _ in
                 context.opacity = isDark ? 0.3 : 0.22
@@ -102,7 +101,6 @@ extension View {
     .padding()
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
     .preferredColorScheme(.light)
 }
 
@@ -113,6 +111,5 @@ extension View {
     .padding()
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
     .preferredColorScheme(.dark)
 }

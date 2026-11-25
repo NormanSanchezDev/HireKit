@@ -47,6 +47,5 @@ struct AuthFlowView: View {
 #if DEBUG
 #Preview("Auth flow") {
     AuthFlowView(factory: HKPreviewViewModelFactory()) {}
-        .environment(HKThemeManager(defaults: nil))
 }
 #endif

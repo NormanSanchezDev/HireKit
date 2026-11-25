@@ -1,17 +1,27 @@
 import SwiftUI
 
-/// A complete set of design tokens resolved for one appearance.
+/// The design tokens of HireKit: colors, typography, spacing and corner radii.
 ///
-/// Get a theme from ``HKThemeManager`` instead of creating one:
+/// Read the theme from the environment in any view. Colors come from the asset
+/// catalog, so they already adapt to light, dark and Increase Contrast:
 ///
 /// ```swift
-/// let theme = themeManager.current(for: colorScheme)
-/// VStack(spacing: theme.spacing.large) { ... }
-///     .padding(theme.spacing.extraLarge)
+/// struct OfferRow: View {
+///     @Environment(\.hkTheme) private var theme
+///
+///     var body: some View {
+///         Text("Offer accepted")
+///             .foregroundStyle(theme.colors.success)
+///             .padding(theme.spacing.medium)
+///     }
+/// }
 /// ```
+///
+/// The light or dark choice lives in ``HKThemeManager``, which the app root
+/// applies with `preferredColorScheme(_:)`.
 public struct HKTheme: Sendable {
     /// The semantic colors of the theme.
-    public let colors: HKColors
+    public let colors = HKColors()
 
     /// The Dynamic Type styles of the theme.
     public let typography = HKTypography()
@@ -22,7 +32,6 @@ public struct HKTheme: Sendable {
     /// The corner radius scale of the theme.
     public let radius = HKRadius()
 
-    init(colorScheme: ColorScheme?) {
-        colors = HKColors(colorScheme: colorScheme)
-    }
+    /// Creates the HireKit theme.
+    public init() {}
 }

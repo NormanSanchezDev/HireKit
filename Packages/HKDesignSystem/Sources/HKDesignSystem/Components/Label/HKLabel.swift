@@ -12,8 +12,7 @@ import SwiftUI
 /// Every type is a Dynamic Type style, so the label scales with the user's
 /// preferred text size.
 public struct HKLabel: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
 
     private let model: HKLabelModel
 
@@ -35,7 +34,6 @@ public struct HKLabel: View {
     }
 
     public var body: some View {
-        let theme = themeManager.current(for: colorScheme)
         Text(model.text)
             .font(model.type.font(in: theme.typography))
             .foregroundStyle(model.tone.color(in: theme.colors))
@@ -52,5 +50,4 @@ public struct HKLabel: View {
         HKLabel("common_local_times", type: .footnote, tone: .secondary)
     }
     .padding()
-    .environment(HKThemeManager(defaults: nil))
 }

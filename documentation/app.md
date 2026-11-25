@@ -28,7 +28,7 @@ Bienvenida ──▶ Acceso ──▶ Inicio
 | Flujo | Pantallas | Estado |
 | --- | --- | --- |
 | Bienvenida | `WelcomeView` | Completo. Guarda el progreso en el dispositivo. |
-| Acceso | `SignInView`, `SignUpView` | Inicio de sesión y registro con Supabase Auth. El registro puede pedir confirmar el correo. |
+| Acceso | `SignInView`, `SignUpView` | Inicio de sesión y registro con Supabase Auth. El registro pide nombre(s), apellido paterno, apellido materno opcional, fecha de nacimiento, teléfono con lada, correo y contraseña, y puede pedir confirmar el correo. |
 | Inicio · pestaña Inicio | `DashboardView`, `NotificationsView` | Saludo según la hora y estados vacíos. |
 | Inicio · pestaña Ajustes | `SettingsView`, `AppearanceView`, `AboutView` | Tema claro, oscuro o del sistema; reinicio de la bienvenida. |
 

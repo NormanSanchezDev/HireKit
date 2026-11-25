@@ -25,6 +25,9 @@ public struct HKFieldModel {
     /// The semantic meaning of the text, for AutoFill and the keyboard.
     public let contentType: HKFieldContentType?
 
+    /// How the input capitalizes what the person types.
+    public let capitalization: HKFieldCapitalization
+
     /// Whether the input hides its text, with a button to reveal it.
     public let isSecure: Bool
 
@@ -49,6 +52,7 @@ public struct HKFieldModel {
     ///   - placeholder: The hint shown inside the empty input.
     ///   - icon: The name of an SF Symbol shown before the input.
     ///   - contentType: The semantic meaning of the text, for AutoFill.
+    ///   - capitalization: How the input capitalizes what the person types.
     ///   - isSecure: Whether the input hides its text.
     ///   - isRequired: Whether the field is required during validation.
     ///   - errorMessage: A shortcut for an ``HKFieldValidation/error(_:)``
@@ -60,6 +64,7 @@ public struct HKFieldModel {
         placeholder: LocalizedStringKey = "",
         icon: String? = nil,
         contentType: HKFieldContentType? = nil,
+        capitalization: HKFieldCapitalization = .never,
         isSecure: Bool = false,
         isRequired: Bool = false,
         errorMessage: LocalizedStringKey? = nil,
@@ -70,6 +75,7 @@ public struct HKFieldModel {
         self.placeholder = placeholder
         self.icon = icon
         self.contentType = contentType
+        self.capitalization = capitalization
         self.isSecure = isSecure
         self.isRequired = isRequired
         self.isEnabled = isEnabled
@@ -88,6 +94,7 @@ public struct HKFieldModel {
     ///   - icon: The name of an SF Symbol shown before the input.
     ///   - contentType: The semantic meaning of the text, for AutoFill.
     ///   - keyboardType: The keyboard shown while the field is focused.
+    ///   - capitalization: How the input capitalizes what the person types.
     ///   - isSecure: Whether the input hides its text.
     ///   - isRequired: Whether the field is required during validation.
     ///   - errorMessage: A shortcut for an ``HKFieldValidation/error(_:)``
@@ -100,6 +107,7 @@ public struct HKFieldModel {
         icon: String? = nil,
         contentType: HKFieldContentType? = nil,
         keyboardType: UIKeyboardType,
+        capitalization: HKFieldCapitalization = .never,
         isSecure: Bool = false,
         isRequired: Bool = false,
         errorMessage: LocalizedStringKey? = nil,
@@ -108,7 +116,7 @@ public struct HKFieldModel {
     ) {
         self.init(
             title: title, placeholder: placeholder, icon: icon, contentType: contentType,
-            isSecure: isSecure, isRequired: isRequired, errorMessage: errorMessage,
+            capitalization: capitalization, isSecure: isSecure, isRequired: isRequired, errorMessage: errorMessage,
             isEnabled: isEnabled, validation: validation
         )
         self.keyboardType = keyboardType

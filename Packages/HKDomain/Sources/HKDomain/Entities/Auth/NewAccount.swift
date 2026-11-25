@@ -1,9 +1,21 @@
 import Foundation
 
-/// The data a person provides to create an account.
+/// The profile and credentials a person provides to create an account.
 public struct NewAccount: Sendable, Equatable {
-    /// The person's display name.
-    public let name: String
+    /// The person's given names.
+    public let firstName: String
+
+    /// The person's paternal surname.
+    public let paternalLastName: String
+
+    /// The person's maternal surname, if they have one.
+    public let maternalLastName: String?
+
+    /// The person's date of birth.
+    public let birthDate: Date
+
+    /// The person's phone number.
+    public let phone: PhoneNumber
 
     /// The email and password of the new account.
     public let credentials: AuthCredentials
@@ -11,17 +23,38 @@ public struct NewAccount: Sendable, Equatable {
     /// Creates the data of a new account.
     ///
     /// - Parameters:
-    ///   - name: The person's display name.
+    ///   - firstName: The person's given names.
+    ///   - paternalLastName: The person's paternal surname.
+    ///   - maternalLastName: The person's maternal surname, if any.
+    ///   - birthDate: The person's date of birth.
+    ///   - phone: The person's phone number.
     ///   - credentials: The email and password of the new account.
-    public init(name: String, credentials: AuthCredentials) {
-        self.name = name
+    public init(
+        firstName: String,
+        paternalLastName: String,
+        maternalLastName: String?,
+        birthDate: Date,
+        phone: PhoneNumber,
+        credentials: AuthCredentials
+    ) {
+        self.firstName = firstName
+        self.paternalLastName = paternalLastName
+        self.maternalLastName = maternalLastName
+        self.birthDate = birthDate
+        self.phone = phone
         self.credentials = credentials
     }
 
-    /// The account with the name trimmed and the credentials normalized.
+    /// The account with cleaned names, an empty maternal surname removed and
+    /// the credentials normalized.
     var normalized: NewAccount {
-        NewAccount(
-            name: name.trimmingCharacters(in: .whitespacesAndNewlines),
+        let maternal = maternalLastName.map(PersonName.cleaned)
+        return NewAccount(
+            firstName: PersonName.cleaned(firstName),
+            paternalLastName: PersonName.cleaned(paternalLastName),
+            maternalLastName: maternal?.isEmpty == false ? maternal : nil,
+            birthDate: birthDate,
+            phone: phone,
             credentials: credentials.normalized
         )
     }

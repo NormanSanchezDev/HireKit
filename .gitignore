@@ -22,6 +22,7 @@ playground.xcworkspace/
 
 # Local tooling and its generated instructions
 graphify-out/
+supabase/.temp/
 .graphify/
 .rtk/
 /CLAUDE.md

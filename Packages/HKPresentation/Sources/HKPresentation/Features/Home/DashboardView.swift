@@ -4,14 +4,13 @@ import SwiftUI
 /// The root screen of the dashboard tab: a greeting and the active hiring
 /// processes.
 struct DashboardView: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
 
     let greeting: HomeViewModel.Greeting
     let onOpenNotifications: () -> Void
 
     var body: some View {
-        let spacing = themeManager.current(for: colorScheme).spacing
+        let spacing = theme.spacing
         ScrollView {
             HKGlassGroup(spacing: spacing.large) {
                 VStack(spacing: spacing.large) {
@@ -57,6 +56,5 @@ struct DashboardView: View {
     NavigationStack {
         DashboardView(greeting: .morning) {}
     }
-    .environment(HKThemeManager(defaults: nil))
 }
 #endif

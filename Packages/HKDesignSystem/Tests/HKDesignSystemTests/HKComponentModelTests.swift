@@ -55,7 +55,7 @@ struct HKComponentModelTests {
     }
 
     @Test @MainActor func progressToneResolvesSemanticPalette() {
-        let colors = HKThemeManager(defaults: nil).current(for: .light).colors
+        let colors = HKTheme().colors
         let environment = EnvironmentValues()
         #expect(HKProgressTone.primary.color(in: colors).resolve(in: environment) == colors.primary.resolve(in: environment))
         #expect(HKProgressTone.secondary.color(in: colors).resolve(in: environment) == colors.secondary.resolve(in: environment))

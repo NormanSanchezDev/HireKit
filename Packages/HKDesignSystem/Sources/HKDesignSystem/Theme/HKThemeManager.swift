@@ -2,10 +2,12 @@ import Foundation
 import Observation
 import SwiftUI
 
-/// The observable source of the active theme.
+/// The appearance the user chose: system, light or dark.
 ///
-/// Create one manager at the composition root and inject it into the
-/// environment. Every design system component reads it from there:
+/// Create one manager at the composition root, inject it into the environment
+/// and apply its mode with `preferredColorScheme(_:)`. Views do not need it to
+/// style themselves; they read ``HKTheme`` from `\.hkTheme`. Only settings
+/// screens that change the appearance read the manager:
 ///
 /// ```swift
 /// @main
@@ -45,24 +47,5 @@ public final class HKThemeManager {
         self.defaults = defaults
         selectedMode = defaults?.string(forKey: Self.preferenceKey)
             .flatMap(HKThemeMode.init(rawValue:)) ?? .system
-    }
-
-    /// The theme for the selected mode.
-    ///
-    /// In system mode the colors adapt where SwiftUI renders them. Prefer
-    /// ``current(for:)`` inside views, which also respects the view's
-    /// environment.
-    public var current: HKTheme {
-        HKTheme(colorScheme: selectedMode.colorScheme)
-    }
-
-    /// Returns the theme for the selected mode, resolved against a view's
-    /// environment.
-    ///
-    /// - Parameter colorScheme: The color scheme of the calling view, read from
-    ///   `@Environment(\.colorScheme)`. It applies only in system mode.
-    /// - Returns: The theme to style the view with.
-    public func current(for colorScheme: ColorScheme) -> HKTheme {
-        HKTheme(colorScheme: selectedMode.colorScheme ?? colorScheme)
     }
 }

@@ -13,8 +13,7 @@ import SwiftUI
 /// Every tone resolves against the active ``HKTheme`` so the indicator adapts
 /// to light, dark and high-contrast appearances.
 public struct HKProgress: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
 
     @ScaledMetric(relativeTo: .body) private var circularSize: CGFloat = 32
     @ScaledMetric(relativeTo: .body) private var circularLineWidth: CGFloat = 4
@@ -45,7 +44,6 @@ public struct HKProgress: View {
     }
 
     public var body: some View {
-        let theme = themeManager.current(for: colorScheme)
         let accentColor = model.tone.color(in: theme.colors)
 
         switch model.type {
@@ -117,7 +115,6 @@ public struct HKProgress: View {
     }
     .padding()
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
 }
 
 #Preview("Progress, dark and large text") {
@@ -128,7 +125,6 @@ public struct HKProgress: View {
     }
     .padding()
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
     .environment(\.dynamicTypeSize, .accessibility3)
     .preferredColorScheme(.dark)
 }

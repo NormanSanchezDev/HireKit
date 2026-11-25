@@ -1,5 +1,6 @@
 import HKDesignSystem
 import HKDomain
+import Foundation
 import HKPresentation
 import SwiftUI
 import Testing
@@ -114,19 +115,30 @@ struct SignInViewModelTests {
 
 @MainActor
 struct SignUpViewModelTests {
+    private static let today = Date(timeIntervalSince1970: 1_795_000_000)
+    private static let adultBirthDate = Date(timeIntervalSince1970: 631_152_000)
+
     private func makeViewModel(
         useCases: StubAuthUseCases,
+        filled: Bool = true,
         onAuthenticated: @escaping @MainActor () -> Void = {},
         onConfirmationRequired: @escaping @MainActor () -> Void = {}
     ) -> SignUpViewModel {
         let viewModel = SignUpViewModel(
             signUp: useCases,
+            currentDate: { Self.today },
             onAuthenticated: onAuthenticated,
             onConfirmationRequired: onConfirmationRequired
         )
         viewModel.onAppear()
-        viewModel.email = "ana@hirekit.app"
-        viewModel.password = "contraseña"
+        if filled {
+            viewModel.firstName = "Ana"
+            viewModel.paternalLastName = "López"
+            viewModel.birthDate = Self.adultBirthDate
+            viewModel.phoneDigits = "5625068370"
+            viewModel.email = "ana@hirekit.app"
+            viewModel.password = "contraseña"
+        }
         return viewModel
     }
 
@@ -138,26 +150,66 @@ struct SignUpViewModelTests {
         #expect(state.titleLabel.text == "sign_up_title_txt")
         #expect(state.signUpButton.title == "sign_up_submit_button_txt")
         #expect(state.confirmationMessage == nil)
+        #expect(state.dialCode == .mexico)
+        #expect(state.phoneField.dialCodes.map(\.title) == ["🇲🇽 +52", "🇺🇸 +1"])
+        #expect(state.firstNameField.capitalization == .words)
+        #expect(!state.maternalLastNameField.isRequired)
+        #expect(state.birthDateField.range.upperBound < .now)
     }
 
-    @Test func missingNameShowsErrorWithoutCallingUseCase() async {
+    @Test func emptyFormShowsRequiredErrorsWithoutCallingUseCase() async throws {
         let useCases = StubAuthUseCases()
-        var authenticated = false
-        let viewModel = makeViewModel(useCases: useCases) { authenticated = true }
+        let viewModel = makeViewModel(useCases: useCases, filled: false)
         await viewModel.signUp()
-        #expect(!authenticated)
-        #expect(viewModel.uiState?.nameField.errorMessage != nil)
+        let state = try #require(viewModel.uiState)
+        #expect(state.firstNameError == "sign_up_name_required_txt")
+        #expect(state.paternalLastNameError == "sign_up_name_required_txt")
+        #expect(state.maternalLastNameError == nil)
+        #expect(state.birthDateError == "sign_up_birth_date_required_txt")
+        #expect(state.phoneError == "sign_up_phone_required_txt")
+        #expect(state.emailError != nil)
+        #expect(state.passwordError != nil)
         #expect(await useCases.receivedAccount == nil)
     }
 
-    @Test func sessionAuthenticates() async {
+    @Test func nameEditingEndedCleansTheName() {
+        let viewModel = makeViewModel(useCases: StubAuthUseCases())
+        viewModel.firstName = "CArlos arTURO"
+        viewModel.maternalLastName = " de.  la cruz "
+        viewModel.nameEditingEnded(.firstName)
+        viewModel.nameEditingEnded(.maternalLastName)
+        #expect(viewModel.firstName == "Carlos Arturo")
+        #expect(viewModel.maternalLastName == "De La Cruz")
+    }
+
+    @Test func shortNameUnderageAndShortPhoneShowErrors() async throws {
+        let useCases = StubAuthUseCases()
+        let viewModel = makeViewModel(useCases: useCases)
+        viewModel.firstName = "a"
+        viewModel.birthDate = Self.today
+        viewModel.phoneDigits = "56250"
+        await viewModel.signUp()
+        let state = try #require(viewModel.uiState)
+        #expect(state.firstNameError == "sign_up_name_invalid_txt")
+        #expect(state.birthDateError == "sign_up_birth_date_underage_txt")
+        #expect(state.phoneError == "sign_up_phone_invalid_txt")
+        #expect(await useCases.receivedAccount == nil)
+    }
+
+    @Test func sessionAuthenticatesWithFullProfile() async throws {
         let useCases = StubAuthUseCases()
         var authenticated = false
         let viewModel = makeViewModel(useCases: useCases) { authenticated = true }
-        viewModel.name = "Ana"
+        viewModel.firstName = " carlos. arturo "
+        viewModel.dialCode = .unitedStates
         await viewModel.signUp()
         #expect(authenticated)
-        #expect(await useCases.receivedAccount?.name == "Ana")
+        let account = try #require(await useCases.receivedAccount)
+        #expect(account.firstName == "Carlos Arturo")
+        #expect(account.paternalLastName == "López")
+        #expect(account.maternalLastName == nil)
+        #expect(account.birthDate == Self.adultBirthDate)
+        #expect(account.phone == PhoneNumber(dialCode: .unitedStates, digits: "5625068370"))
     }
 
     @Test func confirmationRequiredShowsAlertThenReturnsToSignIn() async {
@@ -168,7 +220,6 @@ struct SignUpViewModelTests {
             onAuthenticated: { authenticated = true },
             onConfirmationRequired: { returned = true }
         )
-        viewModel.name = "Ana"
         await viewModel.signUp()
         #expect(!authenticated)
         #expect(viewModel.isShowingConfirmation)
@@ -180,7 +231,6 @@ struct SignUpViewModelTests {
 
     @Test func failureShowsMappedError() async {
         let viewModel = makeViewModel(useCases: StubAuthUseCases(failure: .emailAlreadyRegistered))
-        viewModel.name = "Ana"
         await viewModel.signUp()
         #expect(viewModel.uiState?.errorMessage == "auth_error_email_already_registered_txt")
         #expect(viewModel.uiState?.isLoading == false)

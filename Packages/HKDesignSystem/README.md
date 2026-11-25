@@ -15,12 +15,16 @@ Ninguna. SwiftUI y Observation.
 ```
 Sources/HKDesignSystem/
 ├── Tokens/      HKColors, HKTypography, HKSpacing, HKRadius, HKGlassStyle
-├── Theme/       HKTheme, HKThemeMode, HKThemeManager
+├── Theme/       HKTheme, EnvironmentValues.hkTheme, HKThemeMode, HKThemeManager
 ├── Components/
 │   ├── Background/ HKBackground, View.hkBackground (doodles animados)
 │   ├── Glass/   HKGlassCard, HKGlassGroup, View.hkGlass
 │   ├── Button/  HKButton, HKButtonModel, HKButtonType
-│   ├── Field/   HKField, HKFieldModel, HKFieldValidation, HKFieldContentType
+│   ├── Field/   HKField, HKFieldModel, HKFieldValidation, HKFieldContentType,
+│   │            HKFieldCapitalization, HKFieldContainer (interno)
+│   ├── DatePicker/ HKDatePicker, HKDatePickerModel
+│   ├── Dropdown/ HKDropdown, HKDropdownOption
+│   ├── PhoneField/ HKPhoneField, HKPhoneFieldModel, HKPhoneFormat
 │   ├── Image/   HKImage, HKImageModel, HKImageSource
 │   └── Label/   HKActionPrompt, HKActionPromptModel, HKLabel, HKLabelModel, HKLabelType, HKLabelTone, HKRowLabel
 └── Resources/   Media.xcassets
@@ -43,9 +47,18 @@ struct HireKitApp: App {
             }
             .hkBackground()
             .environment(themeManager)
+            .preferredColorScheme(themeManager.selectedMode.colorScheme)
         }
     }
 }
+```
+
+En tus vistas, lee los tokens del entorno:
+
+```swift
+@Environment(\.hkTheme) private var theme
+
+Text("Hola").foregroundStyle(theme.colors.primary)
 ```
 
 ## Pruebas

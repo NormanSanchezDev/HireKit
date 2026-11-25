@@ -14,13 +14,17 @@ public protocol AuthRemoteDataSource: Sendable {
     /// - Throws: An `AuthenticationError`.
     func signIn(email: String, password: String) async throws(AuthenticationError) -> RemoteAuthUser
 
-    /// Creates an account.
+    /// Creates an account with its profile.
     ///
     /// - Parameters:
-    ///   - name: The display name stored in the account's metadata.
+    ///   - profile: The profile stored with the account.
     ///   - email: The account's email address.
     ///   - password: The account's password.
     /// - Returns: The created account and whether a session was opened.
     /// - Throws: An `AuthenticationError`.
-    func signUp(name: String, email: String, password: String) async throws(AuthenticationError) -> RemoteSignUpResponse
+    func signUp(
+        profile: RemoteNewProfile,
+        email: String,
+        password: String
+    ) async throws(AuthenticationError) -> RemoteSignUpResponse
 }

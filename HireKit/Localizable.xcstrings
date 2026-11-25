@@ -307,23 +307,6 @@
         }
       }
     },
-    "auth_name_required_txt" : {
-      "extractionState" : "manual",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Enter your name."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ingresa tu nombre."
-          }
-        }
-      }
-    },
     "auth_password_minimum_%lld_txt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -439,6 +422,108 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Continuar"
+          }
+        }
+      }
+    },
+    "common_date_not_selected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Not selected"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin seleccionar"
+          }
+        }
+      }
+    },
+    "common_date_picker_hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens a calendar to pick the date."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Abre un calendario para elegir la fecha."
+          }
+        }
+      }
+    },
+    "common_date_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dd/mm/yyyy"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "dd/mm/aaaa"
+          }
+        }
+      }
+    },
+    "common_dial_code" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Country code"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lada"
+          }
+        }
+      }
+    },
+    "common_dial_code_mexico" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mexico, plus 52"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "México, más 52"
+          }
+        }
+      }
+    },
+    "common_dial_code_united_states" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "United States, plus 1"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Estados Unidos, más 1"
           }
         }
       }
@@ -779,6 +864,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Elige una contraseña más larga."
+          }
+        }
+      }
+    },
+    "common_phone_placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(55) 12 34 56 78"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "(55) 12 34 56 78"
           }
         }
       }
@@ -1497,6 +1599,57 @@
         }
       }
     },
+    "sign_up_birth_date_required_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select your date of birth."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona tu fecha de nacimiento."
+          }
+        }
+      }
+    },
+    "sign_up_birth_date_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date of birth"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fecha de nacimiento"
+          }
+        }
+      }
+    },
+    "sign_up_birth_date_underage_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "You must be at least 18 years old."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Debes tener al menos 18 años."
+          }
+        }
+      }
+    },
     "sign_up_confirmation_message_%@_txt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1565,19 +1718,104 @@
         }
       }
     },
-    "sign_up_name_txt" : {
+    "sign_up_first_name_placeholder_txt" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Name"
+            "value" : "E.g. Carlos Arturo"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nombre"
+            "value" : "Ej. Carlos Arturo"
+          }
+        }
+      }
+    },
+    "sign_up_first_name_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "First name(s)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nombre(s)"
+          }
+        }
+      }
+    },
+    "sign_up_maternal_last_name_placeholder_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E.g. García"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ej. García"
+          }
+        }
+      }
+    },
+    "sign_up_maternal_last_name_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Maternal surname (optional)"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apellido materno (opcional)"
+          }
+        }
+      }
+    },
+    "sign_up_name_invalid_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Use letters only, start with a capital letter and enter at least 2 letters."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usa solo letras, empieza con mayúscula y escribe al menos 2 letras."
+          }
+        }
+      }
+    },
+    "sign_up_name_required_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This field is required."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Este campo es obligatorio."
           }
         }
       }
@@ -1612,6 +1850,91 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Contraseña"
+          }
+        }
+      }
+    },
+    "sign_up_paternal_last_name_placeholder_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "E.g. López"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ej. López"
+          }
+        }
+      }
+    },
+    "sign_up_paternal_last_name_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paternal surname"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apellido paterno"
+          }
+        }
+      }
+    },
+    "sign_up_phone_invalid_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The number must have 10 digits."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El número debe tener 10 dígitos."
+          }
+        }
+      }
+    },
+    "sign_up_phone_required_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your phone number."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Escribe tu número de teléfono."
+          }
+        }
+      }
+    },
+    "sign_up_phone_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone number"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Número de teléfono"
           }
         }
       }

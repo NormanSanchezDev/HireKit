@@ -45,6 +45,5 @@ struct SignInView: View {
     NavigationStack {
         SignInView(viewModel: HKPreviewViewModelFactory().makeSignInViewModel(onSignUp: {}, onAuthenticated: {}))
     }
-    .environment(HKThemeManager(defaults: nil))
 }
 #endif

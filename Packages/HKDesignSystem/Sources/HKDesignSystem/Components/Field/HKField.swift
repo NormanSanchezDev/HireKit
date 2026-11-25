@@ -20,10 +20,10 @@ import SwiftUI
 /// The field outlines itself in the brand color while focused and in the
 /// feedback color when it has ``HKFieldValidation``. Secure fields include a
 /// button to reveal the text that keeps the keyboard up. The field is disabled
-/// when either its model or its environment disables it.
+/// when either its model or its environment disables it. Pass
+/// `onEditingEnded` to clean the text when the field loses focus.
 public struct HKField: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
     @Environment(\.isEnabled) private var parentIsEnabled
     @Binding private var text: String
     @FocusState private var isFocused: Bool
@@ -31,77 +31,54 @@ public struct HKField: View {
     @State private var restoreEditingFocus = false
 
     private let model: HKFieldModel
+    private let onEditingEnded: (() -> Void)?
 
     /// Creates a field.
     ///
     /// - Parameters:
     ///   - model: The content and configuration of the field.
     ///   - text: The text to display and edit.
-    public init(model: HKFieldModel, text: Binding<String>) {
+    ///   - onEditingEnded: An action to run when the field loses focus.
+    public init(model: HKFieldModel, text: Binding<String>, onEditingEnded: (() -> Void)? = nil) {
         self.model = model
         _text = text
+        self.onEditingEnded = onEditingEnded
     }
 
     private var isEnabled: Bool { model.isEnabled && parentIsEnabled }
 
     public var body: some View {
-        let theme = themeManager.current(for: colorScheme)
-        let shape = RoundedRectangle(cornerRadius: theme.radius.medium)
-        let feedback = feedback(in: theme.colors)
-        let focused = isEnabled && isFocused
-        let outline = isEnabled ? feedback?.color ?? (focused ? theme.colors.primary : nil) : nil
-
-        VStack(alignment: .leading, spacing: theme.spacing.medium) {
-            Text(model.title)
-                .font(theme.typography.fieldLabel)
-            .accessibilityHidden(true)
-
-            HStack(spacing: theme.spacing.medium) {
-                if let icon = model.icon {
-                    Image(systemName: icon)
-                        .foregroundStyle(theme.colors.textSecondary)
-                        .accessibilityHidden(true)
-                }
-                input
-                    .textFieldStyle(.plain)
-                    .textContentType(model.contentType)
-                    #if os(iOS)
-                    .keyboardType(model.keyboardType)
-                    .textInputAutocapitalization(.never)
-                    #endif
-                    .font(theme.typography.body)
-                    .accessibilityLabel(model.isRequired ? Text("common_required_\(Text(model.title))") : Text(model.title))
-                    .accessibilityHint(feedback?.description ?? Text(verbatim: ""))
-                if model.isSecure {
-                    revealButton(minimumSide: theme.spacing.minimumHitTarget)
-                }
+        HKFieldContainer(title: model.title, validation: model.validation, isEnabled: isEnabled, isFocused: isFocused) {
+            if let icon = model.icon {
+                Image(systemName: icon)
+                    .foregroundStyle(theme.colors.textSecondary)
+                    .accessibilityHidden(true)
             }
-            .padding(.horizontal, theme.spacing.large)
-            .padding(.vertical, theme.spacing.small)
-            .frame(minHeight: theme.spacing.minimumHitTarget)
-            .hkGlass(isInteractive: isEnabled, in: shape)
-            .overlay {
-                if let outline {
-                    shape.strokeBorder(outline, lineWidth: focused ? 2 : 1)
-                        .allowsHitTesting(false)
-                }
-            }
-
-            if let feedback {
-                Label { Text(feedback.message) } icon: { Image(systemName: feedback.icon) }
-                    .font(theme.typography.caption)
-                    .foregroundStyle(isEnabled ? feedback.color : theme.colors.textSecondary)
-                    .accessibilityLabel(feedback.description)
+            input
+                .textFieldStyle(.plain)
+                .textContentType(model.contentType)
+                #if os(iOS)
+                .keyboardType(model.keyboardType)
+                .textInputAutocapitalization(model.capitalization.textInputAutocapitalization)
+                #endif
+                .autocorrectionDisabled(model.capitalization == .never)
+                .accessibilityLabel(Text(fieldTitle: model.title, isRequired: model.isRequired))
+                .accessibilityHint(model.validation.feedback(in: theme.colors)?.description ?? Text(verbatim: ""))
+            if model.isSecure {
+                revealButton(minimumSide: theme.spacing.minimumHitTarget)
             }
         }
-        .foregroundStyle(isEnabled ? theme.colors.textPrimary : theme.colors.textSecondary)
-        .tint(theme.colors.primary)
         .disabled(!model.isEnabled)
         .onChange(of: isEnabled) { _, enabled in
             if !enabled {
                 restoreEditingFocus = false
                 isFocused = false
                 isPasswordVisible = false
+            }
+        }
+        .onChange(of: isFocused) { _, focused in
+            if !focused && !restoreEditingFocus {
+                onEditingEnded?()
             }
         }
     }
@@ -140,18 +117,10 @@ public struct HKField: View {
             isFocused = isEnabled
         }
     }
-
-    private func feedback(in colors: HKColors) -> (message: LocalizedStringKey, icon: String, color: Color, description: Text)? {
-        switch model.validation {
-        case .none: nil
-        case .success(let text): (text, "checkmark.circle", colors.success, Text("common_validation_success_\(Text(text))"))
-        case .warning(let text): (text, "exclamationmark.triangle", colors.warning, Text("common_validation_warning_\(Text(text))"))
-        case .error(let text): (text, "exclamationmark.circle", colors.error, Text("common_validation_error_\(Text(text))"))
-        }
-    }
 }
 
 #Preview("Field states") {
+    @Previewable @State var name = ""
     @Previewable @State var email = ""
     @Previewable @State var password = ""
     @Previewable @State var enabled = true
@@ -160,6 +129,9 @@ public struct HKField: View {
             Toggle("common_enable_editing", isOn: $enabled)
             HKField(model: .init(title: "common_email", placeholder: "common_email_placeholder", icon: "envelope", isRequired: true), text: $email)
                 .disabled(!enabled)
+            HKField(model: .init(title: "sign_up_first_name_txt", capitalization: .words), text: $name) {
+                name = name.trimmingCharacters(in: .whitespaces)
+            }
             HKField(model: .init(title: "common_password", icon: "lock", isSecure: true), text: $password)
             HKField(model: .init(title: "common_username", isEnabled: false), text: .constant("hirekit"))
             HKField(model: .init(title: "common_email", validation: .error("auth_email_invalid_txt")), text: $email)
@@ -169,5 +141,4 @@ public struct HKField: View {
         .padding()
     }
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
 }

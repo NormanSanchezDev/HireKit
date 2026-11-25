@@ -1,3 +1,4 @@
+import Foundation
 import HKDomain
 import Testing
 
@@ -41,16 +42,30 @@ struct AuthUseCasesTests {
         }
     }
 
-    @Test func signUpNormalizesNameAndEmail() async throws {
-        let repository = RecordingAuthRepository()
-        let result = try await DefaultSignUpUseCase(repository: repository).execute(NewAccount(
-            name: "  Ana  ",
-            credentials: AuthCredentials(email: " ANA@hirekit.app ", password: "secreta123")
-        ))
-        let expected = NewAccount(
-            name: "Ana",
-            credentials: AuthCredentials(email: "ana@hirekit.app", password: "secreta123")
+    private static let birthDate = Date(timeIntervalSince1970: 631_152_000)
+    private static let phone = PhoneNumber(dialCode: .mexico, digits: "5625068370")!
+
+    private func account(
+        firstName: String = "Ana",
+        paternal: String = "López",
+        maternal: String? = nil,
+        email: String = "ana@hirekit.app"
+    ) -> NewAccount {
+        NewAccount(
+            firstName: firstName,
+            paternalLastName: paternal,
+            maternalLastName: maternal,
+            birthDate: Self.birthDate,
+            phone: Self.phone,
+            credentials: AuthCredentials(email: email, password: "secreta123")
         )
+    }
+
+    @Test func signUpCleansNamesAndNormalizesEmail() async throws {
+        let repository = RecordingAuthRepository()
+        let result = try await DefaultSignUpUseCase(repository: repository)
+            .execute(account(firstName: " CArlos. arTURO ", paternal: "lópez", maternal: "  ", email: " ANA@hirekit.app "))
+        let expected = account(firstName: "Carlos Arturo", paternal: "López", maternal: nil)
         #expect(await repository.createdAccount == expected)
         #expect(result == .confirmationRequired(email: "ana@hirekit.app"))
     }
@@ -58,10 +73,7 @@ struct AuthUseCasesTests {
     @Test func signUpPropagatesRepositoryErrors() async {
         let useCase = DefaultSignUpUseCase(repository: RecordingAuthRepository(failure: .emailAlreadyRegistered))
         await #expect(throws: AuthenticationError.emailAlreadyRegistered) {
-            try await useCase.execute(NewAccount(
-                name: "Ana",
-                credentials: AuthCredentials(email: "ana@hirekit.app", password: "secreta123")
-            ))
+            try await useCase.execute(account())
         }
     }
 }

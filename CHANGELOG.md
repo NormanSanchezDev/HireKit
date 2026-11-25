@@ -11,6 +11,17 @@ commit.
 
 ### Añadido
 
+- Registro completo: nombre(s), apellido paterno, apellido materno opcional,
+  fecha de nacimiento (18 años mínimo), teléfono con lada 🇲🇽 +52 / 🇺🇸 +1,
+  correo y contraseña. Los nombres se limpian y capitalizan al perder el foco.
+- Reglas de perfil en HKDomain: `PersonName`, `DialCode`, `PhoneNumber` y
+  `BirthDateRule`.
+- Tabla `public.profiles` con RLS y trigger `on_auth_user_created` en
+  `supabase/migrations/20261125120000_create_profiles.sql`.
+- Componentes `HKDatePicker`, `HKDropdown` y `HKPhoneField` (con
+  `HKPhoneFormat`), y `HKFieldCapitalization` y `onEditingEnded` en `HKField`.
+- Textos del registro en español e inglés.
+
 - Inicio de sesión y registro con Supabase Auth: casos de uso `SignInUseCase` y
   `SignUpUseCase`, `AuthRepository` y `AuthenticationError` en HKDomain, y
   `SupabaseAuthRemoteDataSource` y `DefaultAuthRepository` en HKData.
@@ -34,6 +45,15 @@ commit.
 
 ### Cambiado
 
+- `NewAccount` reemplaza `name` por el perfil completo y
+  `AuthRemoteDataSource.signUp` recibe un `RemoteNewProfile`. Supabase guarda
+  el perfil en metadatos con claves `first_name`, `paternal_last_name`, etc.
+- `HKField`, `HKDatePicker` y `HKPhoneField` comparten `HKFieldContainer`.
+
+- El tema se lee con `@Environment(\.hkTheme) private var theme` y
+  `theme.colors…`. Ya no hace falta `colorScheme` ni `current(for:)`, y las
+  previews no necesitan inyectar `HKThemeManager`, que ahora solo guarda el
+  modo Sistema, Claro u Oscuro.
 - Inicio de sesión y registro se configuran al aparecer con `SignInUIState` y
   `SignUpUIState`, propiedad de su ViewModel, y muestran carga y errores.
 - Si el registro pide confirmar el correo, la app avisa y vuelve a inicio de sesión.
@@ -60,6 +80,10 @@ commit.
 
 ### Eliminado
 
+- Campo único "Nombre" del registro y la clave de metadatos `name`.
+
+- `HKThemeManager.current` y `current(for:)`, y `AppearanceColor`, sustituidos
+  por `EnvironmentValues.hkTheme`.
 - `HKBackdrop` y `.hkBackdrop()` (degradado `MeshGradient`), reemplazados por
   `HKBackground`.
 - `dismissError()` en `WelcomeViewModel` y `SettingsViewModel`, reemplazado por

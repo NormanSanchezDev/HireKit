@@ -1,8 +1,9 @@
 import Foundation
+import HKDomain
 import SwiftUI
 
-/// Form-level checks shown while typing. Real credential checks belong to a
-/// domain use case once there is a backend.
+/// Form-level checks of the auth screens. Name, age and phone rules come from
+/// the domain, so the form and the backend agree.
 enum AuthInputValidator {
     static let minimumPasswordLength = 8
 
@@ -22,7 +23,21 @@ enum AuthInputValidator {
             : nil
     }
 
-    static func nameError(_ name: String) -> LocalizedStringKey? {
-        name.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? "auth_name_required_txt" : nil
+    static func requiredNameError(_ name: String) -> LocalizedStringKey? {
+        name.isEmpty ? "sign_up_name_required_txt" : optionalNameError(name)
+    }
+
+    static func optionalNameError(_ name: String) -> LocalizedStringKey? {
+        name.isEmpty || PersonName.isValid(name) ? nil : "sign_up_name_invalid_txt"
+    }
+
+    static func birthDateError(_ birthDate: Date?, today: Date) -> LocalizedStringKey? {
+        guard let birthDate else { return "sign_up_birth_date_required_txt" }
+        return BirthDateRule.isAllowed(birthDate, today: today) ? nil : "sign_up_birth_date_underage_txt"
+    }
+
+    static func phoneError(_ digits: String) -> LocalizedStringKey? {
+        if digits.isEmpty { return "sign_up_phone_required_txt" }
+        return digits.count == PhoneNumber.digitCount ? nil : "sign_up_phone_invalid_txt"
     }
 }

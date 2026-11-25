@@ -8,7 +8,6 @@ import Supabase
 /// Without a ``SupabaseConfiguration`` every request fails with
 /// `AuthenticationError.notConfigured`, so the app still launches.
 public struct SupabaseAuthRemoteDataSource: AuthRemoteDataSource {
-    static let nameMetadataKey = "name"
 
     private let client: SupabaseClient?
 
@@ -43,16 +42,19 @@ public struct SupabaseAuthRemoteDataSource: AuthRemoteDataSource {
         }
     }
 
-    /// Creates an account and stores the name in its metadata.
+    /// Creates an account and stores the profile in its metadata.
+    ///
+    /// A database trigger copies the metadata into the `profiles` table, so
+    /// the profile is saved even when the email must be confirmed first.
     ///
     /// - Parameters:
-    ///   - name: The display name stored in the account's metadata.
+    ///   - profile: The profile stored with the account.
     ///   - email: The account's email address.
     ///   - password: The account's password.
     /// - Returns: The created account and whether a session was opened.
     /// - Throws: An `AuthenticationError`.
     public func signUp(
-        name: String,
+        profile: RemoteNewProfile,
         email: String,
         password: String
     ) async throws(AuthenticationError) -> RemoteSignUpResponse {
@@ -61,7 +63,7 @@ public struct SupabaseAuthRemoteDataSource: AuthRemoteDataSource {
             let response = try await auth.signUp(
                 email: email,
                 password: password,
-                data: [Self.nameMetadataKey: .string(name)]
+                data: SupabaseProfileMetadata.encode(profile)
             )
             return RemoteSignUpResponse(user: RemoteAuthUser(response.user), hasSession: response.session != nil)
         } catch {
@@ -80,7 +82,7 @@ private extension RemoteAuthUser {
         self.init(
             id: user.id.uuidString,
             email: user.email,
-            name: user.userMetadata[SupabaseAuthRemoteDataSource.nameMetadataKey]?.stringValue
+            name: SupabaseProfileMetadata.displayName(in: user.userMetadata)
         )
     }
 }

@@ -23,7 +23,17 @@ struct SignUpView: View {
         AuthForm {
             HKLabel(model: state.titleLabel)
                 .accessibilityAddTraits(.isHeader)
-            HKField(model: state.nameField, text: $viewModel.name)
+            HKField(model: state.firstNameField, text: $viewModel.firstName) {
+                viewModel.nameEditingEnded(.firstName)
+            }
+            HKField(model: state.paternalLastNameField, text: $viewModel.paternalLastName) {
+                viewModel.nameEditingEnded(.paternalLastName)
+            }
+            HKField(model: state.maternalLastNameField, text: $viewModel.maternalLastName) {
+                viewModel.nameEditingEnded(.maternalLastName)
+            }
+            HKDatePicker(model: state.birthDateField, date: $viewModel.birthDate)
+            HKPhoneField(model: state.phoneField, dialCode: $viewModel.dialCode, digits: $viewModel.phoneDigits)
             HKField(model: state.emailField, text: $viewModel.email)
             HKField(model: state.passwordField, text: $viewModel.password)
         } actions: {
@@ -55,6 +65,5 @@ struct SignUpView: View {
             onConfirmationRequired: {}
         ))
     }
-    .environment(HKThemeManager(defaults: nil))
 }
 #endif

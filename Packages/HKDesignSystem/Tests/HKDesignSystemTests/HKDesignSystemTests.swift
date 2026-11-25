@@ -23,32 +23,23 @@ struct HKDesignSystemTests {
         #expect(HKThemeManager(defaults: defaults).selectedMode == mode)
     }
 
-    @Test func switchingModesUpdatesSemanticTokens() {
-        let manager = HKThemeManager(defaults: nil)
-        let environment = EnvironmentValues()
-        manager.selectedMode = .light
-        let light = manager.current(for: .dark).colors.textPrimary.resolve(in: environment)
-        manager.selectedMode = .dark
-        let dark = manager.current(for: .light).colors.textPrimary.resolve(in: environment)
+    @Test func colorsAdaptToEachColorScheme() {
+        let textPrimary = HKTheme().colors.textPrimary
+        var environment = EnvironmentValues()
+        environment.colorScheme = .light
+        let light = textPrimary.resolve(in: environment)
+        environment.colorScheme = .dark
+        let dark = textPrimary.resolve(in: environment)
         #expect(light.red < dark.red)
-        #expect(manager.current.colors.textPrimary.resolve(in: environment) == dark)
     }
 
-    @Test func systemTokensFollowEachEnvironment() {
-        let manager = HKThemeManager(defaults: nil)
-        var environment = EnvironmentValues()
-        let adaptive = manager.current.colors.textPrimary
-        environment.colorScheme = .light
-        let light = adaptive.resolve(in: environment)
-        environment.colorScheme = .dark
-        let dark = adaptive.resolve(in: environment)
-        #expect(light != dark)
-        #expect(manager.current(for: .light).colors.textPrimary.resolve(in: environment) == light)
-        #expect(manager.current(for: .dark).colors.textPrimary.resolve(in: environment) == dark)
+    @Test func environmentProvidesThemeByDefault() {
+        let theme = EnvironmentValues().hkTheme
+        #expect(theme.spacing.large == HKTheme().spacing.large)
     }
 
     @Test func semanticPaletteDistinguishesContentAndFeedback() {
-        let colors = HKThemeManager(defaults: nil).current(for: .light).colors
+        let colors = HKTheme().colors
         let environment = EnvironmentValues()
         #expect(colors.textPrimary.resolve(in: environment) != colors.background.resolve(in: environment))
         #expect(colors.primary.resolve(in: environment) != colors.secondary.resolve(in: environment))

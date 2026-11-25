@@ -3,8 +3,7 @@ import SwiftUI
 
 /// The first screen a new user sees.
 struct WelcomeView: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
     @State private var viewModel: WelcomeViewModel
 
     init(viewModel: WelcomeViewModel) {
@@ -23,7 +22,6 @@ struct WelcomeView: View {
     }
 
     private func content(_ state: WelcomeUIState) -> some View {
-        let theme = themeManager.current(for: colorScheme)
         return VStack(spacing: theme.spacing.extraLarge) {
             Spacer(minLength: 0)
             HKImage(
@@ -58,6 +56,5 @@ struct WelcomeView: View {
 #if DEBUG
 #Preview("Welcome") {
     WelcomeView(viewModel: HKPreviewViewModelFactory().makeWelcomeViewModel {})
-        .environment(HKThemeManager(defaults: nil))
 }
 #endif

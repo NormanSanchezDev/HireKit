@@ -45,5 +45,4 @@ public struct HKGlassGroup<Content: View>: View {
     }
     .padding()
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
 }

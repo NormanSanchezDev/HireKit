@@ -6,7 +6,7 @@ public struct RemoteAuthUser: Sendable, Equatable {
     /// The account's email address, when the backend returns one.
     public let email: String?
 
-    /// The display name stored in the account's metadata, if any.
+    /// The display name built from the account's metadata, if any.
     public let name: String?
 
     /// Creates a remote user.

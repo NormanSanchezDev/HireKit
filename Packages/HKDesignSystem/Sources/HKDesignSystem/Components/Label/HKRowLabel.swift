@@ -10,8 +10,7 @@ import SwiftUI
 /// }
 /// ```
 public struct HKRowLabel<Title: View>: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
 
     private let systemImage: String
     private let title: Title
@@ -31,7 +30,7 @@ public struct HKRowLabel<Title: View>: View {
             title
         } icon: {
             Image(systemName: systemImage)
-                .foregroundStyle(themeManager.current(for: colorScheme).colors.primary)
+                .foregroundStyle(theme.colors.primary)
         }
     }
 }
@@ -54,5 +53,4 @@ extension HKRowLabel where Title == Text {
             Text("common_hiring_team")
         }
     }
-    .environment(HKThemeManager(defaults: nil))
 }

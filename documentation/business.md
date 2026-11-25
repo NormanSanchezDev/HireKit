@@ -32,10 +32,28 @@ ViewModel llama al caso de uso, que verifica las credenciales con Supabase Auth.
 | Correo | Una `@`, usuario no vacío y dominio con punto interior | "Ingresa un correo válido." |
 | Contraseña | Obligatoria | "Ingresa tu contraseña." |
 | Contraseña | Al menos 8 caracteres | "Usa al menos 8 caracteres." |
-| Nombre (registro) | Obligatorio, sin contar espacios | "Ingresa tu nombre." |
+| Nombre(s) y apellido paterno (registro) | Obligatorios | "Este campo es obligatorio." |
+| Nombre(s) y apellidos (registro) | Mayúscula inicial, al menos 2 letras, solo letras, espacios, apóstrofo y guion (`PersonName.isValid`) | "Usa solo letras, empieza con mayúscula y escribe al menos 2 letras." |
+| Apellido materno (registro) | Opcional; si se escribe, sigue la regla anterior | Igual que arriba |
+| Fecha de nacimiento (registro) | Obligatoria | "Selecciona tu fecha de nacimiento." |
+| Fecha de nacimiento (registro) | Al menos 18 años cumplidos, sin fechas futuras (`BirthDateRule`) | "Debes tener al menos 18 años." |
+| Teléfono (registro) | Obligatorio | "Escribe tu número de teléfono." |
+| Teléfono (registro) | Exactamente 10 dígitos (`PhoneNumber`) | "El número debe tener 10 dígitos." |
+
+Limpieza de nombres (`PersonName.cleaned`): al perder el foco y antes de
+enviar, cada nombre pierde la puntuación y los dígitos, se colapsan los
+espacios, se recortan los extremos y cada palabra empieza con mayúscula.
+`"CArlos arTURO"` queda `"Carlos Arturo"` y `" Carlos.  Arturo "` queda
+`"Carlos Arturo"`.
+
+Teléfono: la lada se elige entre 🇲🇽 +52 y 🇺🇸 +1 (`DialCode`). El número se
+muestra como `(56) 25 06 83 70` mientras se escribe y se guarda solo con
+dígitos (`5625068370`); la lada va en otra columna. El selector de fecha solo
+ofrece fechas entre 120 y 18 años atrás.
 
 Antes de enviar, los casos de uso normalizan los datos: el correo se recorta y
-pasa a minúsculas, el nombre se recorta y la contraseña no cambia.
+pasa a minúsculas, los nombres se limpian, un apellido materno vacío se guarda
+como `null` y la contraseña no cambia.
 
 | Caso de uso | Resultado |
 | --- | --- |
@@ -54,8 +72,16 @@ pasa a minúsculas, el nombre se recorta y la contraseña no cambia.
 | `unknown` | Cualquier otro error | "Algo salió mal…" |
 
 Cuando el registro necesita confirmación, la app muestra "Revisa tu correo" y
-vuelve a inicio de sesión. El nombre se guarda en los metadatos del usuario
-con la clave `name`.
+vuelve a inicio de sesión.
+
+El perfil viaja en los metadatos del registro con las claves `first_name`,
+`paternal_last_name`, `maternal_last_name`, `birth_date` (`yyyy-MM-dd`),
+`dial_code` y `phone`. El trigger `on_auth_user_created`
+(`supabase/migrations/20261125120000_create_profiles.sql`) los copia a
+`public.profiles`, que tiene RLS: cada persona solo puede leer y actualizar su
+propia fila. La tabla repite las reglas con `check` (2 letras, 18 años, lada
+`+52`/`+1`, 10 dígitos). El nombre visible de `AuthUser` es
+`first_name` + `paternal_last_name`.
 
 ## Inicio
 

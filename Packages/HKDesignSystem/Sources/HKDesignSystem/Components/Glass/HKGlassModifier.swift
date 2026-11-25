@@ -43,5 +43,4 @@ extension View {
     }
     .frame(maxWidth: .infinity, maxHeight: .infinity)
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
 }

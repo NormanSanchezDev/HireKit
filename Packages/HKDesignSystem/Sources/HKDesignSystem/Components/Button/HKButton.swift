@@ -14,8 +14,7 @@ import SwiftUI
 /// taps and tells VoiceOver that it is busy. Keep one primary button per
 /// screen, and group adjacent buttons in ``HKGlassGroup``.
 public struct HKButton: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
 
     private let model: HKButtonModel
 
@@ -27,7 +26,6 @@ public struct HKButton: View {
     }
 
     public var body: some View {
-        let theme = themeManager.current(for: colorScheme)
         let button = Button(action: model.action) {
             HStack(spacing: theme.spacing.medium) {
                 Spacer(minLength: 0)
@@ -78,7 +76,6 @@ public struct HKButton: View {
     }
     .padding()
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
 }
 
 #Preview("Button, dark and large text") {
@@ -90,7 +87,6 @@ public struct HKButton: View {
     }
     .padding()
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
     .environment(\.dynamicTypeSize, .accessibility3)
     .preferredColorScheme(.dark)
 }

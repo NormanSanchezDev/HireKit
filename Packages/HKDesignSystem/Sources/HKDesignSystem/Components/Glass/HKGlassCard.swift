@@ -18,8 +18,7 @@ import SwiftUI
 /// to refract. Wrap several cards in ``HKGlassGroup`` so they blend when they
 /// sit close together.
 public struct HKGlassCard<Content: View>: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
 
     private let style: HKGlassStyle
     private let isInteractive: Bool
@@ -43,7 +42,6 @@ public struct HKGlassCard<Content: View>: View {
     }
 
     public var body: some View {
-        let theme = themeManager.current(for: colorScheme)
         content
             .padding(theme.spacing.extraLarge)
             .frame(maxWidth: .infinity, alignment: .leading)
@@ -68,5 +66,4 @@ public struct HKGlassCard<Content: View>: View {
     .padding()
     .frame(maxHeight: .infinity)
     .hkBackground()
-    .environment(HKThemeManager(defaults: nil))
 }

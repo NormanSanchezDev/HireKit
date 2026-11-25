@@ -4,8 +4,7 @@ import SwiftUI
 ///
 /// Use this for prompts such as account creation below an authentication form.
 public struct HKActionPrompt: View {
-    @Environment(HKThemeManager.self) private var themeManager
-    @Environment(\.colorScheme) private var colorScheme
+    @Environment(\.hkTheme) private var theme
 
     private let model: HKActionPromptModel
     private let action: () -> Void
@@ -21,7 +20,6 @@ public struct HKActionPrompt: View {
     }
 
     public var body: some View {
-        let theme = themeManager.current(for: colorScheme)
         HStack(spacing: theme.spacing.small) {
             HKLabel(model: model.prompt)
             Button(model.actionTitle, action: action)

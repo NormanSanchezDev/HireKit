@@ -1,8 +1,32 @@
 # Design System
 
 Paquete: `Packages/HKDesignSystem`. Todas las pantallas se construyen con estos
-componentes. Leen `HKThemeManager` del entorno, que se inyecta una vez en la
-raíz con `.environment(themeManager)`.
+componentes.
+
+## Tema
+
+Cualquier vista lee los tokens con una sola línea:
+
+```swift
+struct OfferRow: View {
+    @Environment(\.hkTheme) private var theme
+
+    var body: some View {
+        Text("Oferta aceptada")
+            .foregroundStyle(theme.colors.success)
+            .padding(theme.spacing.medium)
+    }
+}
+```
+
+- `HKTheme` reúne `colors`, `typography`, `spacing` y `radius`. Tiene valor por
+  defecto en el entorno, así que vistas y previews no necesitan inyectarlo.
+- Los colores salen del asset catalog y ya se adaptan a claro, oscuro y
+  contraste aumentado. No hace falta leer `colorScheme` ni resolver colores.
+- `HKThemeManager` solo guarda el modo elegido (Sistema, Claro u Oscuro). La
+  raíz lo aplica con `.preferredColorScheme(themeManager.selectedMode.colorScheme)`
+  y lo inyecta con `.environment(themeManager)` para la pantalla de Apariencia.
+  Ninguna otra vista lo lee.
 
 ## Principios
 
@@ -17,7 +41,7 @@ raíz con `.environment(themeManager)`.
 4. **Interactivo solo si se toca.** `isInteractive: true` solo en vistas que
    responden a toques o al puntero.
 5. **Tokens, no literales.** Colores, fuentes, espaciados y radios salen de
-   `themeManager.current(for: colorScheme)`.
+   `@Environment(\.hkTheme)`.
 6. **Accesible por defecto.** Estilos de Dynamic Type, áreas de 44 pt, texto en
    los controles de solo icono y el color nunca como única señal.
 
@@ -34,11 +58,18 @@ raíz con `.environment(themeManager)`.
 | `.hkGlass(_:isInteractive:in:)` | Controles de vidrio propios | `.hkGlass(.clear, in: .capsule)` |
 | `HKBackground` / `.hkBackground()` | Fondo de pantalla detrás del vidrio: doodles animados sobre color sólido | `ScrollView { … }.hkBackground()` |
 | `HKButton` | Acciones; `.filled` una vez por pantalla | `HKButton(model: .init(title: "common_apply", systemImage: "paperplane") { … })` |
-| `HKField` | Texto con validación | `HKField(model: .init(title: "sign_in_email_txt", errorMessage: error), text: $email)` |
+| `HKField` | Texto con validación; `capitalization: .words` para nombres y `onEditingEnded` al perder el foco | `HKField(model: .init(title: "sign_in_email_txt", errorMessage: error), text: $email)` |
+| `HKDatePicker` | Fecha `dd/mm/aaaa` con ícono de calendario; abre un calendario gráfico limitado a un rango y guarda con "Listo" | `HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range), date: $birthDate)` |
+| `HKDropdown` | Menú compacto de opciones, sin superficie propia | `HKDropdown(title: "common_dial_code", options: options, selection: $code)` |
+| `HKPhoneField` | Lada (`HKDropdown`) y número con máscara `(XX) XX XX XX XX`; enlaza solo dígitos | `HKPhoneField(model: model, dialCode: $code, digits: $digits)` |
 | `HKImage` | Media, assets, recursos y SF Symbols | `HKImage(.media("hk_placeholder"))` |
 | `HKLabel` | Texto con estilo del tema | `HKLabel("dashboard_navigation_title_txt", type: .title, tone: .accent)` |
 | `HKActionPrompt` | Texto de apoyo y acción en línea | `HKActionPrompt(model: prompt) { viewModel.continue() }` |
 | `HKRowLabel` | Filas en `List` y `Form` | `HKRowLabel("settings_appearance_row_txt", systemImage: "paintpalette")` |
+
+Los campos comparten `HKFieldContainer`: título, superficie de vidrio, contorno
+de foco o validación y mensaje inferior. Un componente de entrada nuevo debe
+usarlo en vez de copiar ese marco.
 
 ## Fondo
 
@@ -91,7 +122,7 @@ Los colores de `Palette.xcassets` incluyen variantes de contraste aumentado. El 
    `…Model` cuando haya más de tres opciones.
 3. Lee los tokens del tema y usa `.hkGlass` o un estilo de vidrio del sistema.
 4. Documenta toda declaración pública con DocC `///`, con ejemplo de uso.
-5. Añade `#Preview` de cada estado sobre `.hkBackground()` con
-   `.environment(HKThemeManager(defaults: nil))`.
+5. Añade `#Preview` de cada estado sobre `.hkBackground()`. Usa
+   `.preferredColorScheme(.dark)` para la variante oscura.
 6. Prueba la lógica de los modelos en `Tests/HKDesignSystemTests`.
 7. Actualiza este catálogo y el README del paquete.
