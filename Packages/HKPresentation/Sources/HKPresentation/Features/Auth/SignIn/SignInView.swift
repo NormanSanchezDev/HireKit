@@ -12,44 +12,38 @@ struct SignInView: View {
     }
 
     var body: some View {
+        Group {
+            if let state = viewModel.uiState {
+                screen(state)
+            }
+        }
+        .onAppear(perform: viewModel.onAppear)
+    }
+
+    private func screen(_ state: SignInUIState) -> some View {
         let theme = themeManager.current(for: colorScheme)
-        AuthForm {
-            HKLabel("sign_in_title_txt", type: .title, tone: .accent)
+        return AuthForm {
+            HKLabel(model: state.titleLabel)
                 .accessibilityAddTraits(.isHeader)
-            HKField(
-                model: .init(
-                    title: "sign_in_email_txt",
-                    placeholder: "sign_in_email_placeholder_txt",
-                    icon: "envelope",
-                    contentType: .emailAddress,
-                    isRequired: true,
-                    errorMessage: viewModel.emailError
-                ),
-                text: $viewModel.email
-            )
-            HKField(
-                model: .init(
-                    title: "sign_in_password_txt",
-                    icon: "lock",
-                    contentType: .password,
-                    isSecure: true,
-                    isRequired: true,
-                    errorMessage: viewModel.passwordError
-                ),
-                text: $viewModel.password
-            )
+            HKLabel(model: state.descriptionLabel)
+            HKField(model: state.emailField, text: Binding(
+                get: { state.email }, set: { viewModel.email = $0 }
+            ))
+            HKField(model: state.passwordField, text: Binding(
+                get: { state.password }, set: { viewModel.password = $0 }
+            ))
         } actions: {
-            HKButton(model: .init(title: "sign_in_submit_button_txt") { viewModel.signIn() })
+            HKButton(model: state.signInButton)
                 .keyboardShortcut(.defaultAction)
             HStack(spacing: theme.spacing.small) {
-                HKLabel("sign_in_account_prompt_txt", type: .subheadline, tone: .secondary)
-                Button("sign_in_create_account_button_txt") { viewModel.goToSignUp() }
+                HKLabel(model: state.accountPrompt)
+                Button(state.createAccountTitle, action: state.onCreateAccount)
                     .buttonStyle(.plain)
                     .foregroundStyle(theme.colors.primary)
                     .frame(minHeight: theme.spacing.minimumHitTarget)
             }
         }
-        .navigationTitle("sign_in_navigation_title_txt")
+        .navigationTitle(state.navigationTitle)
     }
 }
 
