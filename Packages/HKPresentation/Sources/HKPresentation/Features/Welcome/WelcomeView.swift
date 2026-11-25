@@ -43,6 +43,7 @@ struct WelcomeView: View {
             .frame(maxWidth: 420)
             HKButton(model: state.startButton)
                 .keyboardShortcut(.defaultAction)
+                .frame(maxWidth: 420)
             Spacer()
         }
         .padding(theme.spacing.extraLarge)

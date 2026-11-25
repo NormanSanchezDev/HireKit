@@ -15,7 +15,7 @@ struct SignInView: View {
     }
 
     private func content(_ state: SignInUIState) -> some View {
-        AuthForm {
+        AuthForm(centersContent: true) {
             HKLabel(model: state.titleLabel)
                 .accessibilityAddTraits(.isHeader)
             HKLabel(model: state.descriptionLabel)
@@ -23,7 +23,6 @@ struct SignInView: View {
             HKField(model: state.passwordField, text: $viewModel.password)
         } actions: {
             HKButton(model: state.signInButton)
-                .padding(.horizontal, 24)
                 .keyboardShortcut(.defaultAction)
             HKActionPrompt(
                 model: state.accountPrompt,

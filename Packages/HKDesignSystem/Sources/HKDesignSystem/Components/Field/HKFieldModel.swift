@@ -28,7 +28,7 @@ public struct HKFieldModel {
     /// Whether the input hides its text, with a button to reveal it.
     public let isSecure: Bool
 
-    /// Whether the field shows a required marker.
+    /// Whether the field is required during validation.
     public let isRequired: Bool
 
     /// Whether the user can edit the field.
@@ -50,7 +50,7 @@ public struct HKFieldModel {
     ///   - icon: The name of an SF Symbol shown before the input.
     ///   - contentType: The semantic meaning of the text, for AutoFill.
     ///   - isSecure: Whether the input hides its text.
-    ///   - isRequired: Whether the field shows a required marker.
+    ///   - isRequired: Whether the field is required during validation.
     ///   - errorMessage: A shortcut for an ``HKFieldValidation/error(_:)``
     ///     validation. When it is not `nil`, it replaces `validation`.
     ///   - isEnabled: Whether the user can edit the field.
@@ -89,7 +89,7 @@ public struct HKFieldModel {
     ///   - contentType: The semantic meaning of the text, for AutoFill.
     ///   - keyboardType: The keyboard shown while the field is focused.
     ///   - isSecure: Whether the input hides its text.
-    ///   - isRequired: Whether the field shows a required marker.
+    ///   - isRequired: Whether the field is required during validation.
     ///   - errorMessage: A shortcut for an ``HKFieldValidation/error(_:)``
     ///     validation. When it is not `nil`, it replaces `validation`.
     ///   - isEnabled: Whether the user can edit the field.
