@@ -24,6 +24,8 @@ commit.
 
 ### Cambiado
 
+- La bienvenida se configura al aparecer mediante `WelcomeUIState` en su ViewModel.
+
 - Textos, validaciones y etiquetas de accesibilidad disponibles en español e inglés desde un catálogo de cadenas compartido.
 
 - `HKButton` recibe `HKButtonModel` en bienvenida y autenticación, y admite las variantes `filled`, `outline` y `text`.

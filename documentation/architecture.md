@@ -36,6 +36,8 @@ tabla "Dependencias" del README raíz, en el README del paquete y aquí.
 - `HKPreviewViewModelFactory` (solo DEBUG) alimenta las vistas previas con
   datos en memoria.
 
+En bienvenida, `WelcomeView` comunica su aparición a `WelcomeViewModel.onAppear()`. El ViewModel prepara `WelcomeUIState` una vez por instancia y actualiza la carga y el error al ejecutar `CompleteOnboardingUseCase`. La vista lee el estado para dibujar el contenido.
+
 ## Concurrencia
 
 - ViewModels, routers y coordinadores son `@MainActor @Observable`.

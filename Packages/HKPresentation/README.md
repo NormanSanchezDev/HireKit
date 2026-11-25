@@ -4,6 +4,8 @@ Vistas, ViewModels, coordinadores y routers de HireKit. La navegación está des
 
 Las pantallas y sus mensajes de validación usan claves de `HireKit/Localizable.xcstrings` en español e inglés.
 
+La bienvenida obtiene el contenido, la acción principal y el estado de carga y error de `WelcomeViewModel.uiState` al aparecer.
+
 ## Dependencias
 
 - `HKDomain` (paquete local): protocolos de casos de uso.
