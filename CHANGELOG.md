@@ -11,6 +11,8 @@ commit.
 
 ### Añadido
 
+- Componente `HKActionPrompt` para combinar texto de apoyo y una acción accesible en línea.
+
 - `HKBackground` y `.hkBackground()`: fondo de doodles animados que se adapta a
   modo claro y oscuro y respeta Reducir movimiento.
 - `README.md` con banner, badges, requisitos, estructura y tabla de dependencias.

@@ -37,6 +37,7 @@ raíz con `.environment(themeManager)`.
 | `HKField` | Texto con validación | `HKField(model: .init(title: "sign_in_email_txt", errorMessage: error), text: $email)` |
 | `HKImage` | Media, assets, recursos y SF Symbols | `HKImage(.media("hk_placeholder"))` |
 | `HKLabel` | Texto con estilo del tema | `HKLabel("dashboard_navigation_title_txt", type: .title, tone: .accent)` |
+| `HKActionPrompt` | Texto de apoyo y acción en línea | `HKActionPrompt(model: prompt) { viewModel.continue() }` |
 | `HKRowLabel` | Filas en `List` y `Form` | `HKRowLabel("settings_appearance_row_txt", systemImage: "paintpalette")` |
 
 ## Fondo

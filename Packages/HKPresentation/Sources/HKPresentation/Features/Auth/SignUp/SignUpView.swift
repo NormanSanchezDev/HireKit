@@ -47,6 +47,7 @@ struct SignUpView: View {
             )
         } actions: {
             HKButton(model: .init(title: "sign_up_submit_button_txt") { viewModel.signUp() })
+                .padding(.horizontal, 24)
                 .keyboardShortcut(.defaultAction)
         }
         .navigationTitle("sign_up_navigation_title_txt")

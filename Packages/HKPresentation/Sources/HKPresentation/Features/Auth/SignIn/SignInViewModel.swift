@@ -9,19 +9,19 @@ import SwiftUI
 @Observable
 public final class SignInViewModel {
     /// The screen state, prepared on first appearance.
-    public private(set) var uiState: SignInUIState?
+    public private(set) var uiState: SignInUIState
 
     /// The email the user typed.
-    public var email: String { get { uiState?.email ?? "" } set { uiState?.email = newValue } }
+    public var email = ""
 
     /// The password the user typed.
-    public var password: String { get { uiState?.password ?? "" } set { uiState?.password = newValue } }
+    public var password = ""
 
     /// The validation message for the email, if any.
-    public var emailError: LocalizedStringKey? { uiState?.emailError }
+    public var emailError: LocalizedStringKey? { uiState.emailError }
 
     /// The validation message for the password, if any.
-    public var passwordError: LocalizedStringKey? { uiState?.passwordError }
+    public var passwordError: LocalizedStringKey? { uiState.passwordError }
 
     private let onSignUp: @MainActor () -> Void
     private let onAuthenticated: @MainActor () -> Void
@@ -37,19 +37,22 @@ public final class SignInViewModel {
     ) {
         self.onSignUp = onSignUp
         self.onAuthenticated = onAuthenticated
+        uiState = SignInUIState(onSignIn: {}, onCreateAccount: {})
+        uiState.onSignIn = { [weak self] in self?.signIn() }
+        uiState.onCreateAccount = { [weak self] in self?.goToSignUp() }
     }
 
     /// Prepares the sign-in screen once when it appears.
     public func onAppear() {
-        guard uiState == nil else { return }
-        uiState = SignInUIState(onSignIn: { [weak self] in self?.signIn() }, onCreateAccount: { [weak self] in self?.goToSignUp() })
+        uiState.onSignIn = { [weak self] in self?.signIn() }
+        uiState.onCreateAccount = { [weak self] in self?.goToSignUp() }
     }
 
     /// Validates the form and signs in when it is valid.
     public func signIn() {
         onAppear()
-        uiState?.emailError = AuthInputValidator.emailError(email)
-        uiState?.passwordError = AuthInputValidator.passwordError(password)
+        uiState.emailError = AuthInputValidator.emailError(email)
+        uiState.passwordError = AuthInputValidator.passwordError(password)
         guard emailError == nil, passwordError == nil else { return }
         onAuthenticated()
     }

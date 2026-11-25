@@ -42,7 +42,6 @@ struct WelcomeView: View {
             }
             .frame(maxWidth: 420)
             HKButton(model: state.startButton)
-                .frame(maxWidth: .infinity)
                 .keyboardShortcut(.defaultAction)
             Spacer()
         }
