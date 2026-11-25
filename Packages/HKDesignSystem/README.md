@@ -22,7 +22,7 @@ Sources/HKDesignSystem/
 │   ├── Button/  HKButton, HKButtonModel, HKButtonType
 │   ├── Field/   HKField, HKFieldModel, HKFieldValidation, HKFieldContentType,
 │   │            HKFieldCapitalization, HKFieldContainer (interno)
-│   ├── DatePicker/ HKDatePicker, HKDatePickerModel
+│   ├── DatePicker/ HKDatePicker, HKDatePickerModel, HKDateFormat
 │   ├── Dropdown/ HKDropdown, HKDropdownOption
 │   ├── PhoneField/ HKPhoneField, HKPhoneFieldModel, HKPhoneFormat
 │   ├── Image/   HKImage, HKImageModel, HKImageSource

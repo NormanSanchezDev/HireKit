@@ -19,7 +19,8 @@ commit.
 - Tabla `public.profiles` con RLS y trigger `on_auth_user_created` en
   `supabase/migrations/20261125120000_create_profiles.sql`.
 - Componentes `HKDatePicker`, `HKDropdown` y `HKPhoneField` (con
-  `HKPhoneFormat`), y `HKFieldCapitalization` y `onEditingEnded` en `HKField`.
+  `HKPhoneFormat`), `HKDateFormat` para escribir la fecha como `ddmmaaaa` con
+  máscara `dd/mm/aaaa`, y `HKFieldCapitalization` y `onEditingEnded` en `HKField`.
 - Textos del registro en español e inglés.
 
 - Inicio de sesión y registro con Supabase Auth: casos de uso `SignInUseCase` y

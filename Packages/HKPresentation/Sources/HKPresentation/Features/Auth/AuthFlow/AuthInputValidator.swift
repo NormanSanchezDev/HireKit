@@ -32,8 +32,11 @@ enum AuthInputValidator {
     }
 
     static func birthDateError(_ birthDate: Date?, today: Date) -> LocalizedStringKey? {
-        guard let birthDate else { return "sign_up_birth_date_required_txt" }
-        return BirthDateRule.isAllowed(birthDate, today: today) ? nil : "sign_up_birth_date_underage_txt"
+        guard let birthDate else { return "sign_up_birth_date_invalid_txt" }
+        if BirthDateRule.isAllowed(birthDate, today: today) { return nil }
+        return birthDate > BirthDateRule.allowedRange(today: today).upperBound
+            ? "sign_up_birth_date_underage_txt"
+            : "sign_up_birth_date_invalid_txt"
     }
 
     static func phoneError(_ digits: String) -> LocalizedStringKey? {

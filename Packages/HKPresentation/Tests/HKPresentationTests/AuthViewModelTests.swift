@@ -165,7 +165,7 @@ struct SignUpViewModelTests {
         #expect(state.firstNameError == "sign_up_name_required_txt")
         #expect(state.paternalLastNameError == "sign_up_name_required_txt")
         #expect(state.maternalLastNameError == nil)
-        #expect(state.birthDateError == "sign_up_birth_date_required_txt")
+        #expect(state.birthDateError == "sign_up_birth_date_invalid_txt")
         #expect(state.phoneError == "sign_up_phone_required_txt")
         #expect(state.emailError != nil)
         #expect(state.passwordError != nil)
@@ -194,6 +194,13 @@ struct SignUpViewModelTests {
         #expect(state.birthDateError == "sign_up_birth_date_underage_txt")
         #expect(state.phoneError == "sign_up_phone_invalid_txt")
         #expect(await useCases.receivedAccount == nil)
+    }
+
+    @Test func birthDateOlderThanTheRangeIsInvalid() async throws {
+        let viewModel = makeViewModel(useCases: StubAuthUseCases())
+        viewModel.birthDate = Date(timeIntervalSince1970: -5_000_000_000)
+        await viewModel.signUp()
+        #expect(viewModel.uiState?.birthDateError == "sign_up_birth_date_invalid_txt")
     }
 
     @Test func sessionAuthenticatesWithFullProfile() async throws {

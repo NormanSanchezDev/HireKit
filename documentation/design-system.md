@@ -59,7 +59,7 @@ struct OfferRow: View {
 | `HKBackground` / `.hkBackground()` | Fondo de pantalla detrás del vidrio: doodles animados sobre color sólido | `ScrollView { … }.hkBackground()` |
 | `HKButton` | Acciones; `.filled` una vez por pantalla | `HKButton(model: .init(title: "common_apply", systemImage: "paperplane") { … })` |
 | `HKField` | Texto con validación; `capitalization: .words` para nombres y `onEditingEnded` al perder el foco | `HKField(model: .init(title: "sign_in_email_txt", errorMessage: error), text: $email)` |
-| `HKDatePicker` | Fecha `dd/mm/aaaa` con ícono de calendario; abre un calendario gráfico limitado a un rango y guarda con "Listo" | `HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range), date: $birthDate)` |
+| `HKDatePicker` | Fecha escrita con máscara `dd/mm/aaaa` (`HKDateFormat`); el botón de calendario abre un calendario gráfico limitado a un rango que guarda con "Listo" | `HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range), date: $birthDate)` |
 | `HKDropdown` | Menú compacto de opciones, sin superficie propia | `HKDropdown(title: "common_dial_code", options: options, selection: $code)` |
 | `HKPhoneField` | Lada (`HKDropdown`) y número con máscara `(XX) XX XX XX XX`; enlaza solo dígitos | `HKPhoneField(model: model, dialCode: $code, digits: $digits)` |
 | `HKImage` | Media, assets, recursos y SF Symbols | `HKImage(.media("hk_placeholder"))` |

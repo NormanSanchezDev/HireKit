@@ -18,7 +18,8 @@ public struct HKDatePickerModel {
     /// The hint shown while no date is selected, such as `dd/mm/yyyy`.
     public let placeholder: LocalizedStringKey
 
-    /// The dates the person can pick.
+    /// The dates the calendar offers. Typed dates are not limited, so the
+    /// screen validates them.
     public let range: ClosedRange<Date>
 
     /// Whether the field is required during validation.
@@ -58,18 +59,4 @@ public struct HKDatePickerModel {
         self.validation = errorMessage.map(HKFieldValidation.error) ?? validation
     }
 
-    /// Returns a date as the field shows it, in `dd/MM/yyyy` format.
-    ///
-    /// - Parameters:
-    ///   - date: The date to show.
-    ///   - calendar: The calendar and time zone that define the day.
-    /// - Returns: The day, month and year, such as `05/03/1990`.
-    public static func text(for date: Date, calendar: Calendar = .current) -> String {
-        let style = Date.VerbatimFormatStyle(
-            format: "\(day: .twoDigits)/\(month: .twoDigits)/\(year: .defaultDigits)",
-            timeZone: calendar.timeZone,
-            calendar: calendar
-        )
-        return date.formatted(style)
-    }
 }

@@ -30,11 +30,41 @@ struct HKInputComponentTests {
         #expect(HKPhoneFormat.format(HKPhoneFormat.digits(in: afterBackspace)) == "(56")
     }
 
-    @Test func datePickerShowsDayMonthYear() throws {
+    @Test(arguments: [
+        ("", ""),
+        ("0", "0"),
+        ("04", "04/"),
+        ("040", "04/0"),
+        ("0406", "04/06/"),
+        ("04061", "04/06/1"),
+        ("04061994", "04/06/1994"),
+        ("040619941", "04/06/1994"),
+    ])
+    func dateMaskGrowsWithDigits(digits: String, expected: String) {
+        #expect(HKDateFormat.format(digits) == expected)
+    }
+
+    @Test(arguments: [
+        ("04/06/", "04/06", "04/0"),
+        ("04/", "04", "0"),
+        ("04/06/1", "04/06/", "04/06/"),
+        ("04/0", "04/06", "04/06/"),
+        ("04/06/1994", "04/06/199", "04/06/199"),
+        ("", "04061994", "04/06/1994"),
+    ])
+    func dateEditsCarryOverSeparators(oldText: String, newText: String, expected: String) {
+        #expect(HKDateFormat.edit(from: oldText, to: newText) == expected)
+    }
+
+    @Test func dateDigitsParseOnlyRealDays() throws {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = try #require(TimeZone(identifier: "UTC"))
-        let date = try #require(calendar.date(from: DateComponents(year: 1990, month: 3, day: 5)))
-        #expect(HKDatePickerModel.text(for: date, calendar: calendar) == "05/03/1990")
+        let date = try #require(HKDateFormat.date(fromDigits: "04061994", calendar: calendar))
+        #expect(calendar.dateComponents([.year, .month, .day], from: date) == DateComponents(year: 1994, month: 6, day: 4))
+        #expect(HKDateFormat.text(for: date, calendar: calendar) == "04/06/1994")
+        #expect(HKDateFormat.date(fromDigits: "31021990", calendar: calendar) == nil)
+        #expect(HKDateFormat.date(fromDigits: "00011990", calendar: calendar) == nil)
+        #expect(HKDateFormat.date(fromDigits: "0406199", calendar: calendar) == nil)
     }
 
     @Test func inputModelsLetErrorsOverrideValidation() {

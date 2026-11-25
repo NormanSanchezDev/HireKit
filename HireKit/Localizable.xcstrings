@@ -426,36 +426,36 @@
         }
       }
     },
-    "common_date_not_selected" : {
+    "common_date_format_hint" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Not selected"
+            "value" : "Type the day, month and year, for example 04061994."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sin seleccionar"
+            "value" : "Escribe día, mes y año, por ejemplo 04061994."
           }
         }
       }
     },
-    "common_date_picker_hint" : {
+    "common_date_open_calendar" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Opens a calendar to pick the date."
+            "value" : "Open calendar"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Abre un calendario para elegir la fecha."
+            "value" : "Abrir calendario"
           }
         }
       }
@@ -1599,19 +1599,19 @@
         }
       }
     },
-    "sign_up_birth_date_required_txt" : {
+    "sign_up_birth_date_invalid_txt" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Select your date of birth."
+            "value" : "Enter a valid date as dd/mm/yyyy."
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Selecciona tu fecha de nacimiento."
+            "value" : "Escribe una fecha válida con formato dd/mm/aaaa."
           }
         }
       }

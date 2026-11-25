@@ -1,10 +1,12 @@
 import SwiftUI
 
-/// A titled date field on a Liquid Glass surface that opens a calendar.
+/// A titled date field on a Liquid Glass surface where people type the date
+/// as digits or pick it from a calendar.
 ///
-/// The field shows the date as `dd/mm/yyyy`, or the placeholder while it is
-/// empty, with a calendar icon at the end. Tapping it opens a graphical
-/// calendar limited to the model's range; the date is saved with Done.
+/// Typing `04061994` shows `04/06/1994`. Deleting a slash also deletes the
+/// digit before it. The binding holds a date only when the text names a real
+/// day; otherwise it is `nil`. The calendar button opens a graphical calendar
+/// limited to the model's range, and Done saves its date.
 ///
 /// ```swift
 /// HKDatePicker(
@@ -17,16 +19,18 @@ public struct HKDatePicker: View {
     @Environment(\.isEnabled) private var parentIsEnabled
     @Environment(\.calendar) private var calendar
     @Binding private var date: Date?
-    @State private var isPresented = false
+    @FocusState private var isFocused: Bool
+    @State private var text = ""
+    @State private var isCalendarPresented = false
     @State private var draft = Date.now
 
     private let model: HKDatePickerModel
 
-    /// Creates a date picker.
+    /// Creates a date field.
     ///
     /// - Parameters:
     ///   - model: The content and configuration of the field.
-    ///   - date: The selected date, or `nil` when there is none.
+    ///   - date: The date the text describes, or `nil` when it describes none.
     public init(model: HKDatePickerModel, date: Binding<Date?>) {
         self.model = model
         _date = date
@@ -35,40 +39,47 @@ public struct HKDatePicker: View {
     private var isEnabled: Bool { model.isEnabled && parentIsEnabled }
 
     public var body: some View {
-        HKFieldContainer(title: model.title, validation: model.validation, isEnabled: isEnabled, isFocused: isPresented) {
-            Button(action: open) {
-                HStack(spacing: theme.spacing.medium) {
-                    dateText
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    Image(systemName: "calendar")
-                        .foregroundStyle(theme.colors.primary)
-                }
-                .frame(minHeight: theme.spacing.minimumHitTarget)
+        HKFieldContainer(
+            title: model.title,
+            validation: model.validation,
+            isEnabled: isEnabled,
+            isFocused: isFocused || isCalendarPresented
+        ) {
+            TextField(model.placeholder, text: $text)
+                .textFieldStyle(.plain)
+                #if os(iOS)
+                .keyboardType(.numberPad)
+                #endif
+                .monospacedDigit()
+                .focused($isFocused)
+                .accessibilityLabel(Text(fieldTitle: model.title, isRequired: model.isRequired))
+                .accessibilityHint(model.validation.feedback(in: theme.colors)?.description ?? Text("common_date_format_hint"))
+            Button("common_date_open_calendar", systemImage: "calendar", action: openCalendar)
+                .labelStyle(.iconOnly)
+                .buttonStyle(.plain)
+                .foregroundStyle(theme.colors.primary)
+                .frame(minWidth: theme.spacing.minimumHitTarget, minHeight: theme.spacing.minimumHitTarget)
                 .contentShape(.rect)
-            }
-            .buttonStyle(.plain)
-            .accessibilityLabel(Text(fieldTitle: model.title, isRequired: model.isRequired))
-            .accessibilityValue(date.map { Text($0, format: .dateTime.day().month(.wide).year()) } ?? Text("common_date_not_selected"))
-            .accessibilityHint(model.validation.feedback(in: theme.colors)?.description ?? Text("common_date_picker_hint"))
-            .popover(isPresented: $isPresented) {
-                calendarPanel
-            }
+                .popover(isPresented: $isCalendarPresented) {
+                    calendarPanel
+                }
         }
         .disabled(!model.isEnabled)
+        .onAppear(perform: showDate)
+        .onChange(of: text) { oldText, newText in applyMask(from: oldText, to: newText) }
+        .onChange(of: date) { _, newDate in
+            if parsedDate != newDate { showDate() }
+        }
         .onChange(of: isEnabled) { _, enabled in
-            if !enabled { isPresented = false }
+            if !enabled {
+                isFocused = false
+                isCalendarPresented = false
+            }
         }
     }
 
-    @ViewBuilder
-    private var dateText: some View {
-        if let date {
-            Text(verbatim: HKDatePickerModel.text(for: date, calendar: calendar))
-                .monospacedDigit()
-        } else {
-            Text(model.placeholder)
-                .foregroundStyle(theme.colors.textSecondary)
-        }
+    private var parsedDate: Date? {
+        HKDateFormat.date(fromDigits: HKDateFormat.digits(in: text), calendar: calendar)
     }
 
     private var calendarPanel: some View {
@@ -76,7 +87,7 @@ public struct HKDatePicker: View {
             DatePicker(model.title, selection: $draft, in: model.range, displayedComponents: .date)
                 .datePickerStyle(.graphical)
                 .labelsHidden()
-            Button("common_done", action: confirm)
+            Button("common_done", action: confirmCalendar)
                 .buttonStyle(.glassProminent)
                 .frame(maxWidth: .infinity, alignment: .trailing)
         }
@@ -86,31 +97,47 @@ public struct HKDatePicker: View {
         .presentationCompactAdaptation(.popover)
     }
 
-    private func open() {
-        draft = clamped(date ?? model.range.upperBound)
-        isPresented = true
+    private func showDate() {
+        if let date {
+            text = HKDateFormat.text(for: date, calendar: calendar)
+        } else if parsedDate != nil {
+            text = ""
+        }
     }
 
-    private func confirm() {
+    private func applyMask(from oldText: String, to newText: String) {
+        let formatted = HKDateFormat.edit(from: oldText, to: newText)
+        if formatted != newText {
+            text = formatted
+            return
+        }
+        let newDate = parsedDate
+        if date != newDate { date = newDate }
+    }
+
+    private func openCalendar() {
+        isFocused = false
+        let start = parsedDate ?? model.range.upperBound
+        draft = min(max(start, model.range.lowerBound), model.range.upperBound)
+        isCalendarPresented = true
+    }
+
+    private func confirmCalendar() {
         date = draft
-        isPresented = false
-    }
-
-    private func clamped(_ value: Date) -> Date {
-        min(max(value, model.range.lowerBound), model.range.upperBound)
+        isCalendarPresented = false
     }
 }
 
-#Preview("Date picker states") {
+#Preview("Date field states") {
     @Previewable @State var empty: Date?
-    @Previewable @State var picked: Date? = Date(timeIntervalSince1970: 631_152_000)
+    @Previewable @State var typed: Date? = Date(timeIntervalSince1970: 770_688_000)
     let range = Date.distantPast...Date.now
     ScrollView {
         VStack(alignment: .leading, spacing: 16) {
             HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range, isRequired: true), date: $empty)
-            HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range), date: $picked)
-            HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range, errorMessage: "sign_up_birth_date_underage_txt"), date: $picked)
-            HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range, isEnabled: false), date: $picked)
+            HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range), date: $typed)
+            HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range, errorMessage: "sign_up_birth_date_underage_txt"), date: $typed)
+            HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range, isEnabled: false), date: $typed)
         }
         .padding()
     }

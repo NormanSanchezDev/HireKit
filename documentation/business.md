@@ -35,7 +35,7 @@ ViewModel llama al caso de uso, que verifica las credenciales con Supabase Auth.
 | Nombre(s) y apellido paterno (registro) | Obligatorios | "Este campo es obligatorio." |
 | Nombre(s) y apellidos (registro) | Mayúscula inicial, al menos 2 letras, solo letras, espacios, apóstrofo y guion (`PersonName.isValid`) | "Usa solo letras, empieza con mayúscula y escribe al menos 2 letras." |
 | Apellido materno (registro) | Opcional; si se escribe, sigue la regla anterior | Igual que arriba |
-| Fecha de nacimiento (registro) | Obligatoria | "Selecciona tu fecha de nacimiento." |
+| Fecha de nacimiento (registro) | Obligatoria; un día real, escrito como `ddmmaaaa` o elegido en el calendario, y no más de 120 años atrás | "Escribe una fecha válida con formato dd/mm/aaaa." |
 | Fecha de nacimiento (registro) | Al menos 18 años cumplidos, sin fechas futuras (`BirthDateRule`) | "Debes tener al menos 18 años." |
 | Teléfono (registro) | Obligatorio | "Escribe tu número de teléfono." |
 | Teléfono (registro) | Exactamente 10 dígitos (`PhoneNumber`) | "El número debe tener 10 dígitos." |
@@ -48,7 +48,11 @@ espacios, se recortan los extremos y cada palabra empieza con mayúscula.
 
 Teléfono: la lada se elige entre 🇲🇽 +52 y 🇺🇸 +1 (`DialCode`). El número se
 muestra como `(56) 25 06 83 70` mientras se escribe y se guarda solo con
-dígitos (`5625068370`); la lada va en otra columna. El selector de fecha solo
+dígitos (`5625068370`); la lada va en otra columna.
+
+Fecha: se escribe solo con dígitos y se formatea al vuelo (`04061994` se ve
+`04/06/1994`). La barra aparece al completar el día y el mes; borrar una barra
+borra también el dígito anterior (`04/06/` queda `04/0`). El calendario solo
 ofrece fechas entre 120 y 18 años atrás.
 
 Antes de enviar, los casos de uso normalizan los datos: el correo se recorta y
