@@ -22,7 +22,7 @@ Sources/HKDesignSystem/
 │   ├── Button/  HKButton, HKButtonModel, HKButtonType
 │   ├── Field/   HKField, HKFieldModel, HKFieldValidation, HKFieldContentType
 │   ├── Image/   HKImage, HKImageModel, HKImageSource
-│   └── Label/   HKLabel, HKLabelModel, HKLabelType, HKLabelTone, HKRowLabel
+│   └── Label/   HKActionPrompt, HKActionPromptModel, HKLabel, HKLabelModel, HKLabelType, HKLabelTone, HKRowLabel
 └── Resources/   Media.xcassets
 ```
 

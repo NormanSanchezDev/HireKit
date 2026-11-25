@@ -7,17 +7,20 @@ import Observation
 @MainActor
 @Observable
 public final class WelcomeViewModel {
+    /// The screen state prepared on first appearance.
+    public private(set) var uiState: WelcomeUIState?
+
     /// A Boolean value that indicates whether progress is being saved.
-    public private(set) var isLoading = false
+    public var isLoading: Bool { uiState?.isLoading == true }
 
     /// The error to show, if any.
-    public private(set) var errorMessage: LocalizedStringKey?
+    public var errorMessage: LocalizedStringKey? { uiState?.errorMessage }
 
     /// A Boolean value that indicates whether an error alert is showing.
     /// Setting it to `false` clears ``errorMessage``.
     public var isShowingError: Bool {
         get { errorMessage != nil }
-        set { if !newValue { errorMessage = nil } }
+        set { if !newValue { uiState?.errorMessage = nil } }
     }
 
     private let completeOnboarding: any CompleteOnboardingUseCase
@@ -36,16 +39,26 @@ public final class WelcomeViewModel {
         self.onFinish = onFinish
     }
 
+    /// Prepares the screen once, preserving in-flight work on subsequent appearances.
+    public func onAppear() {
+        guard uiState == nil else { return }
+        uiState = WelcomeUIState { [weak self] in
+            Task { await self?.start() }
+        }
+    }
+
     /// Finishes the welcome flow and continues to the next one.
     public func start() async {
+        onAppear()
         guard !isLoading else { return }
-        isLoading = true
-        defer { isLoading = false }
+        uiState?.errorMessage = nil
+        uiState?.isLoading = true
+        defer { uiState?.isLoading = false }
         do {
             try await completeOnboarding.execute()
             onFinish()
         } catch {
-            errorMessage = "welcome_save_error_txt"
+            uiState?.errorMessage = "welcome_save_error_txt"
         }
     }
 }

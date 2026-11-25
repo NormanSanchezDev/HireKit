@@ -52,11 +52,8 @@ public struct HKField: View {
         let outline = isEnabled ? feedback?.color ?? (focused ? theme.colors.primary : nil) : nil
 
         VStack(alignment: .leading, spacing: theme.spacing.medium) {
-            HStack(spacing: theme.spacing.small) {
-                Text(model.title)
-                if model.isRequired { Text("common_required_marker").foregroundStyle(theme.colors.error) }
-            }
-            .font(theme.typography.fieldLabel)
+            Text(model.title)
+                .font(theme.typography.fieldLabel)
             .accessibilityHidden(true)
 
             HStack(spacing: theme.spacing.medium) {

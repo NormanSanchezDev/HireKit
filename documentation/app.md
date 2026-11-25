@@ -28,16 +28,15 @@ Bienvenida ──▶ Acceso ──▶ Inicio
 | Flujo | Pantallas | Estado |
 | --- | --- | --- |
 | Bienvenida | `WelcomeView` | Completo. Guarda el progreso en el dispositivo. |
-| Acceso | `SignInView`, `SignUpView` | Solo validación local; no hay backend ni sesión. |
+| Acceso | `SignInView`, `SignUpView` | Inicio de sesión y registro con Supabase Auth. El registro puede pedir confirmar el correo. |
 | Inicio · pestaña Inicio | `DashboardView`, `NotificationsView` | Saludo según la hora y estados vacíos. |
 | Inicio · pestaña Ajustes | `SettingsView`, `AppearanceView`, `AboutView` | Tema claro, oscuro o del sistema; reinicio de la bienvenida. |
 
 ## Pendiente
 
 - **Sesión.** Al reabrir la app tras la bienvenida se entra directo a Inicio,
-  porque no existe un `SessionRepository`. El acceso debe depender de una
-  sesión guardada.
-- **Backend de autenticación.** Las credenciales se validan solo en forma.
+  sin comprobar la sesión de Supabase. Falta un caso de uso de sesión actual y
+  cerrar sesión.
 - **Procesos de contratación.** El dominio aún no modela procesos, etapas ni
   entrevistas; el inicio muestra estados vacíos.
 - **Notificaciones.** La pantalla existe pero no hay fuente de datos.

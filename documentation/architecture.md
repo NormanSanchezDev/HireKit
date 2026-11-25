@@ -16,15 +16,41 @@ HireKit (app, raíz de composición)
 | --- | --- | --- |
 | `HKCore` | `HKContainer`, `HKLifetime` | Solo lo usa la raíz de composición. |
 | `HKDomain` | Entidades, contratos de repositorio, casos de uso | Swift puro. Sin SwiftUI ni persistencia. |
-| `HKData` | Fuentes de datos e implementaciones de repositorio | Implementa contratos del dominio. Hoy usa `UserDefaults`. |
+| `HKData` | Fuentes de datos e implementaciones de repositorio | Implementa contratos del dominio. Usa `UserDefaults` y Supabase Auth. Es el único paquete que importa Supabase. |
 | `HKDesignSystem` | Tokens, tema, componentes Liquid Glass | Sin conocimiento del dominio. |
 | `HKPresentation` | Vistas, ViewModels, coordinadores, routers | Depende de protocolos de casos de uso, nunca de `HKData`. |
 
 ## Dependencias externas
 
-Ninguna. Solo frameworks de Apple (SwiftUI, Observation, Foundation, Swift
+| Dependencia | Versión | Paquete | Uso |
+| --- | --- | --- | --- |
+| Supabase Swift | 2.55.8 | `HKData` | Inicio de sesión y registro con Supabase Auth. |
+
+El resto son frameworks de Apple (SwiftUI, Observation, Foundation, Swift
 Testing). Una librería de terceros requiere aprobación y se registra en la
 tabla "Dependencias" del README raíz, en el README del paquete y aquí.
+
+## Autenticación
+
+```
+SignInViewModel ──▶ SignInUseCase ──▶ AuthRepository
+                                          │
+                       DefaultAuthRepository (HKData)
+                                          │
+                       AuthRemoteDataSource ──▶ SupabaseAuthRemoteDataSource
+```
+
+- El dominio define `AuthRepository`, los casos de uso y `AuthenticationError`.
+  Todo lanza `throws(AuthenticationError)`, así que ningún tipo de Supabase
+  sale de `HKData`.
+- `SupabaseAuthErrorMapper` traduce los errores del SDK a `AuthenticationError`.
+- `SupabaseConfiguration` lee `Supabase.plist` del bundle de la app. Si falta o
+  es inválido, la fuente de datos responde `.notConfigured` en vez de fallar
+  al arrancar.
+- La raíz de composición registra la fuente de datos y el repositorio como
+  `singleton`, porque el cliente de Supabase guarda la sesión.
+- En macOS la app tiene sandbox con conexiones salientes
+  (`ENABLE_OUTGOING_NETWORK_CONNECTIONS`).
 
 ## Inyección de dependencias
 
@@ -35,6 +61,8 @@ tabla "Dependencias" del README raíz, en el README del paquete y aquí.
   Nunca resuelven del contenedor.
 - `HKPreviewViewModelFactory` (solo DEBUG) alimenta las vistas previas con
   datos en memoria.
+
+En bienvenida, `WelcomeView` comunica su aparición a `WelcomeViewModel.onAppear()`. El ViewModel prepara `WelcomeUIState` una vez por instancia y actualiza la carga y el error al ejecutar `CompleteOnboardingUseCase`. La vista lee el estado para dibujar el contenido.
 
 ## Concurrencia
 

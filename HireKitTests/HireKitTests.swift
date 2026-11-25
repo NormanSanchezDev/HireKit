@@ -42,10 +42,26 @@ struct AppDependenciesTests {
         #expect(root.destination == .welcome)
     }
 
+    @Test func signInWithoutSupabaseConfigurationShowsError() async throws {
+        let (defaults, suite) = try makeDefaults()
+        defer { defaults.removePersistentDomain(forName: suite) }
+        let dependencies = AppDependencies(defaults: defaults, bundle: Bundle(for: BundleToken.self))
+        var authenticated = false
+        let viewModel = dependencies.makeSignInViewModel(onSignUp: {}) { authenticated = true }
+        viewModel.onAppear()
+        viewModel.email = "ana@hirekit.app"
+        viewModel.password = "contraseña"
+        await viewModel.signIn()
+        #expect(!authenticated)
+        #expect(viewModel.isShowingError)
+    }
+
     @Test func themeManagerIsShared() throws {
         let (defaults, suite) = try makeDefaults()
         defer { defaults.removePersistentDomain(forName: suite) }
         let dependencies = AppDependencies(defaults: defaults)
         #expect(dependencies.themeManager === dependencies.themeManager)
     }
+
+    private final class BundleToken {}
 }

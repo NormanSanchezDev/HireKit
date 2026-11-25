@@ -7,6 +7,7 @@ import HKDomain
 @MainActor
 public final class HKPreviewViewModelFactory: HKViewModelFactory {
     private let repository: PreviewOnboardingRepository
+    private let authRepository = PreviewAuthRepository()
 
     /// Creates a preview factory.
     ///
@@ -28,17 +29,28 @@ public final class HKPreviewViewModelFactory: HKViewModelFactory {
         )
     }
 
-    /// Returns a sign-in ViewModel.
+    /// Returns a sign-in ViewModel that accepts any valid-looking credentials.
     public func makeSignInViewModel(
         onSignUp: @escaping @MainActor () -> Void,
         onAuthenticated: @escaping @MainActor () -> Void
     ) -> SignInViewModel {
-        SignInViewModel(onSignUp: onSignUp, onAuthenticated: onAuthenticated)
+        SignInViewModel(
+            signIn: DefaultSignInUseCase(repository: authRepository),
+            onSignUp: onSignUp,
+            onAuthenticated: onAuthenticated
+        )
     }
 
-    /// Returns a sign-up ViewModel.
-    public func makeSignUpViewModel(onAuthenticated: @escaping @MainActor () -> Void) -> SignUpViewModel {
-        SignUpViewModel(onAuthenticated: onAuthenticated)
+    /// Returns a sign-up ViewModel that always asks to confirm the email.
+    public func makeSignUpViewModel(
+        onAuthenticated: @escaping @MainActor () -> Void,
+        onConfirmationRequired: @escaping @MainActor () -> Void
+    ) -> SignUpViewModel {
+        SignUpViewModel(
+            signUp: DefaultSignUpUseCase(repository: authRepository),
+            onAuthenticated: onAuthenticated,
+            onConfirmationRequired: onConfirmationRequired
+        )
     }
 
     /// Returns a dashboard ViewModel that uses the current time.

@@ -39,4 +39,28 @@ struct HKComponentModelTests {
         #expect(model.type == .body)
         #expect(model.tone == .primary)
     }
+
+    @Test func progressDefaultsToZeroIndeterminatePrimary() {
+        let model = HKProgressModel()
+        #expect(model.progress == 0)
+        #expect(model.type == .indeterminate)
+        #expect(model.tone == .primary)
+        #expect(model.label == nil)
+    }
+
+    @Test func progressClampsOutOfRangeValues() {
+        #expect(HKProgressModel(progress: -0.5, type: .linear).progress == 0)
+        #expect(HKProgressModel(progress: 1.5, type: .circular).progress == 1)
+        #expect(HKProgressModel(progress: 0.42, type: .linear).progress == 0.42)
+    }
+
+    @Test @MainActor func progressToneResolvesSemanticPalette() {
+        let colors = HKThemeManager(defaults: nil).current(for: .light).colors
+        let environment = EnvironmentValues()
+        #expect(HKProgressTone.primary.color(in: colors).resolve(in: environment) == colors.primary.resolve(in: environment))
+        #expect(HKProgressTone.secondary.color(in: colors).resolve(in: environment) == colors.secondary.resolve(in: environment))
+        #expect(HKProgressTone.success.color(in: colors).resolve(in: environment) == colors.success.resolve(in: environment))
+        #expect(HKProgressTone.warning.color(in: colors).resolve(in: environment) == colors.warning.resolve(in: environment))
+        #expect(HKProgressTone.error.color(in: colors).resolve(in: environment) == colors.error.resolve(in: environment))
+    }
 }

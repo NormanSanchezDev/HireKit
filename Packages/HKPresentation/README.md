@@ -4,6 +4,11 @@ Vistas, ViewModels, coordinadores y routers de HireKit. La navegación está des
 
 Las pantallas y sus mensajes de validación usan claves de `HireKit/Localizable.xcstrings` en español e inglés.
 
+La bienvenida, el inicio de sesión y el registro obtienen el contenido, los
+campos, la acción principal y el estado de carga y error de `uiState`
+(`WelcomeUIState`, `SignInUIState`, `SignUpUIState`) al aparecer. Antes de
+`onAppear()` el estado es `nil`.
+
 ## Dependencias
 
 - `HKDomain` (paquete local): protocolos de casos de uso.
@@ -21,7 +26,8 @@ Sources/HKPresentation/
 ├── Root/        HKRootView, RootViewModel
 └── Features/
     ├── Welcome/   WelcomeView, WelcomeViewModel
-    ├── Auth/      AuthFlowView, AuthRoute, SignIn/SignUp (View + ViewModel), AuthForm
+    ├── Auth/      AuthFlowView, AuthRoute, AuthForm, mensajes de AuthenticationError,
+    │              SignIn/SignUp (View, ViewModel, Model/…UIState)
     ├── Home/      HomeView, HomeCoordinator, HomeTab, rutas, DashboardView
     └── Settings/  SettingsView, SettingsViewModel, AppearanceView, AboutView
 ```
@@ -40,11 +46,11 @@ WindowGroup {
 ```
 
 `dependencies` implementa `HKViewModelFactory`. En las vistas previas usa
-`HKPreviewViewModelFactory()`.
+`HKPreviewViewModelFactory()`, que usa `PreviewAuthRepository` en memoria.
 
 ## Pruebas
 
 ```bash
 cd Packages/HKPresentation
-xcodebuild test -scheme HKPresentation -destination 'platform=iOS Simulator,name=iPhone 17'
+xcodebuild test -scheme HKPresentation -destination 'platform=iOS Simulator,name=iPhone 18 Pro'
 ```

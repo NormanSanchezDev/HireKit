@@ -12,11 +12,22 @@
     ],
   },
   "packages": [
-    { "kind": "local", "path": "Packages/HKCore" },
-    { "kind": "local", "path": "Packages/HKDomain" },
-    { "kind": "local", "path": "Packages/HKData" },
-    { "kind": "local", "path": "Packages/HKDesignSystem" },
-    { "kind": "local", "path": "Packages/HKPresentation" },
+    {
+      "kind": "local",
+      "path": "Packages/HKCore",
+    }, {
+      "kind": "local",
+      "path": "Packages/HKDomain",
+    }, {
+      "kind": "local",
+      "path": "Packages/HKData",
+    }, {
+      "kind": "local",
+      "path": "Packages/HKDesignSystem",
+    }, {
+      "kind": "local",
+      "path": "Packages/HKPresentation",
+    },
   ],
   "files": [
     {
@@ -58,11 +69,22 @@
         "resources",
       ],
       "package-product-members": [
-        { "product-name": "HKCore", "build-phase": { "build-phase": "frameworks" } },
-        { "product-name": "HKDomain", "build-phase": { "build-phase": "frameworks" } },
-        { "product-name": "HKData", "build-phase": { "build-phase": "frameworks" } },
-        { "product-name": "HKDesignSystem", "build-phase": { "build-phase": "frameworks" } },
-        { "product-name": "HKPresentation", "build-phase": { "build-phase": "frameworks" } },
+        {
+          "product-name": "HKCore",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "product-name": "HKData",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "product-name": "HKDesignSystem",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "product-name": "HKDomain",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "product-name": "HKPresentation",
+          "build-phase": { "build-phase": "frameworks" },
+        },
       ],
       "build-settings": {
         "ASSETCATALOG_COMPILER_APPICON_NAME": "AppIcon",
@@ -73,6 +95,7 @@
         "DEVELOPMENT_TEAM": "WAFK7SAHVN",
         "ENABLE_APP_SANDBOX": "YES",
         "ENABLE_HARDENED_RUNTIME": "YES",
+        "ENABLE_OUTGOING_NETWORK_CONNECTIONS": "YES",
         "ENABLE_PREVIEWS": "YES",
         "ENABLE_USER_SELECTED_FILES": "readonly",
         "GENERATE_INFOPLIST_FILE": "YES",
@@ -160,9 +183,9 @@
         "CURRENT_PROJECT_VERSION": "1",
         "DEVELOPMENT_TEAM": "WAFK7SAHVN",
         "GENERATE_INFOPLIST_FILE": "YES",
-        "MARKETING_VERSION": "1.0",
         "IPHONEOS_DEPLOYMENT_TARGET": "27.0",
         "MACOSX_DEPLOYMENT_TARGET": "27.0",
+        "MARKETING_VERSION": "1.0",
         "PRODUCT_BUNDLE_IDENTIFIER": "dev.normansanchez.HireKitUITests",
         "PRODUCT_NAME": "$(TARGET_NAME)",
         "SDKROOT": "auto",
@@ -233,12 +256,12 @@
     "GCC_WARN_UNUSED_VARIABLE": "YES",
     "IPHONEOS_DEPLOYMENT_TARGET": "27.0",
     "LOCALIZATION_PREFERS_STRING_CATALOGS": "YES",
+    "MACOSX_DEPLOYMENT_TARGET": "27.0",
     "MTL_ENABLE_DEBUG_INFO[config=Debug]": "INCLUDE_SOURCE",
     "MTL_ENABLE_DEBUG_INFO[config=Release]": "NO",
     "MTL_FAST_MATH": "YES",
     "ONLY_ACTIVE_ARCH[config=Debug]": "YES",
     "SDKROOT": "auto",
-    "MACOSX_DEPLOYMENT_TARGET": "27.0",
     "SWIFT_ACTIVE_COMPILATION_CONDITIONS[config=Debug]": "DEBUG $(inherited)",
     "SWIFT_COMPILATION_MODE[config=Release]": "wholemodule",
     "SWIFT_EMIT_LOC_STRINGS": "YES",

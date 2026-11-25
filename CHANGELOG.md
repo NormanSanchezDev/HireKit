@@ -11,6 +11,16 @@ commit.
 
 ### Añadido
 
+- Inicio de sesión y registro con Supabase Auth: casos de uso `SignInUseCase` y
+  `SignUpUseCase`, `AuthRepository` y `AuthenticationError` en HKDomain, y
+  `SupabaseAuthRemoteDataSource` y `DefaultAuthRepository` en HKData.
+- Dependencia Supabase Swift 2.55.8 en HKData.
+- `HireKit/Supabase.plist` para la URL y la clave publicable de Supabase,
+  ignorado por Git.
+- Mensajes de error de acceso y aviso "Revisa tu correo" en español e inglés.
+- Conexiones salientes en el sandbox de macOS.
+- Componente `HKActionPrompt` para combinar texto de apoyo y una acción accesible en línea.
+
 - `HKBackground` y `.hkBackground()`: fondo de doodles animados que se adapta a
   modo claro y oscuro y respeta Reducir movimiento.
 - `README.md` con banner, badges, requisitos, estructura y tabla de dependencias.
@@ -23,6 +33,12 @@ commit.
 - Vistas previas de `HKButton` en modo oscuro y con texto de accesibilidad grande.
 
 ### Cambiado
+
+- Inicio de sesión y registro se configuran al aparecer con `SignInUIState` y
+  `SignUpUIState`, propiedad de su ViewModel, y muestran carga y errores.
+- Si el registro pide confirmar el correo, la app avisa y vuelve a inicio de sesión.
+- `AppDependencies` recibe el `Bundle` del que lee la configuración de Supabase.
+- La bienvenida se configura al aparecer mediante `WelcomeUIState` en su ViewModel.
 
 - Textos, validaciones y etiquetas de accesibilidad disponibles en español e inglés desde un catálogo de cadenas compartido.
 

@@ -7,43 +7,48 @@ struct WelcomeView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var viewModel: WelcomeViewModel
 
-    private let imageSize: CGFloat = 300
-
     init(viewModel: WelcomeViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
 
     var body: some View {
+        ZStack {
+            if let state = viewModel.uiState {
+                content(state)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .hkBackground()
+        .onAppear(perform: viewModel.onAppear)
+    }
+
+    private func content(_ state: WelcomeUIState) -> some View {
         let theme = themeManager.current(for: colorScheme)
-        VStack(spacing: theme.spacing.extraLarge) {
+        return VStack(spacing: theme.spacing.extraLarge) {
             Spacer(minLength: 0)
             HKImage(
-                .media("hk_programmer_memoji")
+                .media(state.imageResourceName)
             )
-            .frame(width: imageSize, height: imageSize)
+            .frame(width: state.imageSize, height: state.imageSize)
             .padding(theme.spacing.extraLarge)
 
             HKGlassCard {
                 VStack(alignment: .leading, spacing: theme.spacing.medium) {
-                    HKLabel("welcome_title_txt", type: .title, tone: .accent)
+                    HKLabel(state.title, type: .title, tone: .accent)
                         .accessibilityAddTraits(.isHeader)
-                    HKLabel("welcome_description_txt")
-                    HKLabel("welcome_prompt_txt", type: .subheadline, tone: .secondary)
+                    HKLabel(state.description)
+                    HKLabel(state.prompt, type: .subheadline, tone: .secondary)
                 }
             }
-            Spacer(minLength: 0)
-            HKButton(model: .init(title: "welcome_start_button_txt", isLoading: viewModel.isLoading) {
-                Task { await viewModel.start() }
-            })
-            .frame(maxWidth: .infinity)
-            .keyboardShortcut(.defaultAction)
+            .frame(maxWidth: 420)
+            HKButton(model: state.startButton)
+                .keyboardShortcut(.defaultAction)
+                .frame(maxWidth: 420)
+            Spacer()
         }
         .padding(theme.spacing.extraLarge)
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-
-        .hkBackground()
-        .alert("common_error_title", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
-            Button("common_ok", role: .cancel) {}
+        .alert(state.errorTitle, isPresented: $viewModel.isShowingError, presenting: state.errorMessage) { _ in
+            Button(state.dismissTitle, role: .cancel) {}
         } message: { message in
             Text(message)
         }

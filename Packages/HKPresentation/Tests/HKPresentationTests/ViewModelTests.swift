@@ -1,6 +1,8 @@
 import Foundation
+import HKDesignSystem
 import HKDomain
 import HKPresentation
+import SwiftUI
 import Testing
 
 private struct StubGetOnboardingState: GetOnboardingStateUseCase {
@@ -45,6 +47,20 @@ struct RootViewModelTests {
 
 @MainActor
 struct WelcomeViewModelTests {
+    @Test func firstAppearancePreparesContentAndLaterAppearancesPreserveErrors() async throws {
+        let viewModel = WelcomeViewModel(completeOnboarding: StubAction(fails: true)) {}
+        #expect(viewModel.uiState == nil)
+        viewModel.onAppear()
+        let state = try #require(viewModel.uiState)
+        #expect(state.imageResourceName == "hk_programmer_memoji")
+        #expect(state.title == "welcome_title_txt")
+        #expect(state.startButton.title == "welcome_start_button_txt")
+        await viewModel.start()
+        viewModel.onAppear()
+        #expect(viewModel.uiState?.errorMessage == "welcome_save_error_txt")
+        #expect(viewModel.uiState?.startButton.isLoading == false)
+    }
+
     @Test func successFinishesOnboarding() async {
         var finished = false
         let viewModel = WelcomeViewModel(completeOnboarding: StubAction(fails: false)) { finished = true }

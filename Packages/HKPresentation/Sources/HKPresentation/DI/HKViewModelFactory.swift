@@ -24,8 +24,14 @@ public protocol HKViewModelFactory: AnyObject {
 
     /// Returns the ViewModel of the sign-up screen.
     ///
-    /// - Parameter onAuthenticated: Called when sign-up succeeds.
-    func makeSignUpViewModel(onAuthenticated: @escaping @MainActor () -> Void) -> SignUpViewModel
+    /// - Parameters:
+    ///   - onAuthenticated: Called when the account is created with a session.
+    ///   - onConfirmationRequired: Called after the user acknowledges that the
+    ///     email must be confirmed before signing in.
+    func makeSignUpViewModel(
+        onAuthenticated: @escaping @MainActor () -> Void,
+        onConfirmationRequired: @escaping @MainActor () -> Void
+    ) -> SignUpViewModel
 
     /// Returns the ViewModel of the dashboard tab.
     func makeHomeViewModel() -> HomeViewModel

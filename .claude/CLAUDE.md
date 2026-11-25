@@ -68,6 +68,12 @@ Prefix every shell command with `rtk`, including each command in a `&&` chain.
 The global `rtk hook claude` rewrites commands automatically, but write the
 prefix anyway.
 
+## SwiftUI screen state and lifecycle
+
+Every feature screen follows MVVM with a feature-specific `...UIState` owned by its `@MainActor @Observable` ViewModel. The state contains the localized display content and the values needed to render the screen, including loading, empty, error, and action availability where applicable. Keep navigation callbacks and domain use cases in the ViewModel, not in the UI state.
+
+The View calls `viewModel.onAppear()` from `.onAppear`. The ViewModel prepares or refreshes UI state there, with an idempotent guard when repeated appearances must preserve in-flight work or dismissed errors. Render from `uiState` and pass state-owned component models to design-system views. Move presentation literals out of the View. Test state preparation and lifecycle behavior in ViewModel tests. Follow `WelcomeUIState` as the reference pattern.
+
 ## Swift style
 
 - Documentation uses Swift DocC comments with `///`, formatted like Apple's

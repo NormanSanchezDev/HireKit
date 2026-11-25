@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/UI-SwiftUI%20%2B%20Liquid%20Glass-5E5CE6" alt="SwiftUI y Liquid Glass">
   <img src="https://img.shields.io/badge/arquitectura-MVVM%20%2B%20Clean-30B0C7" alt="MVVM y Clean Architecture">
   <img src="https://img.shields.io/badge/tests-Swift%20Testing-FF9F0A" alt="Swift Testing">
-  <img src="https://img.shields.io/badge/dependencias%20externas-0-34C759" alt="Sin dependencias externas">
+  <img src="https://img.shields.io/badge/dependencias%20externas-1-34C759" alt="Una dependencia externa">
   <img src="https://img.shields.io/badge/idioma-es-8E8E93" alt="Idioma español">
 </p>
 
@@ -41,7 +41,19 @@ open HireKitWorkspace.xcworkspace
 ```
 
 Elige el esquema `HireKit` y ejecuta en un simulador de iPhone o en "My Mac".
-No hace falta instalar nada más: el proyecto no tiene dependencias externas.
+Xcode descarga Supabase Swift la primera vez que resuelve los paquetes.
+
+### Configurar Supabase
+
+1. Abre `HireKit/Supabase.plist`. Git ignora ese archivo, así que las
+   credenciales nunca se suben al repositorio.
+2. Rellena `SupabaseURL` (`https://<ref>.supabase.co`) y
+   `SupabasePublishableKey` con la clave publicable o anónima del proyecto.
+   Nunca uses la clave `service_role`.
+3. Activa Row Level Security en todas las tablas que expongas.
+
+Sin el archivo la app arranca igual, pero iniciar sesión y crear cuenta
+muestran "El acceso no está disponible en este momento".
 
 ## Estructura
 
@@ -89,7 +101,7 @@ README.
 
 ## Dependencias
 
-HireKit solo usa frameworks de Apple. Cualquier dependencia nueva se registra
+HireKit usa frameworks de Apple y Supabase Swift. Cualquier dependencia nueva se registra
 aquí, en el README del paquete que la usa y en el [CHANGELOG](CHANGELOG.md).
 
 | Dependencia | Tipo | Versión | Usada por | Motivo |
@@ -99,8 +111,9 @@ aquí, en el README del paquete que la usa y en el [CHANGELOG](CHANGELOG.md).
 | Foundation | Framework de Apple | SDK 27 | Todos | Tipos base y `UserDefaults` |
 | Swift Testing | Framework de Apple | Swift 6.4 | Tests de todos los paquetes | Pruebas unitarias |
 | XCTest | Framework de Apple | SDK 27 | HireKitUITests | Pruebas de interfaz |
+| [Supabase Swift](https://github.com/supabase/supabase-swift) | Terceros (SPM) | 2.55.8 | HKData | Autenticación con Supabase Auth |
 
-Dependencias de terceros: **ninguna**.
+Dependencias de terceros: **Supabase Swift**, solo en `HKData`.
 
 ## Cambios
 

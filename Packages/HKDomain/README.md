@@ -10,15 +10,21 @@ Ninguna.
 
 ```
 Sources/HKDomain/
-├── Entities/        OnboardingState
-├── Repositories/    OnboardingRepository
+├── Entities/
+│   ├── OnboardingState
+│   └── Auth/        AuthCredentials, NewAccount, AuthUser, SignUpResult,
+│                    AuthenticationError
+├── Repositories/    OnboardingRepository, AuthRepository
 └── UseCases/
-    └── Onboarding/  GetOnboardingState, CompleteOnboarding, ResetOnboarding
+    ├── Onboarding/  GetOnboardingState, CompleteOnboarding, ResetOnboarding
+    └── Auth/        SignIn, SignUp
                      y sus implementaciones Default…
 ```
 
 Cada caso de uso es un protocolo `Sendable` con un único `execute()` y una
-implementación `Default…` que recibe su repositorio por inicializador.
+implementación `Default…` que recibe su repositorio por inicializador. Los
+casos de uso de acceso lanzan `throws(AuthenticationError)` y normalizan los
+datos antes de llamar al repositorio.
 
 ## Uso
 

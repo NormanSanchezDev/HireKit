@@ -45,6 +45,7 @@ RTK.md
 *.local.xcconfig
 [Ss]ecrets*.xcconfig
 [Ss]ecrets.plist
+HireKit/Supabase.plist
 [Ss]ecrets.json
 service-account*.json
 fastlane/AuthKey_*

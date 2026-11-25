@@ -30,6 +30,7 @@ public struct HKButton: View {
         let theme = themeManager.current(for: colorScheme)
         let button = Button(action: model.action) {
             HStack(spacing: theme.spacing.medium) {
+                Spacer(minLength: 0)
                 if model.isLoading {
                     ProgressView()
                         .controlSize(.small)
@@ -39,9 +40,11 @@ public struct HKButton: View {
                     .font(theme.typography.button)
                     .multilineTextAlignment(.center)
                     .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 0)
             }
-            .frame(minWidth: theme.spacing.minimumHitTarget, minHeight: theme.spacing.minimumHitTarget)
+            .frame(maxWidth: .infinity, minHeight: theme.spacing.minimumHitTarget)
         }
+        .frame(maxWidth: .infinity)
         .accessibilityValue(model.isLoading ? Text("common_loading") : Text(verbatim: ""))
         .disabled(model.isLoading || !model.isEnabled)
 
