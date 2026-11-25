@@ -59,8 +59,14 @@ public struct HKButton: View {
     }
 }
 
-#Preview("Primary button") {
-    HKButton("Continue") {}
-        .padding()
-        .environment(HKThemeManager(defaults: nil))
+#Preview("Button Preview") {
+    HKButton("Continue") {
+        
+    }
+    .padding()
+    .environment(HKThemeManager(defaults: nil))
+    
+    VStack {
+        
+    }
 }

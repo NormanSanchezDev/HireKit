@@ -52,7 +52,7 @@ struct ContentView: View {
                 }
             }
         } detail: {
-            Text("Select an item")
+            HKLabel(model: .init(text: "Select an item"))
         }
     }
 
