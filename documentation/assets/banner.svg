@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="360" viewBox="0 0 1280 360" role="img" aria-labelledby="title desc">
+  <title id="title">HireKit</title>
+  <desc id="desc">HireKit, tu compañero en cada proceso de contratación.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#3F3CBB"/>
+      <stop offset="0.55" stop-color="#5E5CE6"/>
+      <stop offset="1" stop-color="#30B0C7"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0.18" cy="0.2" r="0.5">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0.85" cy="0.9" r="0.45">
+      <stop offset="0" stop-color="#64D2FF" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#64D2FF" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.38"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.12"/>
+    </linearGradient>
+    <linearGradient id="rim" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.15"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="360" fill="url(#sky)"/>
+  <rect width="1280" height="360" fill="url(#glowA)"/>
+  <rect width="1280" height="360" fill="url(#glowB)"/>
+  <circle cx="1080" cy="70" r="120" fill="#FFFFFF" fill-opacity="0.08"/>
+  <circle cx="150" cy="320" r="160" fill="#64D2FF" fill-opacity="0.12"/>
+  <rect x="120" y="70" width="1040" height="220" rx="44" fill="url(#glass)" stroke="url(#rim)" stroke-width="2"/>
+  <g transform="translate(190 125)">
+    <rect width="110" height="110" rx="30" fill="#FFFFFF" fill-opacity="0.22" stroke="#FFFFFF" stroke-opacity="0.6" stroke-width="1.5"/>
+    <rect x="28" y="40" width="54" height="40" rx="8" fill="none" stroke="#FFFFFF" stroke-width="6"/>
+    <path d="M43 40 v-8 a6 6 0 0 1 6 -6 h12 a6 6 0 0 1 6 6 v8" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round"/>
+    <path d="M28 58 h54" stroke="#FFFFFF" stroke-width="4"/>
+  </g>
+  <text x="340" y="180" font-family="-apple-system, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif" font-size="84" font-weight="700" fill="#FFFFFF">HireKit</text>
+  <text x="342" y="232" font-family="-apple-system, 'SF Pro Text', 'Helvetica Neue', Arial, sans-serif" font-size="28" fill="#FFFFFF" fill-opacity="0.88">Tu compañero en cada proceso de contratación</text>
+</svg>

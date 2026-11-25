@@ -1,0 +1,78 @@
+# Changelog
+
+Todos los cambios importantes de HireKit se registran aquí.
+
+El formato sigue [Keep a Changelog](https://keepachangelog.com/es-ES/1.1.0/) y
+el proyecto usa [Versionado Semántico](https://semver.org/lang/es/). Todavía
+no hay versiones publicadas, así que el historial previo se agrupa por fecha y
+commit.
+
+## [Sin publicar]
+
+### Añadido
+
+- `README.md` con banner, badges, requisitos, estructura y tabla de dependencias.
+- `CHANGELOG.md`.
+- README en cada paquete: HKCore, HKDomain, HKData, HKDesignSystem y HKPresentation.
+- Carpeta `documentation/` con app, negocio, arquitectura, routing y design system.
+- `HomeCoordinator.selectedTab` ahora es asignable, para enlazar `TabView` sin
+  `Binding(get:set:)`.
+- `isShowingError` en `WelcomeViewModel` y `SettingsViewModel` para enlazar alertas.
+- Vistas previas de `HKButton` en modo oscuro y con texto de accesibilidad grande.
+
+### Cambiado
+
+- Un tipo por archivo en HKDomain, HKData y HKPresentation (casos de uso,
+  fuente de datos, vistas de auth, home y ajustes, rutas de home).
+- Documentación DocC `///` en todas las declaraciones públicas de HKDomain,
+  HKData y HKPresentation.
+- Las pantallas usan los inicializadores cortos `HKLabel(_:type:tone:)` y
+  `HKRowLabel(_:systemImage:)`.
+- Las acciones de auth se agrupan en `HKGlassGroup`.
+- Textos de la bienvenida traducidos al español ("¿Listo para empezar?", "Empecemos").
+- Las instrucciones para agentes en `.claude/` apuntan a `documentation/` y
+  exigen mantener README, CHANGELOG y documentación al día.
+
+### Eliminado
+
+- `dismissError()` en `WelcomeViewModel` y `SettingsViewModel`, reemplazado por
+  `isShowingError`.
+- `HKButtonPreviews.swift`, duplicado de las vistas previas de `HKButton`, que
+  además usaba `glassEffect` directamente.
+- `.claude/docs/`, sustituida por `documentation/`.
+
+## 2026-11-25 · `9f12a51` Integración con agentes de IA
+
+### Añadido
+
+- `HKGlassStyle` y el modificador `.hkGlass(_:isInteractive:in:)`.
+- `HKButton(_:systemImage:)`, `HKLabel(_:type:tone:)` y `HKRowLabel(_:systemImage:)`.
+- Pruebas de los modelos del design system.
+- `.claude/CLAUDE.md` con requisitos, skills, graphify y rtk.
+
+### Cambiado
+
+- Componentes del design system orientados a Liquid Glass; `HKField` sobre vidrio.
+- Documentación `/** */` convertida a DocC `///` en todo el repositorio.
+
+## 2026-11-25 · `22f4557` Routing
+
+### Añadido
+
+- `HKRouter` genérico, `HKRouterStack` y `HKRoute`.
+- Flujo de acceso con inicio de sesión, registro y validación local.
+- Inicio con `TabView` Liquid Glass y un router por pestaña (`HomeCoordinator`).
+
+## 2026-11-24 · `e9713ad` Arquitectura
+
+### Añadido
+
+- Paquetes HKCore, HKDomain y HKData; MVVM + Clean con raíz de composición.
+- `HKImage` con imágenes del catálogo, assets, recursos y SF Symbols.
+
+## 2026-11-24 · `44db5db`, `87e7e5d`, `6feab1f` Inicio del proyecto
+
+### Añadido
+
+- Proyecto inicial con HKDesignSystem y HKPresentation.
+- `HKButton`, `HKLabel` y `HKField`.

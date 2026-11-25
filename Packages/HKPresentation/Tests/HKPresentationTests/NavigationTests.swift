@@ -63,6 +63,16 @@ struct HomeCoordinatorTests {
         #expect(coordinator.dashboard.isAtRoot)
     }
 
+    @Test func tabBindingSetterReselectsLikeTheTabBar() {
+        let coordinator = HomeCoordinator()
+        coordinator.settings.push(.appearance)
+        coordinator.selectedTab = .settings
+        #expect(coordinator.selectedTab == .settings)
+        #expect(coordinator.settings.path == [.appearance])
+        coordinator.selectedTab = .settings
+        #expect(coordinator.settings.isAtRoot)
+    }
+
     @Test func openJumpsAcrossTabs() {
         let coordinator = HomeCoordinator()
         coordinator.open(.settings(.appearance))

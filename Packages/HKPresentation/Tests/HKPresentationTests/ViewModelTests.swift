@@ -60,7 +60,7 @@ struct WelcomeViewModelTests {
         await viewModel.start()
         #expect(!finished)
         #expect(viewModel.errorMessage != nil)
-        viewModel.dismissError()
+        viewModel.isShowingError = false
         #expect(viewModel.errorMessage == nil)
     }
 }

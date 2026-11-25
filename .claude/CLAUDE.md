@@ -4,8 +4,15 @@ HireKit is a SwiftUI app for iOS, iPadOS and macOS that helps people through a
 hiring process. The UI is Spanish (`defaultLocalization: "es"`) and always uses
 Liquid Glass.
 
-Read this file before touching code. Design system details live in
-@docs/design-system.md and the architecture in @docs/architecture.md.
+Read this file before touching code. The project brain lives in
+`documentation/` at the repository root. Read the documents that match the task:
+
+- @../documentation/README.md: index and maintenance rules.
+- @../documentation/architecture.md: layers, packages and dependency injection.
+- @../documentation/routing.md: flows, routers, coordinators and deep links.
+- @../documentation/design-system.md: Liquid Glass principles and components.
+- `documentation/app.md` (product, flows, gaps) and `documentation/business.md`
+  (business rules) when the task changes behavior.
 
 ## Requirements
 
@@ -13,7 +20,7 @@ Read this file before touching code. Design system details live in
 - Platforms: iOS 26 and macOS 26 minimum for packages, iOS/macOS 27 for the app.
   No `#available` fallbacks below those versions.
 - Architecture: MVVM + Clean Architecture in local Swift packages, with
-  dependency injection through a composition root. See @docs/architecture.md.
+  dependency injection through a composition root. See `documentation/architecture.md`.
 - UI: SwiftUI only, Liquid Glass everywhere (`glassEffect`, `.glass` and
   `.glassProminent` button styles, `GlassEffectContainer`, system `TabView`).
   No UIKit or AppKit views unless there is no SwiftUI alternative.
@@ -101,6 +108,43 @@ Run package tests from the package folder. `swift test` does not compile
 runner can hang with ad-hoc signing and hardened runtime; pass
 `ENABLE_HARDENED_RUNTIME=NO` for local runs only.
 
+## Documentation and dependencies
+
+Documentation is part of every change, not a follow-up.
+
+- **Update `documentation/` with every change.** Edit the document that
+  describes what you changed: rules in `business.md`, flows in `app.md` and
+  `routing.md`, layers in `architecture.md`, components in `design-system.md`.
+- **Replace documents that no longer hold.** If a document no longer represents
+  the current design, delete it and write a new one from the code as it is
+  now. Do not stack "before/after" notes. Keep the index in
+  `documentation/README.md` in sync.
+- **Package READMEs.** Every package in `Packages/` has a `README.md` with its
+  purpose, dependencies, contents, usage and test command. Update it when the
+  package's public API, folders or dependencies change. A new package gets a
+  README in the same change.
+- **CHANGELOG.** Add every user-visible or structural change to the
+  `[Sin publicar]` section of `CHANGELOG.md` (Keep a Changelog format, Spanish).
+- **Dependencies.** Ask the user before adding any third-party library. When a
+  dependency (third-party, Apple framework or local package) is added or
+  removed, update the "Dependencias" table in the root `README.md`, the README
+  of each package that uses it, `documentation/architecture.md` and the
+  CHANGELOG, in the same change.
+
+## Review instead of patching
+
+Do not bolt new code onto old code. Before changing a file, read the code
+around it and check that it is still current.
+
+- Remove what the change makes obsolete: unused types, files, previews,
+  parameters, helpers and tests. Search for callers with graphify before
+  deleting.
+- When an existing design no longer fits, refactor it instead of adding a
+  special case.
+- Fix rule violations you find in the files you touch (several types per file,
+  undocumented public API, `Binding(get:set:)`, English UI strings).
+- Never leave two ways of doing the same thing.
+
 ## Definition of done
 
 - Builds for iOS Simulator and macOS.
@@ -108,4 +152,7 @@ runner can hang with ad-hoc signing and hardened runtime; pass
 - New logic has Swift Testing tests (`import Testing`, `#expect`).
 - `swiftui-pro:swiftui-pro` review has no open findings.
 - `graphify update .` ran after the change.
+- `documentation/`, the affected package READMEs, the root README (when
+  dependencies change) and the CHANGELOG describe the new state.
+- No dead code, obsolete files or orphaned documents remain.
 - Nothing is committed or pushed unless the user asks.

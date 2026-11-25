@@ -1,6 +1,7 @@
 import HKDesignSystem
 import SwiftUI
 
+/// The first screen a new user sees.
 struct WelcomeView: View {
     @Environment(HKThemeManager.self) private var themeManager
     @Environment(\.colorScheme) private var colorScheme
@@ -14,22 +15,18 @@ struct WelcomeView: View {
         let theme = themeManager.current(for: colorScheme)
         VStack(spacing: theme.spacing.extraLarge) {
             Spacer(minLength: 0)
-            
             HKImage(.media("hk_placeholder"))
                 .padding(theme.spacing.extraLarge)
-                .accessibilityHidden(true)
-
             HKGlassCard {
                 VStack(alignment: .leading, spacing: theme.spacing.medium) {
-                    HKLabel(model: .init(text: "Bienvenido a HireKit", type: .title, tone: .accent))
+                    HKLabel("Bienvenido a HireKit", type: .title, tone: .accent)
                         .accessibilityAddTraits(.isHeader)
-                    HKLabel(model: .init(text: "La aplicación que te ayudará en tu proceso de contratación"))
-                    HKLabel(model: .init(text: "Are you ready?", type: .subheadline))
+                    HKLabel("La aplicación que te ayudará en tu proceso de contratación.")
+                    HKLabel("¿Listo para empezar?", type: .subheadline, tone: .secondary)
                 }
             }
             Spacer(minLength: 0)
-
-            HKButton("Let's go", isLoading: viewModel.isLoading) {
+            HKButton("Empecemos", isLoading: viewModel.isLoading) {
                 Task { await viewModel.start() }
             }
             .frame(maxWidth: .infinity)
@@ -39,14 +36,7 @@ struct WelcomeView: View {
         .frame(maxWidth: 560)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .hkBackdrop()
-        .alert(
-            "Algo salió mal",
-            isPresented: Binding(
-                get: { viewModel.errorMessage != nil },
-                set: { if !$0 { viewModel.dismissError() } }
-            ),
-            presenting: viewModel.errorMessage
-        ) { _ in
+        .alert("Algo salió mal", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
             Button("Aceptar", role: .cancel) {}
         } message: { message in
             Text(message)

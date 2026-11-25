@@ -95,15 +95,32 @@ public struct HKButton: View {
     }
 }
 
-#Preview("Button") {
+#Preview("Button states") {
     HKGlassGroup(spacing: 12) {
         VStack(spacing: 12) {
             HKButton("Continue") {}
             HKButton("Apply", systemImage: "paperplane") {}
+            HKButton("Cancel", variant: .secondary) {}
+            HKButton("Saving", isLoading: true) {}
+            HKButton("Unavailable") {}
+                .disabled(true)
+        }
+    }
+    .padding()
+    .hkBackdrop()
+    .environment(HKThemeManager(defaults: nil))
+}
+
+#Preview("Button, dark and large text") {
+    HKGlassGroup(spacing: 12) {
+        VStack(spacing: 12) {
+            HKButton("Continue") {}
             HKButton("Cancel", variant: .secondary) {}
         }
     }
     .padding()
     .hkBackdrop()
     .environment(HKThemeManager(defaults: nil))
+    .environment(\.dynamicTypeSize, .accessibility3)
+    .preferredColorScheme(.dark)
 }
