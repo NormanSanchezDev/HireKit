@@ -40,10 +40,11 @@ struct WelcomeView: View {
                     HKLabel(state.prompt, type: .subheadline, tone: .secondary)
                 }
             }
-            Spacer(minLength: 0)
+            .frame(maxWidth: 420)
             HKButton(model: state.startButton)
                 .frame(maxWidth: .infinity)
                 .keyboardShortcut(.defaultAction)
+            Spacer()
         }
         .padding(theme.spacing.extraLarge)
         .alert(state.errorTitle, isPresented: $viewModel.isShowingError, presenting: state.errorMessage) { _ in
