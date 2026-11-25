@@ -1,10 +1,8 @@
 import Foundation
 
-/**
- * Lightweight, type-safe dependency container used only by the app's
- * composition root. Features never resolve from it directly: they receive
- * their dependencies through initializers.
- */
+/// Lightweight, type-safe dependency container used only by the app's
+/// composition root. Features never resolve from it directly: they receive
+/// their dependencies through initializers.
 @MainActor
 public final class HKContainer {
     private struct Registration {
@@ -17,10 +15,8 @@ public final class HKContainer {
 
     public init() {}
 
-    /**
-     * Registers how to build `Service`. Registering the same type again
-     * replaces the previous registration and drops any cached instance.
-     */
+    /// Registers how to build `Service`. Registering the same type again
+    /// replaces the previous registration and drops any cached instance.
     public func register<Service>(
         _ type: Service.Type,
         lifetime: HKLifetime = .transient,
@@ -31,9 +27,7 @@ public final class HKContainer {
         instances[key] = nil
     }
 
-    /**
-     * Returns the registered `Service`, or nil when nothing was registered.
-     */
+    /// Returns the registered `Service`, or nil when nothing was registered.
     public func resolveIfRegistered<Service>(_ type: Service.Type = Service.self) -> Service? {
         let key = ObjectIdentifier(type)
         if let cached = instances[key] as? Service {
@@ -49,10 +43,8 @@ public final class HKContainer {
         return service
     }
 
-    /**
-     * Returns the registered `Service`. A missing registration is a
-     * programming error in the composition root and stops execution.
-     */
+    /// Returns the registered `Service`. A missing registration is a
+    /// programming error in the composition root and stops execution.
     public func resolve<Service>(_ type: Service.Type = Service.self) -> Service {
         guard let service = resolveIfRegistered(type) else {
             preconditionFailure("HKContainer: no registration for \(Service.self)")

@@ -1,10 +1,8 @@
 import HKDomain
 import Observation
 
-/**
- * Decides which top-level flow the app shows. Switching flows replaces the
- * whole screen, so there is never a back button from home to sign in.
- */
+/// Decides which top-level flow the app shows. Switching flows replaces the
+/// whole screen, so there is never a back button from home to sign in.
 @MainActor
 @Observable
 public final class RootViewModel {

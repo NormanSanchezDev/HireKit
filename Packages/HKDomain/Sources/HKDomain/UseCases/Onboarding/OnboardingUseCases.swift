@@ -1,20 +1,14 @@
-/**
- * Reads whether the welcome flow is still pending.
- */
+/// Reads whether the welcome flow is still pending.
 public protocol GetOnboardingStateUseCase: Sendable {
     func execute() async -> OnboardingState
 }
 
-/**
- * Marks the welcome flow as finished.
- */
+/// Marks the welcome flow as finished.
 public protocol CompleteOnboardingUseCase: Sendable {
     func execute() async throws
 }
 
-/**
- * Brings the welcome flow back, for example from Settings.
- */
+/// Brings the welcome flow back, for example from Settings.
 public protocol ResetOnboardingUseCase: Sendable {
     func execute() async throws
 }

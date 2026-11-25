@@ -1,12 +1,10 @@
 import HKDesignSystem
 import SwiftUI
 
-/**
- * Home shell. A `TabView` on iOS 26 and later renders the floating Liquid
- * Glass bottom bar on iPhone, and `sidebarAdaptable` turns it into a glass
- * sidebar on iPad and Mac. Every tab is an `HKRouterStack` driven by
- * `HomeCoordinator`, so each one keeps its own history.
- */
+/// Home shell. A `TabView` on iOS 26 and later renders the floating Liquid
+/// Glass bottom bar on iPhone, and `sidebarAdaptable` turns it into a glass
+/// sidebar on iPad and Mac. Every tab is an `HKRouterStack` driven by
+/// `HomeCoordinator`, so each one keeps its own history.
 struct HomeView: View {
     @State private var coordinator: HomeCoordinator
     @State private var viewModel: HomeViewModel

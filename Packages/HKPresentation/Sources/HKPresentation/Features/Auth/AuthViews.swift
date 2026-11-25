@@ -102,10 +102,8 @@ struct SignUpView: View {
     }
 }
 
-/**
- * Shared layout for auth screens: fields on a glass card, actions below,
- * capped width so it reads well on iPad and Mac.
- */
+/// Shared layout for auth screens: fields on a glass card, actions below,
+/// capped width so it reads well on iPad and Mac.
 private struct AuthForm<Fields: View, Actions: View>: View {
     @Environment(HKThemeManager.self) private var themeManager
     @Environment(\.colorScheme) private var colorScheme

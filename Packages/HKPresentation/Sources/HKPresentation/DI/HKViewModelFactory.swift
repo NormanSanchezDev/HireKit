@@ -1,7 +1,5 @@
-/**
- * Builds every ViewModel the presentation layer needs. The app's composition
- * root implements it, so views never know how use cases are wired.
- */
+/// Builds every ViewModel the presentation layer needs. The app's composition
+/// root implements it, so views never know how use cases are wired.
 @MainActor
 public protocol HKViewModelFactory: AnyObject {
     func makeRootViewModel() -> RootViewModel

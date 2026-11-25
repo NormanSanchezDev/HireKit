@@ -1,9 +1,7 @@
 import Observation
 
-/**
- * Navigation state of the home shell: the selected tab plus one router per
- * tab, so every tab remembers its own history while switching.
- */
+/// Navigation state of the home shell: the selected tab plus one router per
+/// tab, so every tab remembers its own history while switching.
 @MainActor
 @Observable
 public final class HomeCoordinator {
@@ -21,10 +19,8 @@ public final class HomeCoordinator {
         self.settings = settings
     }
 
-    /**
-     * Selects a tab. Tapping the tab that is already selected pops it to its
-     * root, matching the system tab bar behavior.
-     */
+    /// Selects a tab. Tapping the tab that is already selected pops it to its
+    /// root, matching the system tab bar behavior.
     public func select(_ tab: HomeTab) {
         if tab == selectedTab {
             popToRoot(tab)
@@ -33,9 +29,7 @@ public final class HomeCoordinator {
         }
     }
 
-    /**
-     * Jumps to any screen in any tab, replacing that tab's stack.
-     */
+    /// Jumps to any screen in any tab, replacing that tab's stack.
     public func open(_ destination: HomeDestination) {
         switch destination {
         case .dashboard(let route):

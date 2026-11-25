@@ -1,16 +1,41 @@
 import SwiftUI
 
+/// A resizable image from any source: design system media, app assets,
+/// generated image resources or SF Symbols.
 ///
-/// HKImage shows any image: design system media, app asset, generated
-/// `ImageResource`s or SF Symbols. Size it with `.frame` from the caller
+/// The image keeps its aspect ratio and fills the size its parent proposes.
+/// Set the size from the caller:
 ///
+/// ```swift
+/// HKImage(.media("hk_placeholder"))
+///     .frame(height: 160)
+///
+/// HKImage(model: .init(
+///     source: .system("briefcase.fill"),
+///     tint: .indigo,
+///     accessibilityLabel: "Empleo"
+/// ))
+/// .frame(width: 32, height: 32)
+/// ```
+///
+/// Images without an accessibility label are decorative and hidden from
+/// VoiceOver. SF Symbols use hierarchical rendering.
 public struct HKImage: View {
     private let model: HKImageModel
 
+    /// Creates an image from a model.
+    ///
+    /// - Parameter model: The content and configuration of the image.
     public init(model: HKImageModel) {
         self.model = model
     }
 
+    /// Creates a decorative image.
+    ///
+    /// - Parameters:
+    ///   - source: The place the image loads from.
+    ///   - contentMode: How the image fills the proposed space.
+    ///   - tint: The color of SF Symbols and template images.
     public init(_ source: HKImageSource, contentMode: ContentMode = .fit, tint: Color? = nil) {
         self.init(model: HKImageModel(source: source, contentMode: contentMode, tint: tint))
     }

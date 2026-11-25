@@ -1,11 +1,9 @@
 import HKDesignSystem
 import SwiftUI
 
-/**
- * Coordinator of the authentication flow. Owns its router, builds every
- * screen through the factory and turns ViewModel callbacks into navigation.
- * ViewModels never see the router.
- */
+/// Coordinator of the authentication flow. Owns its router, builds every
+/// screen through the factory and turns ViewModel callbacks into navigation.
+/// ViewModels never see the router.
 struct AuthFlowView: View {
     @State private var router: HKRouter<AuthRoute>
     private let factory: any HKViewModelFactory

@@ -1,10 +1,8 @@
 import HKDesignSystem
 import SwiftUI
 
-/**
- * Entry view of the presentation layer. Receives its factory from the app's
- * composition root and swaps between the welcome, auth and home flows.
- */
+/// Entry view of the presentation layer. Receives its factory from the app's
+/// composition root and swaps between the welcome, auth and home flows.
 public struct HKRootView: View {
     @State private var viewModel: RootViewModel
     private let factory: any HKViewModelFactory

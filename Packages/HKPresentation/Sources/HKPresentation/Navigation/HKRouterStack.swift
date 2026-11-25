@@ -1,10 +1,8 @@
 import SwiftUI
 
-/**
- * `NavigationStack` bound to an `HKRouter`. A flow only supplies its root
- * screen and one builder that maps every route to a screen; pushes and
- * sheets both go through that same builder.
- */
+/// `NavigationStack` bound to an `HKRouter`. A flow only supplies its root
+/// screen and one builder that maps every route to a screen; pushes and
+/// sheets both go through that same builder.
 struct HKRouterStack<Route: HKRoute, Root: View, Destination: View>: View {
     @Bindable private var router: HKRouter<Route>
     private let root: Root

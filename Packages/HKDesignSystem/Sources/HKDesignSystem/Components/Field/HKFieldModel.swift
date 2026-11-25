@@ -1,32 +1,60 @@
 import SwiftUI
 
-#if os(macOS)
-public typealias HKFieldContentType = NSTextContentType
-#else
-public typealias HKFieldContentType = UITextContentType
-#endif
-
-public enum HKFieldValidation: Equatable, Sendable {
-    case none
-    case success(String)
-    case warning(String)
-    case error(String)
-}
-
+/// The content and configuration of an ``HKField``.
+///
+/// ```swift
+/// HKFieldModel(
+///     title: "Correo",
+///     placeholder: "nombre@ejemplo.com",
+///     icon: "envelope",
+///     contentType: .emailAddress,
+///     isRequired: true,
+///     errorMessage: viewModel.emailError
+/// )
+/// ```
 public struct HKFieldModel {
+    /// The title shown above the input. VoiceOver reads it as the field's label.
     public let title: String
+
+    /// The hint shown inside the input while it is empty.
     public let placeholder: String
+
+    /// The name of an SF Symbol shown before the input.
     public let icon: String?
+
+    /// The semantic meaning of the text, for AutoFill and the keyboard.
     public let contentType: HKFieldContentType?
+
+    /// Whether the input hides its text, with a button to reveal it.
     public let isSecure: Bool
+
+    /// Whether the field shows a required marker.
     public let isRequired: Bool
+
+    /// Whether the user can edit the field.
     public let isEnabled: Bool
+
+    /// The feedback shown below the input.
     public let validation: HKFieldValidation
 
+    /// The message of an ``HKFieldValidation/error(_:)`` validation, if any.
     public var errorMessage: String? {
         if case let .error(message) = validation { message } else { nil }
     }
 
+    /// Creates a field model.
+    ///
+    /// - Parameters:
+    ///   - title: The title shown above the input.
+    ///   - placeholder: The hint shown inside the empty input.
+    ///   - icon: The name of an SF Symbol shown before the input.
+    ///   - contentType: The semantic meaning of the text, for AutoFill.
+    ///   - isSecure: Whether the input hides its text.
+    ///   - isRequired: Whether the field shows a required marker.
+    ///   - errorMessage: A shortcut for an ``HKFieldValidation/error(_:)``
+    ///     validation. When it is not `nil`, it replaces `validation`.
+    ///   - isEnabled: Whether the user can edit the field.
+    ///   - validation: The feedback shown below the input.
     public init(
         title: String,
         placeholder: String = "",
@@ -49,8 +77,23 @@ public struct HKFieldModel {
     }
 
     #if os(iOS)
+    /// The keyboard shown while the field is focused.
     public private(set) var keyboardType: UIKeyboardType = .default
 
+    /// Creates a field model with a specific keyboard.
+    ///
+    /// - Parameters:
+    ///   - title: The title shown above the input.
+    ///   - placeholder: The hint shown inside the empty input.
+    ///   - icon: The name of an SF Symbol shown before the input.
+    ///   - contentType: The semantic meaning of the text, for AutoFill.
+    ///   - keyboardType: The keyboard shown while the field is focused.
+    ///   - isSecure: Whether the input hides its text.
+    ///   - isRequired: Whether the field shows a required marker.
+    ///   - errorMessage: A shortcut for an ``HKFieldValidation/error(_:)``
+    ///     validation. When it is not `nil`, it replaces `validation`.
+    ///   - isEnabled: Whether the user can edit the field.
+    ///   - validation: The feedback shown below the input.
     public init(
         title: String,
         placeholder: String = "",

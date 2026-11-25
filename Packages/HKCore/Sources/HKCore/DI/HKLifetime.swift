@@ -1,14 +1,8 @@
-/**
- * How long a registered dependency lives inside `HKContainer`.
- */
+/// How long a registered dependency lives inside `HKContainer`.
 public enum HKLifetime: Sendable {
-    /**
-     * One shared instance, created on first resolve.
-     */
+    /// One shared instance, created on first resolve.
     case singleton
 
-    /**
-     * A new instance on every resolve.
-     */
+    /// A new instance on every resolve.
     case transient
 }

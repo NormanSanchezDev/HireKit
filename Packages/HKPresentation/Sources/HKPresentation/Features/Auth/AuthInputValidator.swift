@@ -1,9 +1,7 @@
 import Foundation
 
-/**
- * Form-level checks shown while typing. Real credential checks belong to a
- * domain use case once there is a backend.
- */
+/// Form-level checks shown while typing. Real credential checks belong to a
+/// domain use case once there is a backend.
 enum AuthInputValidator {
     static let minimumPasswordLength = 8
 

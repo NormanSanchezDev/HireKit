@@ -1,13 +1,22 @@
 import SwiftUI
 
-/**
- * Soft brand gradient that sits behind Liquid Glass surfaces so they have
- * color to refract. Purely decorative, hidden from accessibility.
- */
+/// A soft brand gradient that gives Liquid Glass surfaces color to refract.
+///
+/// Glass over a flat background looks gray. Put the backdrop behind screens
+/// that are mostly glass, usually with the `hkBackdrop()` modifier:
+///
+/// ```swift
+/// ScrollView { ... }
+///     .hkBackdrop()
+/// ```
+///
+/// The backdrop is decorative, extends under the safe areas and is hidden from
+/// accessibility.
 public struct HKBackdrop: View {
     @Environment(HKThemeManager.self) private var themeManager
     @Environment(\.colorScheme) private var colorScheme
 
+    /// Creates a backdrop that follows the active theme.
     public init() {}
 
     public var body: some View {
@@ -33,9 +42,9 @@ public struct HKBackdrop: View {
 }
 
 extension View {
-    /**
-     * Places the HireKit backdrop behind this view, edge to edge.
-     */
+    /// Places the HireKit backdrop behind this view, edge to edge.
+    ///
+    /// - Returns: A view with ``HKBackdrop`` as its background.
     public func hkBackdrop() -> some View {
         background { HKBackdrop() }
     }

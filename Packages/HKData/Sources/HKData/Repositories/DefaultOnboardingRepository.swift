@@ -1,9 +1,7 @@
 import HKDomain
 
-/**
- * `OnboardingRepository` backed by a local data source. Unknown or missing
- * values map to `.pending` so a corrupted value never skips the welcome flow.
- */
+/// `OnboardingRepository` backed by a local data source. Unknown or missing
+/// values map to `.pending` so a corrupted value never skips the welcome flow.
 public struct DefaultOnboardingRepository: OnboardingRepository {
     private let localDataSource: any OnboardingLocalDataSource
 

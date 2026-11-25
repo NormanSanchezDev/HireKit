@@ -1,10 +1,8 @@
 #if DEBUG
 import HKDomain
 
-/**
- * In-memory factory for SwiftUI previews. Never ships: it only exists in
- * DEBUG builds and stores nothing on disk.
- */
+/// In-memory factory for SwiftUI previews. Never ships: it only exists in
+/// DEBUG builds and stores nothing on disk.
 @MainActor
 public final class HKPreviewViewModelFactory: HKViewModelFactory {
     private let repository: PreviewOnboardingRepository

@@ -5,11 +5,9 @@ import HKDesignSystem
 import HKDomain
 import HKPresentation
 
-/**
- * Composition root. The only place that knows every layer: it registers
- * data sources, repositories and use cases in `HKContainer`, and hands the
- * presentation layer a `HKViewModelFactory` so views stay decoupled.
- */
+/// Composition root. The only place that knows every layer: it registers
+/// data sources, repositories and use cases in `HKContainer`, and hands the
+/// presentation layer a `HKViewModelFactory` so views stay decoupled.
 @MainActor
 final class AppDependencies {
     private let container = HKContainer()
