@@ -5,12 +5,12 @@ import SwiftUI
 struct NotificationsView: View {
     var body: some View {
         ContentUnavailableView(
-            "Sin notificaciones",
+            "notifications_empty_title_txt",
             systemImage: "bell.slash",
-            description: Text("Te avisaremos cuando haya novedades en tus procesos.")
+            description: Text("notifications_empty_description_txt")
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .navigationTitle("Notificaciones")
+        .navigationTitle("notifications_title_txt")
         .hkBackground()
     }
 }

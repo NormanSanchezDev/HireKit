@@ -14,12 +14,12 @@ struct SignInView: View {
     var body: some View {
         let theme = themeManager.current(for: colorScheme)
         AuthForm {
-            HKLabel("Inicia sesión", type: .title, tone: .accent)
+            HKLabel("sign_in_title_txt", type: .title, tone: .accent)
                 .accessibilityAddTraits(.isHeader)
             HKField(
                 model: .init(
-                    title: "Correo",
-                    placeholder: "nombre@ejemplo.com",
+                    title: "sign_in_email_txt",
+                    placeholder: "sign_in_email_placeholder_txt",
                     icon: "envelope",
                     contentType: .emailAddress,
                     isRequired: true,
@@ -29,7 +29,7 @@ struct SignInView: View {
             )
             HKField(
                 model: .init(
-                    title: "Contraseña",
+                    title: "sign_in_password_txt",
                     icon: "lock",
                     contentType: .password,
                     isSecure: true,
@@ -39,17 +39,17 @@ struct SignInView: View {
                 text: $viewModel.password
             )
         } actions: {
-            HKButton(model: .init(title: "Entrar") { viewModel.signIn() })
+            HKButton(model: .init(title: "sign_in_submit_button_txt") { viewModel.signIn() })
                 .keyboardShortcut(.defaultAction)
             HStack(spacing: theme.spacing.small) {
-                HKLabel("¿No tienes cuenta?", type: .subheadline, tone: .secondary)
-                Button("Crear cuenta") { viewModel.goToSignUp() }
+                HKLabel("sign_in_account_prompt_txt", type: .subheadline, tone: .secondary)
+                Button("sign_in_create_account_button_txt") { viewModel.goToSignUp() }
                     .buttonStyle(.plain)
                     .foregroundStyle(theme.colors.primary)
                     .frame(minHeight: theme.spacing.minimumHitTarget)
             }
         }
-        .navigationTitle("Acceso")
+        .navigationTitle("sign_in_navigation_title_txt")
     }
 }
 

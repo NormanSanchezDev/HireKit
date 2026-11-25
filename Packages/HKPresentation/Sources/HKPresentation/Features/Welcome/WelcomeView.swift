@@ -25,14 +25,14 @@ struct WelcomeView: View {
 
             HKGlassCard {
                 VStack(alignment: .leading, spacing: theme.spacing.medium) {
-                    HKLabel("Bienvenido a HireKit", type: .title, tone: .accent)
+                    HKLabel("welcome_title_txt", type: .title, tone: .accent)
                         .accessibilityAddTraits(.isHeader)
-                    HKLabel("La aplicación que te ayudará en tu proceso de contratación.")
-                    HKLabel("¿Listo para empezar?", type: .subheadline, tone: .secondary)
+                    HKLabel("welcome_description_txt")
+                    HKLabel("welcome_prompt_txt", type: .subheadline, tone: .secondary)
                 }
             }
             Spacer(minLength: 0)
-            HKButton(model: .init(title: "Empecemos", isLoading: viewModel.isLoading) {
+            HKButton(model: .init(title: "welcome_start_button_txt", isLoading: viewModel.isLoading) {
                 Task { await viewModel.start() }
             })
             .frame(maxWidth: .infinity)
@@ -42,8 +42,8 @@ struct WelcomeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
 
         .hkBackground()
-        .alert("Algo salió mal", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
-            Button("Aceptar", role: .cancel) {}
+        .alert("common_error_title", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
+            Button("common_ok", role: .cancel) {}
         } message: { message in
             Text(message)
         }

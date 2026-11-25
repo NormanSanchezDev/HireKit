@@ -7,7 +7,7 @@ import SwiftUI
 /// ```swift
 /// HKField(
 ///     model: .init(
-///         title: "Contraseña",
+///         title: "common_password",
 ///         icon: "lock",
 ///         contentType: .password,
 ///         isSecure: true,
@@ -54,7 +54,7 @@ public struct HKField: View {
         VStack(alignment: .leading, spacing: theme.spacing.medium) {
             HStack(spacing: theme.spacing.small) {
                 Text(model.title)
-                if model.isRequired { Text("*").foregroundStyle(theme.colors.error) }
+                if model.isRequired { Text("common_required_marker").foregroundStyle(theme.colors.error) }
             }
             .font(theme.typography.fieldLabel)
             .accessibilityHidden(true)
@@ -73,8 +73,8 @@ public struct HKField: View {
                     .textInputAutocapitalization(.never)
                     #endif
                     .font(theme.typography.body)
-                    .accessibilityLabel(model.isRequired ? Text("\(model.title), obligatorio") : Text(model.title))
-                    .accessibilityHint(feedback?.description ?? Text(""))
+                    .accessibilityLabel(model.isRequired ? Text("common_required_\(Text(model.title))") : Text(model.title))
+                    .accessibilityHint(feedback?.description ?? Text(verbatim: ""))
                 if model.isSecure {
                     revealButton(minimumSide: theme.spacing.minimumHitTarget)
                 }
@@ -125,7 +125,7 @@ public struct HKField: View {
 
     private func revealButton(minimumSide: CGFloat) -> some View {
         Button(
-            isPasswordVisible ? "Ocultar contraseña" : "Mostrar contraseña",
+            isPasswordVisible ? LocalizedStringKey("common_hide_password") : "common_show_password",
             systemImage: isPasswordVisible ? "eye.slash" : "eye"
         ) {
             restoreEditingFocus = isFocused
@@ -144,12 +144,12 @@ public struct HKField: View {
         }
     }
 
-    private func feedback(in colors: HKColors) -> (message: String, icon: String, color: Color, description: Text)? {
+    private func feedback(in colors: HKColors) -> (message: LocalizedStringKey, icon: String, color: Color, description: Text)? {
         switch model.validation {
         case .none: nil
-        case .success(let text): (text, "checkmark.circle", colors.success, Text("Correcto: \(text)"))
-        case .warning(let text): (text, "exclamationmark.triangle", colors.warning, Text("Advertencia: \(text)"))
-        case .error(let text): (text, "exclamationmark.circle", colors.error, Text("Error: \(text)"))
+        case .success(let text): (text, "checkmark.circle", colors.success, Text("common_validation_success_\(Text(text))"))
+        case .warning(let text): (text, "exclamationmark.triangle", colors.warning, Text("common_validation_warning_\(Text(text))"))
+        case .error(let text): (text, "exclamationmark.circle", colors.error, Text("common_validation_error_\(Text(text))"))
         }
     }
 }
@@ -160,14 +160,14 @@ public struct HKField: View {
     @Previewable @State var enabled = true
     ScrollView {
         VStack(alignment: .leading, spacing: 16) {
-            Toggle("Enable editing", isOn: $enabled)
-            HKField(model: .init(title: "Email", placeholder: "name@example.com", icon: "envelope", isRequired: true), text: $email)
+            Toggle("common_enable_editing", isOn: $enabled)
+            HKField(model: .init(title: "common_email", placeholder: "common_email_placeholder", icon: "envelope", isRequired: true), text: $email)
                 .disabled(!enabled)
-            HKField(model: .init(title: "Password", icon: "lock", isSecure: true), text: $password)
-            HKField(model: .init(title: "Username", isEnabled: false), text: .constant("hirekit"))
-            HKField(model: .init(title: "Email", validation: .error("Enter a valid email address.")), text: $email)
-            HKField(model: .init(title: "Password", isSecure: true, validation: .warning("Choose a longer password.")), text: $password)
-            HKField(model: .init(title: "Email", validation: .success("Address verified.")), text: .constant("hello@example.com"))
+            HKField(model: .init(title: "common_password", icon: "lock", isSecure: true), text: $password)
+            HKField(model: .init(title: "common_username", isEnabled: false), text: .constant("hirekit"))
+            HKField(model: .init(title: "common_email", validation: .error("auth_email_invalid_txt")), text: $email)
+            HKField(model: .init(title: "common_password", isSecure: true, validation: .warning("common_password_length_warning")), text: $password)
+            HKField(model: .init(title: "common_email", validation: .success("common_address_verified")), text: .constant("hello@example.com"))
         }
         .padding()
     }

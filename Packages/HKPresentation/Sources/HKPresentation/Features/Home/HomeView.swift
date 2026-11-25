@@ -24,7 +24,7 @@ struct HomeView: View {
 
     var body: some View {
         TabView(selection: $coordinator.selectedTab) {
-            Tab("Inicio", systemImage: "house", value: HomeTab.dashboard) {
+            Tab("home_dashboard_tab_txt", systemImage: "house", value: HomeTab.dashboard) {
                 HKRouterStack(router: coordinator.dashboard) {
                     DashboardView(greeting: viewModel.greeting) {
                         coordinator.dashboard.push(.notifications)
@@ -34,7 +34,7 @@ struct HomeView: View {
                 }
             }
 
-            Tab("Ajustes", systemImage: "gearshape", value: HomeTab.settings) {
+            Tab("home_settings_tab_txt", systemImage: "gearshape", value: HomeTab.settings) {
                 HKRouterStack(router: coordinator.settings) {
                     SettingsView(
                         viewModel: settingsViewModel,

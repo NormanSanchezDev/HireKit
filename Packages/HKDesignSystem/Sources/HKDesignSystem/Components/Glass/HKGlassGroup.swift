@@ -9,8 +9,8 @@ import SwiftUI
 /// ```swift
 /// HKGlassGroup(spacing: 12) {
 ///     HStack(spacing: 12) {
-///         HKButton(model: .init(title: "Cancelar", variant: .outline) { })
-///         HKButton(model: .init(title: "Guardar") { })
+///         HKButton(model: .init(title: "common_cancel", variant: .outline) { })
+///         HKButton(model: .init(title: "common_save") { })
 ///     }
 /// }
 /// ```
@@ -39,8 +39,8 @@ public struct HKGlassGroup<Content: View>: View {
 #Preview("Grouped actions") {
     HKGlassGroup(spacing: 12) {
         HStack(spacing: 12) {
-            HKButton(model: .init(title: "Cancelar", variant: .outline) {})
-            HKButton(model: .init(title: "Guardar") {})
+            HKButton(model: .init(title: "common_cancel", variant: .outline) {})
+            HKButton(model: .init(title: "common_save") {})
         }
     }
     .padding()

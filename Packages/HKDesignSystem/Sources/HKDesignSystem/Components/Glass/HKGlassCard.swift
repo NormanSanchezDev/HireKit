@@ -8,8 +8,8 @@ import SwiftUI
 /// ```swift
 /// HKGlassCard {
 ///     VStack(alignment: .leading) {
-///         HKLabel("Next interview", type: .headline)
-///         HKLabel("Tomorrow, 10:00", type: .caption, tone: .secondary)
+///         HKLabel("common_next_interview", type: .headline)
+///         HKLabel("common_tomorrow_at_ten", type: .caption, tone: .secondary)
 ///     }
 /// }
 /// ```
@@ -56,12 +56,12 @@ public struct HKGlassCard<Content: View>: View {
         VStack(spacing: 16) {
             HKGlassCard {
                 VStack(alignment: .leading) {
-                    HKLabel("Next interview", type: .headline)
-                    HKLabel("Tomorrow, 10:00", type: .caption, tone: .secondary)
+                    HKLabel("common_next_interview", type: .headline)
+                    HKLabel("common_tomorrow_at_ten", type: .caption, tone: .secondary)
                 }
             }
             HKGlassCard(style: .tinted(.indigo)) {
-                HKLabel("Offer received", type: .headline)
+                HKLabel("common_offer_received", type: .headline)
             }
         }
     }

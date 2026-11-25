@@ -24,6 +24,8 @@ commit.
 
 ### Cambiado
 
+- Textos, validaciones y etiquetas de accesibilidad disponibles en español e inglés desde un catálogo de cadenas compartido.
+
 - `HKButton` recibe `HKButtonModel` en bienvenida y autenticación, y admite las variantes `filled`, `outline` y `text`.
 
 - Nueva paleta azul y lila para Liquid Glass, con fondo azul marino en modo oscuro y variantes de contraste aumentado.

@@ -6,7 +6,7 @@ import SwiftUI
 ///
 /// ```swift
 /// Button(action: openAppearance) {
-///     HKRowLabel("Apariencia", systemImage: "paintpalette")
+///     HKRowLabel("settings_appearance_row_txt", systemImage: "paintpalette")
 /// }
 /// ```
 public struct HKRowLabel<Title: View>: View {
@@ -49,9 +49,9 @@ extension HKRowLabel where Title == Text {
 
 #Preview("Rows") {
     List {
-        HKRowLabel("Interview", systemImage: "calendar")
+        HKRowLabel("common_interview", systemImage: "calendar")
         HKRowLabel(systemImage: "person.2") {
-            Text("Hiring team")
+            Text("common_hiring_team")
         }
     }
     .environment(HKThemeManager(defaults: nil))

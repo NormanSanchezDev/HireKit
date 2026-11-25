@@ -4,8 +4,8 @@ import SwiftUI
 ///
 /// ```swift
 /// HKFieldModel(
-///     title: "Correo",
-///     placeholder: "nombre@ejemplo.com",
+///     title: "common_email",
+///     placeholder: "common_email_placeholder",
 ///     icon: "envelope",
 ///     contentType: .emailAddress,
 ///     isRequired: true,
@@ -14,10 +14,10 @@ import SwiftUI
 /// ```
 public struct HKFieldModel {
     /// The title shown above the input. VoiceOver reads it as the field's label.
-    public let title: String
+    public let title: LocalizedStringKey
 
     /// The hint shown inside the input while it is empty.
-    public let placeholder: String
+    public let placeholder: LocalizedStringKey
 
     /// The name of an SF Symbol shown before the input.
     public let icon: String?
@@ -38,7 +38,7 @@ public struct HKFieldModel {
     public let validation: HKFieldValidation
 
     /// The message of an ``HKFieldValidation/error(_:)`` validation, if any.
-    public var errorMessage: String? {
+    public var errorMessage: LocalizedStringKey? {
         if case let .error(message) = validation { message } else { nil }
     }
 
@@ -56,13 +56,13 @@ public struct HKFieldModel {
     ///   - isEnabled: Whether the user can edit the field.
     ///   - validation: The feedback shown below the input.
     public init(
-        title: String,
-        placeholder: String = "",
+        title: LocalizedStringKey,
+        placeholder: LocalizedStringKey = "",
         icon: String? = nil,
         contentType: HKFieldContentType? = nil,
         isSecure: Bool = false,
         isRequired: Bool = false,
-        errorMessage: String? = nil,
+        errorMessage: LocalizedStringKey? = nil,
         isEnabled: Bool = true,
         validation: HKFieldValidation = .none
     ) {
@@ -95,14 +95,14 @@ public struct HKFieldModel {
     ///   - isEnabled: Whether the user can edit the field.
     ///   - validation: The feedback shown below the input.
     public init(
-        title: String,
-        placeholder: String = "",
+        title: LocalizedStringKey,
+        placeholder: LocalizedStringKey = "",
         icon: String? = nil,
         contentType: HKFieldContentType? = nil,
         keyboardType: UIKeyboardType,
         isSecure: Bool = false,
         isRequired: Bool = false,
-        errorMessage: String? = nil,
+        errorMessage: LocalizedStringKey? = nil,
         isEnabled: Bool = true,
         validation: HKFieldValidation = .none
     ) {

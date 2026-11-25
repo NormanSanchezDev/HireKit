@@ -7,15 +7,15 @@ struct AboutView: View {
 
     var body: some View {
         ContentUnavailableView(
-            "HireKit",
+            "about_title_txt",
             systemImage: "briefcase.fill",
-            description: Text("Tu compañero en cada proceso de contratación.")
+            description: Text("about_description_txt")
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .navigationTitle("Acerca de")
+        .navigationTitle("about_navigation_title_txt")
         .toolbar {
             ToolbarItem(placement: .confirmationAction) {
-                Button("Listo", action: onClose)
+                Button("common_done", action: onClose)
             }
         }
         .hkBackground()

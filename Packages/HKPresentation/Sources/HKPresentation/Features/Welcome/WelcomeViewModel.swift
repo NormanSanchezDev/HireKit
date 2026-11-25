@@ -1,4 +1,5 @@
 import Foundation
+import SwiftUI
 import HKDomain
 import Observation
 
@@ -10,7 +11,7 @@ public final class WelcomeViewModel {
     public private(set) var isLoading = false
 
     /// The error to show, if any.
-    public private(set) var errorMessage: LocalizedStringResource?
+    public private(set) var errorMessage: LocalizedStringKey?
 
     /// A Boolean value that indicates whether an error alert is showing.
     /// Setting it to `false` clears ``errorMessage``.
@@ -44,7 +45,7 @@ public final class WelcomeViewModel {
             try await completeOnboarding.execute()
             onFinish()
         } catch {
-            errorMessage = "No pudimos guardar tu progreso. Inténtalo de nuevo."
+            errorMessage = "welcome_save_error_txt"
         }
     }
 }

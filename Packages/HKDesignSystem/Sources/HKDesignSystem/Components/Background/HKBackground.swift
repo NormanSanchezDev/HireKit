@@ -97,7 +97,7 @@ extension View {
 
 #Preview("Claro") {
     HKGlassCard {
-        HKLabel("Bienvenido a HireKit", type: .title, tone: .accent)
+        HKLabel("welcome_title_txt", type: .title, tone: .accent)
     }
     .padding()
     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -108,7 +108,7 @@ extension View {
 
 #Preview("Oscuro") {
     HKGlassCard {
-        HKLabel("Bienvenido a HireKit", type: .title, tone: .accent)
+        HKLabel("welcome_title_txt", type: .title, tone: .accent)
     }
     .padding()
     .frame(maxWidth: .infinity, maxHeight: .infinity)

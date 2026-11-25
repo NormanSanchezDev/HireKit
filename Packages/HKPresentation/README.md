@@ -2,6 +2,8 @@
 
 Vistas, ViewModels, coordinadores y routers de HireKit. La navegación está descrita en [documentation/routing.md](../../documentation/routing.md).
 
+Las pantallas y sus mensajes de validación usan claves de `HireKit/Localizable.xcstrings` en español e inglés.
+
 ## Dependencias
 
 - `HKDomain` (paquete local): protocolos de casos de uso.

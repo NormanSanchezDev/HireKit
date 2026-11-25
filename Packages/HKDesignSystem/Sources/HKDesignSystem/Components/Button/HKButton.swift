@@ -5,7 +5,7 @@ import SwiftUI
 /// Configure the title, appearance and action with ``HKButtonModel``:
 ///
 /// ```swift
-/// HKButton(model: .init(title: "Aplicar", systemImage: "paperplane") {
+/// HKButton(model: .init(title: "common_apply", systemImage: "paperplane") {
 ///     viewModel.apply()
 /// })
 /// ```
@@ -42,7 +42,7 @@ public struct HKButton: View {
             }
             .frame(minWidth: theme.spacing.minimumHitTarget, minHeight: theme.spacing.minimumHitTarget)
         }
-        .accessibilityValue(model.isLoading ? Text("Cargando") : Text(""))
+        .accessibilityValue(model.isLoading ? Text("common_loading") : Text(verbatim: ""))
         .disabled(model.isLoading || !model.isEnabled)
 
         switch model.type {
@@ -65,12 +65,12 @@ public struct HKButton: View {
 #Preview("Button states") {
     HKGlassGroup(spacing: 12) {
         VStack(spacing: 12) {
-            HKButton(model: .init(title: "Continuar") {})
-            HKButton(model: .init(title: "Aplicar", systemImage: "paperplane") {})
-            HKButton(model: .init(title: "Cancelar", variant: .outline) {})
-            HKButton(model: .init(title: "Más información", variant: .text) {})
-            HKButton(model: .init(title: "Guardando", isLoading: true) {})
-            HKButton(model: .init(title: "No disponible", isEnabled: false) {})
+            HKButton(model: .init(title: "common_continue") {})
+            HKButton(model: .init(title: "common_apply", systemImage: "paperplane") {})
+            HKButton(model: .init(title: "common_cancel", variant: .outline) {})
+            HKButton(model: .init(title: "common_learn_more", variant: .text) {})
+            HKButton(model: .init(title: "common_saving", isLoading: true) {})
+            HKButton(model: .init(title: "common_unavailable", isEnabled: false) {})
         }
     }
     .padding()
@@ -81,8 +81,8 @@ public struct HKButton: View {
 #Preview("Button, dark and large text") {
     HKGlassGroup(spacing: 12) {
         VStack(spacing: 12) {
-            HKButton(model: .init(title: "Continuar") {})
-            HKButton(model: .init(title: "Cancelar", variant: .outline) {})
+            HKButton(model: .init(title: "common_continue") {})
+            HKButton(model: .init(title: "common_cancel", variant: .outline) {})
         }
     }
     .padding()

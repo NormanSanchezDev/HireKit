@@ -13,7 +13,7 @@ import SwiftUI
 /// HKImage(model: .init(
 ///     source: .system("briefcase.fill"),
 ///     tint: .indigo,
-///     accessibilityLabel: "Empleo"
+///     accessibilityLabel: "common_job"
 /// ))
 /// .frame(width: 32, height: 32)
 /// ```
@@ -44,7 +44,7 @@ public struct HKImage: View {
         styled
             .aspectRatio(contentMode: model.contentMode)
             .accessibilityElement()
-            .accessibilityLabel(model.accessibilityLabel.map { Text($0) } ?? Text(""))
+            .accessibilityLabel(model.accessibilityLabel.map { Text($0) } ?? Text(verbatim: ""))
             .accessibilityAddTraits(.isImage)
             .accessibilityHidden(model.accessibilityLabel == nil)
     }
@@ -74,7 +74,7 @@ public struct HKImage: View {
         HKImage(model: .init(
             source: .system("briefcase.fill"),
             tint: .indigo,
-            accessibilityLabel: "Empleo"
+            accessibilityLabel: "common_job"
         ))
         HKImage(.image(Image(systemName: "person.crop.circle")), tint: .teal)
     }

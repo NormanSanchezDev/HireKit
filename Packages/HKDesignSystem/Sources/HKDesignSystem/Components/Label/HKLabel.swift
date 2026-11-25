@@ -3,10 +3,10 @@ import SwiftUI
 /// Localized text styled with the design system type scale and colors.
 ///
 /// ```swift
-/// HKLabel("Bienvenido a HireKit", type: .title, tone: .accent)
+/// HKLabel("welcome_title_txt", type: .title, tone: .accent)
 ///     .accessibilityAddTraits(.isHeader)
 ///
-/// HKLabel("Actualizado hoy", type: .caption, tone: .secondary)
+/// HKLabel("common_updated_today", type: .caption, tone: .secondary)
 /// ```
 ///
 /// Every type is a Dynamic Type style, so the label scales with the user's
@@ -44,12 +44,12 @@ public struct HKLabel: View {
 
 #Preview("Label styles") {
     VStack(alignment: .leading) {
-        HKLabel("Interviews", type: .title, tone: .accent)
-        HKLabel("Next interview", type: .headline)
-        HKLabel("Interview details", type: .subheadline)
-        HKLabel("Meet the hiring team")
-        HKLabel("Updated today", type: .caption, tone: .secondary)
-        HKLabel("All times are local", type: .footnote, tone: .secondary)
+        HKLabel("common_interviews", type: .title, tone: .accent)
+        HKLabel("common_next_interview", type: .headline)
+        HKLabel("common_interview_details", type: .subheadline)
+        HKLabel("common_meet_team")
+        HKLabel("common_updated_today", type: .caption, tone: .secondary)
+        HKLabel("common_local_times", type: .footnote, tone: .secondary)
     }
     .padding()
     .environment(HKThemeManager(defaults: nil))

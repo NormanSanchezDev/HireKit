@@ -21,28 +21,28 @@ struct SettingsView: View {
         Form {
             Section {
                 Button(action: onOpenAppearance) {
-                    HKRowLabel("Apariencia", systemImage: "paintpalette")
+                    HKRowLabel("settings_appearance_row_txt", systemImage: "paintpalette")
                 }
                 Button(action: onOpenAbout) {
-                    HKRowLabel("Acerca de HireKit", systemImage: "info.circle")
+                    HKRowLabel("settings_about_row_txt", systemImage: "info.circle")
                 }
             }
 
-            Section("Bienvenida") {
+            Section("settings_welcome_section_txt") {
                 Button {
                     Task { await viewModel.showWelcomeAgain() }
                 } label: {
-                    HKRowLabel("Ver la bienvenida de nuevo", systemImage: "sparkles")
+                    HKRowLabel("settings_show_welcome_button_txt", systemImage: "sparkles")
                 }
                 .disabled(viewModel.isResetting)
             }
         }
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
-        .navigationTitle("Ajustes")
+        .navigationTitle("settings_navigation_title_txt")
         .hkBackground()
-        .alert("Algo salió mal", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
-            Button("Aceptar", role: .cancel) {}
+        .alert("common_error_title", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
+            Button("common_ok", role: .cancel) {}
         } message: { message in
             Text(message)
         }

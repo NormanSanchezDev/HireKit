@@ -30,13 +30,13 @@ extension View {
 #Preview("Glass styles") {
     HKGlassGroup(spacing: 12) {
         VStack(spacing: 12) {
-            Label("Regular", systemImage: "drop")
+            Label("common_regular_glass", systemImage: "drop")
                 .padding()
                 .hkGlass()
-            Label("Clear", systemImage: "drop.halffull")
+            Label("common_clear_glass", systemImage: "drop.halffull")
                 .padding()
                 .hkGlass(.clear)
-            Label("Tinted", systemImage: "drop.fill")
+            Label("common_tinted_glass", systemImage: "drop.fill")
                 .padding()
                 .hkGlass(.tinted(.indigo), isInteractive: true)
         }

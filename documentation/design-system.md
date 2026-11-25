@@ -21,6 +21,10 @@ raíz con `.environment(themeManager)`.
 6. **Accesible por defecto.** Estilos de Dynamic Type, áreas de 44 pt, texto en
    los controles de solo icono y el color nunca como única señal.
 
+## Localización
+
+`HireKit/Localizable.xcstrings` reúne las traducciones en español e inglés. Las pantallas pasan claves `LocalizedStringKey` con el formato `<pantalla>_<función>_txt`, como `welcome_title_txt`. Los componentes usan `common_` para textos reutilizables, como `common_loading`. Las validaciones y las etiquetas de VoiceOver siguen la misma convención. Los valores que escribe la persona y los identificadores de imágenes y símbolos son `String`.
+
 ## Catálogo
 
 | Componente | Uso | Ejemplo |
@@ -29,11 +33,11 @@ raíz con `.environment(themeManager)`.
 | `HKGlassGroup` | Fundir vistas de vidrio cercanas | `HKGlassGroup(spacing: 12) { HStack(spacing: 12) { … } }` |
 | `.hkGlass(_:isInteractive:in:)` | Controles de vidrio propios | `.hkGlass(.clear, in: .capsule)` |
 | `HKBackground` / `.hkBackground()` | Fondo de pantalla detrás del vidrio: doodles animados sobre color sólido | `ScrollView { … }.hkBackground()` |
-| `HKButton` | Acciones; `.filled` una vez por pantalla | `HKButton(model: .init(title: "Aplicar", systemImage: "paperplane") { … })` |
-| `HKField` | Texto con validación | `HKField(model: .init(title: "Correo", errorMessage: error), text: $email)` |
+| `HKButton` | Acciones; `.filled` una vez por pantalla | `HKButton(model: .init(title: "common_apply", systemImage: "paperplane") { … })` |
+| `HKField` | Texto con validación | `HKField(model: .init(title: "sign_in_email_txt", errorMessage: error), text: $email)` |
 | `HKImage` | Media, assets, recursos y SF Symbols | `HKImage(.media("hk_placeholder"))` |
-| `HKLabel` | Texto con estilo del tema | `HKLabel("Inicio", type: .title, tone: .accent)` |
-| `HKRowLabel` | Filas en `List` y `Form` | `HKRowLabel("Apariencia", systemImage: "paintpalette")` |
+| `HKLabel` | Texto con estilo del tema | `HKLabel("dashboard_navigation_title_txt", type: .title, tone: .accent)` |
+| `HKRowLabel` | Filas en `List` y `Form` | `HKRowLabel("settings_appearance_row_txt", systemImage: "paintpalette")` |
 
 ## Fondo
 

@@ -4,6 +4,8 @@ Tokens, tema y componentes Liquid Glass de HireKit. Los principios y el catálog
 
 La paleta de `HKColors` incluye tres niveles de texto, colores de estado y variantes claras, oscuras y de contraste aumentado. `HKLabelTone.tertiary` aplica el tercer nivel.
 
+Los textos de los componentes reciben `LocalizedStringKey` y se resuelven en el catálogo `Localizable.xcstrings` de la aplicación.
+
 ## Dependencias
 
 Ninguna. SwiftUI y Observation.
@@ -35,9 +37,9 @@ struct HireKitApp: App {
         WindowGroup {
             ScrollView {
                 HKGlassCard {
-                    HKLabel("Bienvenido", type: .title, tone: .accent)
+                    HKLabel("welcome_title_txt", type: .title, tone: .accent)
                 }
-                HKButton(model: .init(title: "Continuar", systemImage: "arrow.right") { })
+                HKButton(model: .init(title: "common_continue", systemImage: "arrow.right") { })
             }
             .hkBackground()
             .environment(themeManager)

@@ -18,14 +18,14 @@ struct DashboardView: View {
                     HKGlassCard {
                         VStack(alignment: .leading, spacing: spacing.small) {
                             HKLabel(greetingText, type: .title)
-                            HKLabel("Este es el resumen de tu búsqueda.", type: .subheadline)
+                            HKLabel("dashboard_summary_txt", type: .subheadline)
                         }
                     }
                     HKGlassCard {
                         ContentUnavailableView(
-                            "Sin procesos activos",
+                            "dashboard_empty_title_txt",
                             systemImage: "tray",
-                            description: Text("Cuando inicies un proceso de contratación aparecerá aquí.")
+                            description: Text("dashboard_empty_description_txt")
                         )
                     }
                 }
@@ -34,10 +34,10 @@ struct DashboardView: View {
             .frame(maxWidth: 760)
             .frame(maxWidth: .infinity)
         }
-        .navigationTitle("Inicio")
+        .navigationTitle("dashboard_navigation_title_txt")
         .toolbar {
             ToolbarItem(placement: .primaryAction) {
-                Button("Notificaciones", systemImage: "bell", action: onOpenNotifications)
+                Button("dashboard_notifications_button_txt", systemImage: "bell", action: onOpenNotifications)
             }
         }
         .hkBackground()
@@ -45,9 +45,9 @@ struct DashboardView: View {
 
     private var greetingText: LocalizedStringKey {
         switch greeting {
-        case .morning: "Buenos días"
-        case .afternoon: "Buenas tardes"
-        case .evening: "Buenas noches"
+        case .morning: "dashboard_morning_greeting_txt"
+        case .afternoon: "dashboard_afternoon_greeting_txt"
+        case .evening: "dashboard_evening_greeting_txt"
         }
     }
 }

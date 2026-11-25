@@ -14,7 +14,7 @@ para que nada se pierda entre correos y notas.
 | iPad | iPadOS 27 | Pestañas que se convierten en barra lateral (`sidebarAdaptable`) |
 | Mac | macOS 27 | Barra lateral, ventana redimensionable de 720 × 520 como mínimo |
 
-La interfaz está en español (`defaultLocalization: "es"`) y usa Dynamic Type,
+La interfaz está disponible en español e inglés y usa Dynamic Type,
 VoiceOver y áreas táctiles de 44 pt.
 
 ## Flujos actuales

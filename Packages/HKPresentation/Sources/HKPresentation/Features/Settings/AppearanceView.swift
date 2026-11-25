@@ -8,18 +8,18 @@ struct AppearanceView: View {
     var body: some View {
         @Bindable var themeManager = themeManager
         Form {
-            Section("Tema") {
-                Picker("Tema", selection: $themeManager.selectedMode) {
-                    Text("Sistema").tag(HKThemeMode.system)
-                    Text("Claro").tag(HKThemeMode.light)
-                    Text("Oscuro").tag(HKThemeMode.dark)
+            Section("appearance_theme_txt") {
+                Picker("appearance_theme_txt", selection: $themeManager.selectedMode) {
+                    Text("appearance_system_txt").tag(HKThemeMode.system)
+                    Text("appearance_light_txt").tag(HKThemeMode.light)
+                    Text("appearance_dark_txt").tag(HKThemeMode.dark)
                 }
                 .pickerStyle(.segmented)
             }
         }
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
-        .navigationTitle("Apariencia")
+        .navigationTitle("appearance_navigation_title_txt")
         .hkBackground()
     }
 }

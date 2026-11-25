@@ -11,11 +11,11 @@ struct SignUpView: View {
 
     var body: some View {
         AuthForm {
-            HKLabel("Crea tu cuenta", type: .title, tone: .accent)
+            HKLabel("sign_up_title_txt", type: .title, tone: .accent)
                 .accessibilityAddTraits(.isHeader)
             HKField(
                 model: .init(
-                    title: "Nombre",
+                    title: "sign_up_name_txt",
                     icon: "person",
                     contentType: .name,
                     isRequired: true,
@@ -25,8 +25,8 @@ struct SignUpView: View {
             )
             HKField(
                 model: .init(
-                    title: "Correo",
-                    placeholder: "nombre@ejemplo.com",
+                    title: "sign_up_email_txt",
+                    placeholder: "sign_up_email_placeholder_txt",
                     icon: "envelope",
                     contentType: .emailAddress,
                     isRequired: true,
@@ -36,7 +36,7 @@ struct SignUpView: View {
             )
             HKField(
                 model: .init(
-                    title: "Contraseña",
+                    title: "sign_up_password_txt",
                     icon: "lock",
                     contentType: .newPassword,
                     isSecure: true,
@@ -46,10 +46,10 @@ struct SignUpView: View {
                 text: $viewModel.password
             )
         } actions: {
-            HKButton(model: .init(title: "Crear cuenta") { viewModel.signUp() })
+            HKButton(model: .init(title: "sign_up_submit_button_txt") { viewModel.signUp() })
                 .keyboardShortcut(.defaultAction)
         }
-        .navigationTitle("Registro")
+        .navigationTitle("sign_up_navigation_title_txt")
     }
 }
 

@@ -1,4 +1,5 @@
 import Observation
+import SwiftUI
 
 /// The state and actions of the sign-up screen.
 @MainActor
@@ -14,13 +15,13 @@ public final class SignUpViewModel {
     public var password = ""
 
     /// The validation message for the name, if any.
-    public private(set) var nameError: String?
+    public private(set) var nameError: LocalizedStringKey?
 
     /// The validation message for the email, if any.
-    public private(set) var emailError: String?
+    public private(set) var emailError: LocalizedStringKey?
 
     /// The validation message for the password, if any.
-    public private(set) var passwordError: String?
+    public private(set) var passwordError: LocalizedStringKey?
 
     private let onAuthenticated: @MainActor () -> Void
 

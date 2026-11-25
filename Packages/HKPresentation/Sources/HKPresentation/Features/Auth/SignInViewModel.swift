@@ -1,4 +1,5 @@
 import Observation
+import SwiftUI
 
 /// The state and actions of the sign-in screen.
 ///
@@ -14,10 +15,10 @@ public final class SignInViewModel {
     public var password = ""
 
     /// The validation message for the email, if any.
-    public private(set) var emailError: String?
+    public private(set) var emailError: LocalizedStringKey?
 
     /// The validation message for the password, if any.
-    public private(set) var passwordError: String?
+    public private(set) var passwordError: LocalizedStringKey?
 
     private let onSignUp: @MainActor () -> Void
     private let onAuthenticated: @MainActor () -> Void
