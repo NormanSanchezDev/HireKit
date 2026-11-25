@@ -10,54 +10,50 @@ struct SignUpView: View {
     }
 
     var body: some View {
+        ZStack {
+            if let state = viewModel.uiState {
+                content(state)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear(perform: viewModel.onAppear)
+    }
+
+    private func content(_ state: SignUpUIState) -> some View {
         AuthForm {
-            HKLabel("sign_up_title_txt", type: .title, tone: .accent)
+            HKLabel(model: state.titleLabel)
                 .accessibilityAddTraits(.isHeader)
-            HKField(
-                model: .init(
-                    title: "sign_up_name_txt",
-                    icon: "person",
-                    contentType: .name,
-                    isRequired: true,
-                    errorMessage: viewModel.nameError
-                ),
-                text: $viewModel.name
-            )
-            HKField(
-                model: .init(
-                    title: "sign_up_email_txt",
-                    placeholder: "sign_up_email_placeholder_txt",
-                    icon: "envelope",
-                    contentType: .emailAddress,
-                    isRequired: true,
-                    errorMessage: viewModel.emailError
-                ),
-                text: $viewModel.email
-            )
-            HKField(
-                model: .init(
-                    title: "sign_up_password_txt",
-                    icon: "lock",
-                    contentType: .newPassword,
-                    isSecure: true,
-                    isRequired: true,
-                    errorMessage: viewModel.passwordError
-                ),
-                text: $viewModel.password
-            )
+            HKField(model: state.nameField, text: $viewModel.name)
+            HKField(model: state.emailField, text: $viewModel.email)
+            HKField(model: state.passwordField, text: $viewModel.password)
         } actions: {
-            HKButton(model: .init(title: "sign_up_submit_button_txt") { viewModel.signUp() })
-                .padding(.horizontal, 24)
+            HKButton(model: state.signUpButton)
                 .keyboardShortcut(.defaultAction)
         }
-        .navigationTitle("sign_up_navigation_title_txt")
+        .navigationTitle(state.navigationTitle)
+        .alert(state.errorTitle, isPresented: $viewModel.isShowingError, presenting: state.errorMessage) { _ in
+        } message: { message in
+            Text(message)
+        }
+        .alert(
+            state.confirmationTitle,
+            isPresented: $viewModel.isShowingConfirmation,
+            presenting: state.confirmationMessage
+        ) { _ in
+            Button(state.dismissTitle, action: state.onConfirmationAcknowledged)
+        } message: { message in
+            Text(message)
+        }
     }
 }
 
 #if DEBUG
 #Preview("Sign up") {
     NavigationStack {
-        SignUpView(viewModel: HKPreviewViewModelFactory().makeSignUpViewModel {})
+        SignUpView(viewModel: HKPreviewViewModelFactory().makeSignUpViewModel(
+            onAuthenticated: {},
+            onConfirmationRequired: {}
+        ))
     }
     .environment(HKThemeManager(defaults: nil))
 }

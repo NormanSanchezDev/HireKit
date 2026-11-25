@@ -39,7 +39,9 @@ cambio de flujo.
 | `AuthRoute.signIn` | Raíz | — |
 | `AuthRoute.signUp` | Push | "Crear cuenta" en inicio de sesión |
 
-Coordinador: `AuthFlowView`.
+Coordinador: `AuthFlowView`. Si el registro pide confirmar el correo,
+`onConfirmationRequired` hace `popToRoot()` y el usuario vuelve a inicio de
+sesión.
 
 ### Inicio
 

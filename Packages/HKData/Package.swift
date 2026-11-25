@@ -28,7 +28,11 @@ let package = Package(
         ),
         .testTarget(
             name: "HKDataTests",
-            dependencies: ["HKData", "HKDomain"],
+            dependencies: [
+                "HKData",
+                "HKDomain",
+                .product(name: "Supabase", package: "supabase-swift")
+            ],
             swiftSettings: swiftSettings
         ),
     ]

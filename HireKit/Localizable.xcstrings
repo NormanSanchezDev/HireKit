@@ -171,6 +171,142 @@
         }
       }
     },
+    "auth_error_email_already_registered_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An account with this email already exists."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya existe una cuenta con este correo."
+          }
+        }
+      }
+    },
+    "auth_error_email_not_confirmed_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirm your email before signing in. Check your inbox."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirma tu correo antes de iniciar sesión. Revisa tu bandeja de entrada."
+          }
+        }
+      }
+    },
+    "auth_error_invalid_credentials_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The email or password is incorrect."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El correo o la contraseña no son correctos."
+          }
+        }
+      }
+    },
+    "auth_error_network_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No connection. Check your network and try again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No hay conexión. Revisa tu red y vuelve a intentarlo."
+          }
+        }
+      }
+    },
+    "auth_error_not_configured_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign-in isn't available right now."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El acceso no está disponible en este momento."
+          }
+        }
+      }
+    },
+    "auth_error_rate_limited_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Too many attempts. Wait a moment and try again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Demasiados intentos. Espera un momento y vuelve a intentarlo."
+          }
+        }
+      }
+    },
+    "auth_error_unknown_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong. Try again."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Algo salió mal. Vuelve a intentarlo."
+          }
+        }
+      }
+    },
+    "auth_error_weak_password_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "That password is too weak. Use a longer one that mixes letters and numbers."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La contraseña es muy débil. Usa una más larga que combine letras y números."
+          }
+        }
+      }
+    },
     "auth_name_required_txt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1357,6 +1493,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Inicia sesión"
+          }
+        }
+      }
+    },
+    "sign_up_confirmation_message_%@_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "We sent a link to %@. Confirm your account, then sign in."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enviamos un enlace a %@. Confirma tu cuenta y luego inicia sesión."
+          }
+        }
+      }
+    },
+    "sign_up_confirmation_title_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Check your email"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisa tu correo"
           }
         }
       }

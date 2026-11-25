@@ -10,8 +10,13 @@ struct SignInView: View {
     }
 
     var body: some View {
-        content(viewModel.uiState)
-            .onAppear(perform: viewModel.onAppear)
+        ZStack {
+            if let state = viewModel.uiState {
+                content(state)
+            }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .onAppear(perform: viewModel.onAppear)
     }
 
     private func content(_ state: SignInUIState) -> some View {
@@ -24,12 +29,14 @@ struct SignInView: View {
         } actions: {
             HKButton(model: state.signInButton)
                 .keyboardShortcut(.defaultAction)
-            HKActionPrompt(
-                model: state.accountPrompt,
-                action: state.onCreateAccount
-            )
+            HKActionPrompt(model: state.accountPrompt, action: state.onCreateAccount)
+                .disabled(state.isLoading)
         }
         .navigationTitle(state.navigationTitle)
+        .alert(state.errorTitle, isPresented: $viewModel.isShowingError, presenting: state.errorMessage) { _ in
+        } message: { message in
+            Text(message)
+        }
     }
 }
 

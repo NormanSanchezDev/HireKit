@@ -36,7 +36,10 @@ struct AuthFlowView: View {
                 onAuthenticated: onAuthenticated
             ))
         case .signUp:
-            SignUpView(viewModel: factory.makeSignUpViewModel(onAuthenticated: onAuthenticated))
+            SignUpView(viewModel: factory.makeSignUpViewModel(
+                onAuthenticated: onAuthenticated,
+                onConfirmationRequired: { [router] in router.popToRoot() }
+            ))
         }
     }
 }

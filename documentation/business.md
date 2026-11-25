@@ -23,7 +23,8 @@ Casos de uso: GetOnboardingState, CompleteOnboarding, ResetOnboarding
 
 ## Acceso
 
-Validación de formulario, en `AuthInputValidator`. No es autenticación real.
+Primero se valida el formulario en `AuthInputValidator`. Si es válido, el
+ViewModel llama al caso de uso, que verifica las credenciales con Supabase Auth.
 
 | Campo | Regla | Mensaje |
 | --- | --- | --- |
@@ -33,8 +34,28 @@ Validación de formulario, en `AuthInputValidator`. No es autenticación real.
 | Contraseña | Al menos 8 caracteres | "Usa al menos 8 caracteres." |
 | Nombre (registro) | Obligatorio, sin contar espacios | "Ingresa tu nombre." |
 
-Cuando exista un backend, la verificación de credenciales será un caso de uso
-de `HKDomain`, y `AuthInputValidator` seguirá solo como ayuda de formulario.
+Antes de enviar, los casos de uso normalizan los datos: el correo se recorta y
+pasa a minúsculas, el nombre se recorta y la contraseña no cambia.
+
+| Caso de uso | Resultado |
+| --- | --- |
+| `SignInUseCase` | Usuario autenticado (`AuthUser`). |
+| `SignUpUseCase` | `.signedIn` si Supabase devuelve sesión, `.confirmationRequired` si hay que confirmar el correo. |
+
+| Error | Cuándo | Mensaje |
+| --- | --- | --- |
+| `invalidCredentials` | Correo o contraseña incorrectos | "El correo o la contraseña no son correctos." |
+| `emailNotConfirmed` | Cuenta sin confirmar | "Confirma tu correo antes de iniciar sesión…" |
+| `emailAlreadyRegistered` | Registro con un correo existente | "Ya existe una cuenta con este correo." |
+| `weakPassword` | Supabase rechaza la contraseña | "La contraseña es muy débil…" |
+| `rateLimited` | Demasiados intentos o correos | "Demasiados intentos…" |
+| `network` | Sin conexión | "No hay conexión…" |
+| `notConfigured` | Falta `Supabase.plist` | "El acceso no está disponible en este momento." |
+| `unknown` | Cualquier otro error | "Algo salió mal…" |
+
+Cuando el registro necesita confirmación, la app muestra "Revisa tu correo" y
+vuelve a inicio de sesión. El nombre se guarda en los metadatos del usuario
+con la clave `name`.
 
 ## Inicio
 

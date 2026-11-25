@@ -12,8 +12,8 @@ import HKPresentation
 final class AppDependencies {
     private let container = HKContainer()
 
-    init(defaults: UserDefaults = .standard) {
-        registerData(defaults: defaults)
+    init(defaults: UserDefaults = .standard, bundle: Bundle = .main) {
+        registerData(defaults: defaults, bundle: bundle)
         registerDomain()
         registerDesignSystem(defaults: defaults)
     }
@@ -22,12 +22,18 @@ final class AppDependencies {
         container.resolve()
     }
 
-    private func registerData(defaults: UserDefaults) {
+    private func registerData(defaults: UserDefaults, bundle: Bundle) {
         container.register((any OnboardingLocalDataSource).self, lifetime: .singleton) { _ in
             UserDefaultsOnboardingDataSource(defaults: defaults)
         }
         container.register((any OnboardingRepository).self, lifetime: .singleton) {
             DefaultOnboardingRepository(localDataSource: $0.resolve())
+        }
+        container.register((any AuthRemoteDataSource).self, lifetime: .singleton) { _ in
+            SupabaseAuthRemoteDataSource(configuration: SupabaseConfiguration(bundle: bundle))
+        }
+        container.register((any AuthRepository).self, lifetime: .singleton) {
+            DefaultAuthRepository(remoteDataSource: $0.resolve())
         }
     }
 
@@ -40,6 +46,12 @@ final class AppDependencies {
         }
         container.register((any ResetOnboardingUseCase).self) {
             DefaultResetOnboardingUseCase(repository: $0.resolve())
+        }
+        container.register((any SignInUseCase).self) {
+            DefaultSignInUseCase(repository: $0.resolve())
+        }
+        container.register((any SignUpUseCase).self) {
+            DefaultSignUpUseCase(repository: $0.resolve())
         }
     }
 
@@ -63,11 +75,18 @@ extension AppDependencies: HKViewModelFactory {
         onSignUp: @escaping @MainActor () -> Void,
         onAuthenticated: @escaping @MainActor () -> Void
     ) -> SignInViewModel {
-        SignInViewModel(onSignUp: onSignUp, onAuthenticated: onAuthenticated)
+        SignInViewModel(signIn: container.resolve(), onSignUp: onSignUp, onAuthenticated: onAuthenticated)
     }
 
-    func makeSignUpViewModel(onAuthenticated: @escaping @MainActor () -> Void) -> SignUpViewModel {
-        SignUpViewModel(onAuthenticated: onAuthenticated)
+    func makeSignUpViewModel(
+        onAuthenticated: @escaping @MainActor () -> Void,
+        onConfirmationRequired: @escaping @MainActor () -> Void
+    ) -> SignUpViewModel {
+        SignUpViewModel(
+            signUp: container.resolve(),
+            onAuthenticated: onAuthenticated,
+            onConfirmationRequired: onConfirmationRequired
+        )
     }
 
     func makeHomeViewModel() -> HomeViewModel {
