@@ -2,9 +2,21 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Packages/HireKit-DesignSystem">
+      location = "group:HireKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:HireKit.xcodeproj">
+      location = "group:Packages/HKCore">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/HKDomain">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/HKData">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/HKDesignSystem">
+   </FileRef>
+   <FileRef
+      location = "group:Packages/HKPresentation">
    </FileRef>
 </Workspace>

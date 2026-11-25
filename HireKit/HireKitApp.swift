@@ -1,37 +1,24 @@
-//
-//  HireKitApp.swift
-//  HireKit
-//
-//  Created by Norman Sánchez on 24/11/26.
-//
-
-import HireKitDesignSystem
+import HKDesignSystem
+import HKPresentation
 import SwiftUI
-import SwiftData
 
 @main
 struct HireKitApp: App {
-    @State private var themeManager = HKThemeManager()
-
-    var sharedModelContainer: ModelContainer = {
-        let schema = Schema([
-            Item.self,
-        ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
-
-        do {
-            return try ModelContainer(for: schema, configurations: [modelConfiguration])
-        } catch {
-            fatalError("Could not create ModelContainer: \(error)")
-        }
-    }()
+    @State private var dependencies = AppDependencies()
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(themeManager)
-                .preferredColorScheme(themeManager.selectedMode.colorScheme)
+            HKRootView(factory: dependencies)
+                .environment(dependencies.themeManager)
+                .preferredColorScheme(dependencies.themeManager.selectedMode.colorScheme)
+                #if os(macOS)
+                .frame(minWidth: 720, minHeight: 520)
+                #endif
         }
-        .modelContainer(sharedModelContainer)
+        #if os(macOS)
+        .defaultSize(width: 1100, height: 720)
+        .windowResizability(.contentMinSize)
+        .windowToolbarStyle(.unified)
+        #endif
     }
 }
