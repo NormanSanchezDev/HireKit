@@ -11,6 +11,6 @@ struct NotificationsView: View {
         )
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .navigationTitle("Notificaciones")
-        .hkBackdrop()
+        .hkBackground()
     }
 }

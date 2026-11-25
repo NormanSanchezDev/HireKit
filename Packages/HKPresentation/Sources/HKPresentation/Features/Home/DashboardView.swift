@@ -40,7 +40,7 @@ struct DashboardView: View {
                 Button("Notificaciones", systemImage: "bell", action: onOpenNotifications)
             }
         }
-        .hkBackdrop()
+        .hkBackground()
     }
 
     private var greetingText: LocalizedStringKey {

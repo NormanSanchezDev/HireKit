@@ -35,7 +35,7 @@ struct WelcomeView: View {
         .padding(theme.spacing.extraLarge)
         .frame(maxWidth: 560)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .hkBackdrop()
+        .hkBackground()
         .alert("Algo salió mal", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
             Button("Aceptar", role: .cancel) {}
         } message: { message in

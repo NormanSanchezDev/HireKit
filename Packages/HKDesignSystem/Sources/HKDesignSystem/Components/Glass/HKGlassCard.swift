@@ -14,7 +14,7 @@ import SwiftUI
 /// }
 /// ```
 ///
-/// Place cards over ``HKBackdrop`` or over real content so the glass has color
+/// Place cards over ``HKBackground`` or over real content so the glass has color
 /// to refract. Wrap several cards in ``HKGlassGroup`` so they blend when they
 /// sit close together.
 public struct HKGlassCard<Content: View>: View {
@@ -67,6 +67,6 @@ public struct HKGlassCard<Content: View>: View {
     }
     .padding()
     .frame(maxHeight: .infinity)
-    .hkBackdrop()
+    .hkBackground()
     .environment(HKThemeManager(defaults: nil))
 }

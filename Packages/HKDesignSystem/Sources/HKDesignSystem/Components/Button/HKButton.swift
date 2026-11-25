@@ -107,7 +107,7 @@ public struct HKButton: View {
         }
     }
     .padding()
-    .hkBackdrop()
+    .hkBackground()
     .environment(HKThemeManager(defaults: nil))
 }
 
@@ -119,7 +119,7 @@ public struct HKButton: View {
         }
     }
     .padding()
-    .hkBackdrop()
+    .hkBackground()
     .environment(HKThemeManager(defaults: nil))
     .environment(\.dynamicTypeSize, .accessibility3)
     .preferredColorScheme(.dark)

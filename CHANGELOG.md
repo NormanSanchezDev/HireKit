@@ -11,6 +11,8 @@ commit.
 
 ### Añadido
 
+- `HKBackground` y `.hkBackground()`: fondo de doodles animados que se adapta a
+  modo claro y oscuro y respeta Reducir movimiento.
 - `README.md` con banner, badges, requisitos, estructura y tabla de dependencias.
 - `CHANGELOG.md`.
 - README en cada paquete: HKCore, HKDomain, HKData, HKDesignSystem y HKPresentation.
@@ -22,6 +24,7 @@ commit.
 
 ### Cambiado
 
+- Todas las pantallas usan `.hkBackground()` en lugar de `.hkBackdrop()`.
 - Un tipo por archivo en HKDomain, HKData y HKPresentation (casos de uso,
   fuente de datos, vistas de auth, home y ajustes, rutas de home).
 - Documentación DocC `///` en todas las declaraciones públicas de HKDomain,
@@ -35,6 +38,8 @@ commit.
 
 ### Eliminado
 
+- `HKBackdrop` y `.hkBackdrop()` (degradado `MeshGradient`), reemplazados por
+  `HKBackground`.
 - `dismissError()` en `WelcomeViewModel` y `SettingsViewModel`, reemplazado por
   `isShowingError`.
 - `HKButtonPreviews.swift`, duplicado de las vistas previas de `HKButton`, que

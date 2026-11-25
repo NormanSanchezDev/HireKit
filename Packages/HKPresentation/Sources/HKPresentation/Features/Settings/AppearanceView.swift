@@ -20,7 +20,7 @@ struct AppearanceView: View {
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .navigationTitle("Apariencia")
-        .hkBackdrop()
+        .hkBackground()
     }
 }
 

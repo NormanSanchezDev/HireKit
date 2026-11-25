@@ -171,6 +171,6 @@ public struct HKField: View {
         }
         .padding()
     }
-    .hkBackdrop()
+    .hkBackground()
     .environment(HKThemeManager(defaults: nil))
 }

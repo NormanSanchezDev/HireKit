@@ -36,7 +36,7 @@ public struct HKRootView: View {
         case .loading:
             ProgressView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .hkBackdrop()
+                .hkBackground()
         case .welcome:
             WelcomeView(viewModel: factory.makeWelcomeViewModel(onFinish: viewModel.onboardingFinished))
                 .transition(.blurReplace)

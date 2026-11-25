@@ -13,7 +13,8 @@ Sources/HKDesignSystem/
 ├── Tokens/      HKColors, HKTypography, HKSpacing, HKRadius, HKGlassStyle
 ├── Theme/       HKTheme, HKThemeMode, HKThemeManager
 ├── Components/
-│   ├── Glass/   HKGlassCard, HKGlassGroup, HKBackdrop, View.hkGlass
+│   ├── Background/ HKBackground, View.hkBackground (doodles animados)
+│   ├── Glass/   HKGlassCard, HKGlassGroup, View.hkGlass
 │   ├── Button/  HKButton
 │   ├── Field/   HKField, HKFieldModel, HKFieldValidation, HKFieldContentType
 │   ├── Image/   HKImage, HKImageModel, HKImageSource
@@ -36,7 +37,7 @@ struct HireKitApp: App {
                 }
                 HKButton("Continuar", systemImage: "arrow.right") { }
             }
-            .hkBackdrop()
+            .hkBackground()
             .environment(themeManager)
         }
     }

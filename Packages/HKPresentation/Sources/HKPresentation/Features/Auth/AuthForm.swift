@@ -31,6 +31,6 @@ struct AuthForm<Fields: View, Actions: View>: View {
             .frame(maxWidth: .infinity)
         }
         .scrollDismissesKeyboard(.interactively)
-        .hkBackdrop()
+        .hkBackground()
     }
 }

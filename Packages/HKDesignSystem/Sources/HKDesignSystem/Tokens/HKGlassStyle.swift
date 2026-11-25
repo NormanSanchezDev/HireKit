@@ -12,7 +12,7 @@ import SwiftUI
 /// ```
 ///
 /// Glass needs colorful content behind it to refract. Place glass surfaces over
-/// ``HKBackdrop`` or over real content, not over a flat background.
+/// ``HKBackground`` or over real content, not over a flat background.
 public enum HKGlassStyle: Hashable, Sendable {
     /// The standard glass material, legible over any content.
     case regular

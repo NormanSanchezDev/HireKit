@@ -40,7 +40,7 @@ struct SettingsView: View {
         .formStyle(.grouped)
         .scrollContentBackground(.hidden)
         .navigationTitle("Ajustes")
-        .hkBackdrop()
+        .hkBackground()
         .alert("Algo salió mal", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
             Button("Aceptar", role: .cancel) {}
         } message: { message in

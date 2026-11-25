@@ -18,6 +18,6 @@ struct AboutView: View {
                 Button("Listo", action: onClose)
             }
         }
-        .hkBackdrop()
+        .hkBackground()
     }
 }
