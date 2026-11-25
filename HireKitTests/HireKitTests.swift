@@ -25,7 +25,7 @@ struct AppDependenciesTests {
         let root = dependencies.makeRootViewModel()
         await root.load()
         await dependencies.makeWelcomeViewModel(onFinish: root.onboardingFinished).start()
-        #expect(root.destination == .home)
+        #expect(root.destination == .auth)
 
         let relaunched = AppDependencies(defaults: defaults).makeRootViewModel()
         await relaunched.load()

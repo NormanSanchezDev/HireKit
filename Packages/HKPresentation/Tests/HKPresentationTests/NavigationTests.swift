@@ -1,0 +1,120 @@
+import HKPresentation
+import Testing
+
+@MainActor
+struct HKRouterTests {
+    @Test func pushPopAndPopToRoot() {
+        let router = HKRouter<SettingsRoute>()
+        #expect(router.isAtRoot)
+        router.push(.appearance)
+        router.push(.about)
+        #expect(router.path == [.appearance, .about])
+        router.pop()
+        #expect(router.path == [.appearance])
+        router.popToRoot()
+        #expect(router.isAtRoot)
+    }
+
+    @Test func popOnEmptyStackIsSafe() {
+        let router = HKRouter<AuthRoute>()
+        router.pop()
+        #expect(router.isAtRoot)
+    }
+
+    @Test func presentAndDismissSheet() {
+        let router = HKRouter<SettingsRoute>()
+        router.present(.about)
+        #expect(router.sheet == .about)
+        router.dismiss()
+        #expect(router.sheet == nil)
+    }
+
+    @Test func showReplacesStackAndClosesSheet() {
+        let router = HKRouter<SettingsRoute>(path: [.about], sheet: .about)
+        router.show([.appearance])
+        #expect(router.path == [.appearance])
+        #expect(router.sheet == nil)
+    }
+}
+
+@MainActor
+struct HomeCoordinatorTests {
+    @Test func startsOnDashboardWithEmptyStacks() {
+        let coordinator = HomeCoordinator()
+        #expect(coordinator.selectedTab == .dashboard)
+        #expect(coordinator.dashboard.isAtRoot)
+        #expect(coordinator.settings.isAtRoot)
+    }
+
+    @Test func tabsKeepTheirOwnHistory() {
+        let coordinator = HomeCoordinator()
+        coordinator.dashboard.push(.notifications)
+        coordinator.select(.settings)
+        coordinator.settings.push(.appearance)
+        coordinator.select(.dashboard)
+        #expect(coordinator.dashboard.path == [.notifications])
+        #expect(coordinator.settings.path == [.appearance])
+    }
+
+    @Test func reselectingCurrentTabPopsToRoot() {
+        let coordinator = HomeCoordinator()
+        coordinator.dashboard.push(.notifications)
+        coordinator.select(.dashboard)
+        #expect(coordinator.dashboard.isAtRoot)
+    }
+
+    @Test func openJumpsAcrossTabs() {
+        let coordinator = HomeCoordinator()
+        coordinator.open(.settings(.appearance))
+        #expect(coordinator.selectedTab == .settings)
+        #expect(coordinator.settings.path == [.appearance])
+        coordinator.open(.dashboard())
+        #expect(coordinator.selectedTab == .dashboard)
+        #expect(coordinator.dashboard.isAtRoot)
+    }
+}
+
+@MainActor
+struct AuthViewModelTests {
+    @Test func signInRejectsInvalidInput() {
+        var authenticated = false
+        let viewModel = SignInViewModel(onSignUp: {}, onAuthenticated: { authenticated = true })
+        viewModel.email = "no-es-correo"
+        viewModel.password = "123"
+        viewModel.signIn()
+        #expect(!authenticated)
+        #expect(viewModel.emailError != nil)
+        #expect(viewModel.passwordError != nil)
+    }
+
+    @Test func signInWithValidInputAuthenticates() {
+        var authenticated = false
+        let viewModel = SignInViewModel(onSignUp: {}, onAuthenticated: { authenticated = true })
+        viewModel.email = "ana@hirekit.app"
+        viewModel.password = "contraseña"
+        viewModel.signIn()
+        #expect(authenticated)
+        #expect(viewModel.emailError == nil)
+        #expect(viewModel.passwordError == nil)
+    }
+
+    @Test func signInRequestsSignUp() {
+        var requested = false
+        let viewModel = SignInViewModel(onSignUp: { requested = true }, onAuthenticated: {})
+        viewModel.goToSignUp()
+        #expect(requested)
+    }
+
+    @Test func signUpNeedsName() {
+        var authenticated = false
+        let viewModel = SignUpViewModel { authenticated = true }
+        viewModel.email = "ana@hirekit.app"
+        viewModel.password = "contraseña"
+        viewModel.signUp()
+        #expect(!authenticated)
+        #expect(viewModel.nameError != nil)
+        viewModel.name = "Ana"
+        viewModel.signUp()
+        #expect(authenticated)
+    }
+}

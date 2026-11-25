@@ -4,18 +4,11 @@ import Observation
 @MainActor
 @Observable
 public final class HomeViewModel {
-    public enum Tab: Hashable, Sendable {
-        case dashboard
-        case settings
-    }
-
     public enum Greeting: Equatable, Sendable {
         case morning
         case afternoon
         case evening
     }
-
-    public var selectedTab: Tab = .dashboard
 
     private let now: () -> Date
     private let calendar: Calendar

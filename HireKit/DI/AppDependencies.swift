@@ -61,6 +61,17 @@ extension AppDependencies: HKViewModelFactory {
         WelcomeViewModel(completeOnboarding: container.resolve(), onFinish: onFinish)
     }
 
+    func makeSignInViewModel(
+        onSignUp: @escaping @MainActor () -> Void,
+        onAuthenticated: @escaping @MainActor () -> Void
+    ) -> SignInViewModel {
+        SignInViewModel(onSignUp: onSignUp, onAuthenticated: onAuthenticated)
+    }
+
+    func makeSignUpViewModel(onAuthenticated: @escaping @MainActor () -> Void) -> SignUpViewModel {
+        SignUpViewModel(onAuthenticated: onAuthenticated)
+    }
+
     func makeHomeViewModel() -> HomeViewModel {
         HomeViewModel()
     }

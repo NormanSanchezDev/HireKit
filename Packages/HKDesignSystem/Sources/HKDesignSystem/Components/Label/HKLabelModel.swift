@@ -20,12 +20,31 @@ public enum HKLabelType: Sendable {
     }
 }
 
+/**
+ * Semantic text color, resolved against the active theme.
+ */
+public enum HKLabelTone: Sendable {
+    case primary
+    case secondary
+    case accent
+
+    func color(in colors: HKColors) -> Color {
+        switch self {
+        case .primary: colors.textPrimary
+        case .secondary: colors.textSecondary
+        case .accent: colors.primary
+        }
+    }
+}
+
 public struct HKLabelModel {
     public let text: LocalizedStringKey
     public let type: HKLabelType
+    public let tone: HKLabelTone
 
-    public init(text: LocalizedStringKey, type: HKLabelType = .body) {
+    public init(text: LocalizedStringKey, type: HKLabelType = .body, tone: HKLabelTone = .primary) {
         self.text = text
         self.type = type
+        self.tone = tone
     }
 }

@@ -3,7 +3,7 @@ import SwiftUI
 
 /**
  * Entry view of the presentation layer. Receives its factory from the app's
- * composition root and swaps between the welcome and home flows.
+ * composition root and swaps between the welcome, auth and home flows.
  */
 public struct HKRootView: View {
     @State private var viewModel: RootViewModel
@@ -29,6 +29,9 @@ public struct HKRootView: View {
                 .hkBackdrop()
         case .welcome:
             WelcomeView(viewModel: factory.makeWelcomeViewModel(onFinish: viewModel.onboardingFinished))
+                .transition(.blurReplace)
+        case .auth:
+            AuthFlowView(factory: factory, onAuthenticated: viewModel.authenticated)
                 .transition(.blurReplace)
         case .home:
             HomeView(

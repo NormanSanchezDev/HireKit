@@ -17,6 +17,7 @@ let package = Package(
     targets: [
         .target(
             name: "HKDesignSystem",
+            resources: [.process("Resources")],
             swiftSettings: swiftSettings
         ),
         .testTarget(

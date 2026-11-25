@@ -32,9 +32,11 @@ struct RootViewModelTests {
         #expect(viewModel.destination == .home)
     }
 
-    @Test func finishingAndResettingSwitchDestination() {
+    @Test func finishingOnboardingGoesThroughAuthToHome() {
         let viewModel = RootViewModel(getOnboardingState: StubGetOnboardingState(state: .pending))
         viewModel.onboardingFinished()
+        #expect(viewModel.destination == .auth)
+        viewModel.authenticated()
         #expect(viewModel.destination == .home)
         viewModel.onboardingReset()
         #expect(viewModel.destination == .welcome)
@@ -103,7 +105,4 @@ struct HomeViewModelTests {
         #expect(try viewModel(hour: hour).greeting == expected)
     }
 
-    @Test func startsOnDashboard() throws {
-        #expect(try viewModel(hour: 9).selectedTab == .dashboard)
-    }
 }

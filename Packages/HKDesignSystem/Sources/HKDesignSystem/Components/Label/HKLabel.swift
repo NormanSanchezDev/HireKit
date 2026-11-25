@@ -14,7 +14,7 @@ public struct HKLabel: View {
         let theme = themeManager.current(for: colorScheme)
         Text(model.text)
             .font(model.type.font(in: theme.typography))
-            .foregroundStyle(theme.colors.textPrimary)
+            .foregroundStyle(model.tone.color(in: theme.colors))
     }
 }
 

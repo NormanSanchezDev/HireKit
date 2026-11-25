@@ -1,18 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "Are you ready?" : {
 
-    },
-    "Bienvenido a HireKit" : {
-
-    },
-    "La aplicación que te ayudará en tu proceso de contratación" : {
-
-    },
-    "Let's go" : {
-
-    }
   },
   "version" : "1.3"
 }

@@ -14,17 +14,14 @@ struct WelcomeView: View {
         let theme = themeManager.current(for: colorScheme)
         VStack(spacing: theme.spacing.extraLarge) {
             Spacer(minLength: 0)
-            Image(systemName: "briefcase.fill")
-                .font(.system(size: 52))
-                .symbolRenderingMode(.hierarchical)
-                .foregroundStyle(theme.colors.primary)
+            
+            HKImage(.media("hk_placeholder"))
                 .padding(theme.spacing.extraLarge)
-                .glassEffect(.regular, in: .circle)
                 .accessibilityHidden(true)
 
             HKGlassCard {
                 VStack(alignment: .leading, spacing: theme.spacing.medium) {
-                    HKLabel(model: .init(text: "Bienvenido a HireKit", type: .title))
+                    HKLabel(model: .init(text: "Bienvenido a HireKit", type: .title, tone: .accent))
                         .accessibilityAddTraits(.isHeader)
                     HKLabel(model: .init(text: "La aplicación que te ayudará en tu proceso de contratación"))
                     HKLabel(model: .init(text: "Are you ready?", type: .subheadline))
@@ -35,6 +32,7 @@ struct WelcomeView: View {
             HKButton("Let's go", isLoading: viewModel.isLoading) {
                 Task { await viewModel.start() }
             }
+            .frame(maxWidth: .infinity)
             .keyboardShortcut(.defaultAction)
         }
         .padding(theme.spacing.extraLarge)

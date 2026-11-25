@@ -24,6 +24,17 @@ public final class HKPreviewViewModelFactory: HKViewModelFactory {
         )
     }
 
+    public func makeSignInViewModel(
+        onSignUp: @escaping @MainActor () -> Void,
+        onAuthenticated: @escaping @MainActor () -> Void
+    ) -> SignInViewModel {
+        SignInViewModel(onSignUp: onSignUp, onAuthenticated: onAuthenticated)
+    }
+
+    public func makeSignUpViewModel(onAuthenticated: @escaping @MainActor () -> Void) -> SignUpViewModel {
+        SignUpViewModel(onAuthenticated: onAuthenticated)
+    }
+
     public func makeHomeViewModel() -> HomeViewModel {
         HomeViewModel()
     }
