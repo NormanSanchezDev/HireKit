@@ -39,7 +39,7 @@ struct SignInView: View {
                 text: $viewModel.password
             )
         } actions: {
-            HKButton("Entrar") { viewModel.signIn() }
+            HKButton(model: .init(title: "Entrar") { viewModel.signIn() })
                 .keyboardShortcut(.defaultAction)
             HStack(spacing: theme.spacing.small) {
                 HKLabel("¿No tienes cuenta?", type: .subheadline, tone: .secondary)

@@ -9,6 +9,7 @@ struct HireKitApp: App {
     var body: some Scene {
         WindowGroup {
             HKRootView(factory: dependencies)
+                .tint(dependencies.themeManager.current.colors.primary)
                 .environment(dependencies.themeManager)
                 .preferredColorScheme(dependencies.themeManager.selectedMode.colorScheme)
                 #if os(macOS)

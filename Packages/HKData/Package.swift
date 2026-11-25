@@ -15,11 +15,15 @@ let package = Package(
     ],
     dependencies: [
         .package(path: "../HKDomain"),
+        .package(url: "https://github.com/supabase/supabase-swift.git", from: "2.0.0")
     ],
     targets: [
         .target(
             name: "HKData",
-            dependencies: ["HKDomain"],
+            dependencies: [
+                "HKDomain",
+                .product(name: "Supabase", package: "supabase-swift")
+            ],
             swiftSettings: swiftSettings
         ),
         .testTarget(

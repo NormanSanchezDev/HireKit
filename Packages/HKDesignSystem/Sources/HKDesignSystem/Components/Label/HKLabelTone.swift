@@ -8,6 +8,9 @@ public enum HKLabelTone: Sendable {
     /// The color for supporting content.
     case secondary
 
+    /// The color for low-emphasis content.
+    case tertiary
+
     /// The brand color, for titles and highlights.
     case accent
 
@@ -15,6 +18,7 @@ public enum HKLabelTone: Sendable {
         switch self {
         case .primary: colors.textPrimary
         case .secondary: colors.textSecondary
+        case .tertiary: colors.textTertiary
         case .accent: colors.primary
         }
     }

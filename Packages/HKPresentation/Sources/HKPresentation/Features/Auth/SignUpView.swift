@@ -46,7 +46,7 @@ struct SignUpView: View {
                 text: $viewModel.password
             )
         } actions: {
-            HKButton("Crear cuenta") { viewModel.signUp() }
+            HKButton(model: .init(title: "Crear cuenta") { viewModel.signUp() })
                 .keyboardShortcut(.defaultAction)
         }
         .navigationTitle("Registro")

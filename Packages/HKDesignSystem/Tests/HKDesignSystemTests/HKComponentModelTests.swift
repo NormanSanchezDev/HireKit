@@ -3,6 +3,19 @@ import Testing
 @testable import HKDesignSystem
 
 struct HKComponentModelTests {
+    @Test func buttonDefaultsToAnEnabledFilledAction() {
+        var didActivate = false
+        let model = HKButtonModel(title: "Continuar") { didActivate = true }
+
+        #expect(model.type == .filled)
+        #expect(model.systemImage == nil)
+        #expect(model.isEnabled)
+        #expect(!model.isLoading)
+        #expect(!didActivate)
+        model.action()
+        #expect(didActivate)
+    }
+
     @Test func glassStylesAreDistinct() {
         #expect(HKGlassStyle.regular != .clear)
         #expect(HKGlassStyle.tinted(.indigo) == .tinted(.indigo))

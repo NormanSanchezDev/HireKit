@@ -24,6 +24,10 @@ commit.
 
 ### Cambiado
 
+- `HKButton` recibe `HKButtonModel` en bienvenida y autenticación, y admite las variantes `filled`, `outline` y `text`.
+
+- Nueva paleta azul y lila para Liquid Glass, con fondo azul marino en modo oscuro y variantes de contraste aumentado.
+
 - Todas las pantallas usan `.hkBackground()` en lugar de `.hkBackdrop()`.
 - Un tipo por archivo en HKDomain, HKData y HKPresentation (casos de uso,
   fuente de datos, vistas de auth, home y ajustes, rutas de home).

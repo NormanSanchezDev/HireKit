@@ -29,7 +29,7 @@ raíz con `.environment(themeManager)`.
 | `HKGlassGroup` | Fundir vistas de vidrio cercanas | `HKGlassGroup(spacing: 12) { HStack(spacing: 12) { … } }` |
 | `.hkGlass(_:isInteractive:in:)` | Controles de vidrio propios | `.hkGlass(.clear, in: .capsule)` |
 | `HKBackground` / `.hkBackground()` | Fondo de pantalla detrás del vidrio: doodles animados sobre color sólido | `ScrollView { … }.hkBackground()` |
-| `HKButton` | Acciones; `.primary` una vez por pantalla | `HKButton("Aplicar", systemImage: "paperplane") { … }` |
+| `HKButton` | Acciones; `.filled` una vez por pantalla | `HKButton(model: .init(title: "Aplicar", systemImage: "paperplane") { … })` |
 | `HKField` | Texto con validación | `HKField(model: .init(title: "Correo", errorMessage: error), text: $email)` |
 | `HKImage` | Media, assets, recursos y SF Symbols | `HKImage(.media("hk_placeholder"))` |
 | `HKLabel` | Texto con estilo del tema | `HKLabel("Inicio", type: .title, tone: .accent)` |
@@ -57,10 +57,27 @@ persona, sello, chat) sobre `colors.background`. No usa degradados.
 
 | Token | Tipo | Ejemplos |
 | --- | --- | --- |
-| Colores | `HKColors` | `primary` (índigo), `secondary` (verde azulado), `textPrimary`, `error` |
+| Colores | `HKColors` | `primary` (azul), `secondary` (lila), `textPrimary`, `error` |
 | Tipografía | `HKTypography` | `title`, `headline`, `body`, `caption`, `button`, `fieldLabel` |
 | Espaciado | `HKSpacing` | `small`, `medium`, `large`, `extraLarge`, `minimumHitTarget` |
 | Radios | `HKRadius` | `medium`, `large` |
+
+## Paleta por apariencia
+
+Los colores de `Palette.xcassets` incluyen variantes de contraste aumentado. El fondo queda detrás del vidrio nativo. Reserva `textTertiary` para contenido secundario deshabilitado o decorativo.
+
+| Rol | Claro | Oscuro |
+| --- | --- | --- |
+| `primary` | `#1755CF` | `#246BFD` |
+| `secondary` | `#7737AA` | `#C084FC` |
+| `success` | `#276C34` | `#6DCF77` |
+| `error` | `#AD383F` | `#DC7170` |
+| `warning` | `#825500` | `#FFB800` |
+| `textPrimary` | `#00152D` | `#F0F8FE` |
+| `textSecondary` | `#455161` | `#949AA5` |
+| `textTertiary` | `#586473` | `#626772` |
+| `background` | `#F0F8FE` | `#00152D` |
+| `surface` | `#FFFFFF` | `#1E2027` |
 
 ## Añadir un componente
 

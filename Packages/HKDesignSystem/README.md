@@ -2,6 +2,8 @@
 
 Tokens, tema y componentes Liquid Glass de HireKit. Los principios y el catálogo completo están en [documentation/design-system.md](../../documentation/design-system.md).
 
+La paleta de `HKColors` incluye tres niveles de texto, colores de estado y variantes claras, oscuras y de contraste aumentado. `HKLabelTone.tertiary` aplica el tercer nivel.
+
 ## Dependencias
 
 Ninguna. SwiftUI y Observation.
@@ -15,7 +17,7 @@ Sources/HKDesignSystem/
 ├── Components/
 │   ├── Background/ HKBackground, View.hkBackground (doodles animados)
 │   ├── Glass/   HKGlassCard, HKGlassGroup, View.hkGlass
-│   ├── Button/  HKButton
+│   ├── Button/  HKButton, HKButtonModel, HKButtonType
 │   ├── Field/   HKField, HKFieldModel, HKFieldValidation, HKFieldContentType
 │   ├── Image/   HKImage, HKImageModel, HKImageSource
 │   └── Label/   HKLabel, HKLabelModel, HKLabelType, HKLabelTone, HKRowLabel
@@ -35,7 +37,7 @@ struct HireKitApp: App {
                 HKGlassCard {
                     HKLabel("Bienvenido", type: .title, tone: .accent)
                 }
-                HKButton("Continuar", systemImage: "arrow.right") { }
+                HKButton(model: .init(title: "Continuar", systemImage: "arrow.right") { })
             }
             .hkBackground()
             .environment(themeManager)

@@ -18,42 +18,39 @@ public struct HKColors: Sendable {
     let colorScheme: ColorScheme?
 
     /// The brand color for prominent actions, selection and accents.
-    public var primary: Color { themed(.indigo) }
+    public var primary: Color { themed(Color("HKPrimary", bundle: .module)) }
 
     /// A complementary brand color for secondary accents and backdrops.
-    public var secondary: Color { themed(.teal) }
+    public var secondary: Color { themed(Color("HKSecondary", bundle: .module)) }
 
     /// The color for primary text content.
-    public var textPrimary: Color { themed(.primary) }
+    public var textPrimary: Color { themed(Color("HKTextPrimary", bundle: .module)) }
 
     /// The color for supporting text, such as captions and hints.
-    public var textSecondary: Color { themed(.secondary) }
+    public var textSecondary: Color { themed(Color("HKTextSecondary", bundle: .module)) }
+
+    /// The color for low-emphasis content.
+    public var textTertiary: Color { themed(Color("HKTextTertiary", bundle: .module)) }
 
     /// The color that signals a successful outcome.
-    public var success: Color { themed(.green) }
+    public var success: Color { themed(Color("HKSuccess", bundle: .module)) }
 
     /// The color that signals a condition that needs attention.
-    public var warning: Color { themed(.orange) }
+    public var warning: Color { themed(Color("HKWarning", bundle: .module)) }
 
     /// The color that signals an error or a destructive outcome.
-    public var error: Color { themed(.red) }
+    public var error: Color { themed(Color("HKError", bundle: .module)) }
 
-    #if os(macOS)
     /// The color of the window background behind all content.
-    public var background: Color { themed(Color(nsColor: .windowBackgroundColor)) }
+    public var background: Color { themed(Color("HKBackground", bundle: .module)) }
 
     /// The color of opaque surfaces that sit above the background.
-    public var surface: Color { themed(Color(nsColor: .controlBackgroundColor)) }
+    public var surface: Color { themed(Color("HKSurface", bundle: .module)) }
 
+    #if os(macOS)
     /// The color of hairlines and outlines.
     public var border: Color { themed(Color(nsColor: .separatorColor)) }
     #else
-    /// The color of the window background behind all content.
-    public var background: Color { themed(Color(uiColor: .systemBackground)) }
-
-    /// The color of opaque surfaces that sit above the background.
-    public var surface: Color { themed(Color(uiColor: .secondarySystemBackground)) }
-
     /// The color of hairlines and outlines.
     public var border: Color { themed(Color(uiColor: .separator)) }
     #endif
@@ -61,18 +58,5 @@ public struct HKColors: Sendable {
     private func themed(_ color: Color) -> Color {
         guard let colorScheme else { return color }
         return Color(AppearanceColor(base: color, scheme: colorScheme))
-    }
-}
-
-/// A shape style that resolves a color in a fixed appearance while keeping the
-/// caller's contrast and other environment settings.
-private struct AppearanceColor: ShapeStyle, Hashable {
-    let base: Color
-    let scheme: ColorScheme
-
-    func resolve(in environment: EnvironmentValues) -> Color.Resolved {
-        var values = environment
-        values.colorScheme = scheme
-        return base.resolve(in: values)
     }
 }

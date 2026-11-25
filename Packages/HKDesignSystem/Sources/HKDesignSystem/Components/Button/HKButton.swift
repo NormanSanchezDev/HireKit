@@ -2,69 +2,35 @@ import SwiftUI
 
 /// A Liquid Glass button that performs an action.
 ///
-/// The primary variant uses prominent glass tinted with the brand color, for
-/// the main action of a screen. The secondary variant uses regular glass:
+/// Configure the title, appearance and action with ``HKButtonModel``:
 ///
 /// ```swift
-/// HKButton("Apply", systemImage: "paperplane") {
+/// HKButton(model: .init(title: "Aplicar", systemImage: "paperplane") {
 ///     viewModel.apply()
-/// }
-///
-/// HKButton("Not now", variant: .secondary) {
-///     dismiss()
-/// }
+/// })
 /// ```
 ///
 /// While `isLoading` is `true` the button shows a progress indicator, ignores
 /// taps and tells VoiceOver that it is busy. Keep one primary button per
 /// screen, and group adjacent buttons in ``HKGlassGroup``.
 public struct HKButton: View {
-    /// The visual prominence of a button.
-    public enum Variant: Sendable {
-        /// Prominent glass tinted with the brand color, for the main action.
-        case primary
-
-        /// Regular glass, for secondary and cancel actions.
-        case secondary
-    }
-
     @Environment(HKThemeManager.self) private var themeManager
     @Environment(\.colorScheme) private var colorScheme
 
-    private let title: LocalizedStringKey
-    private let systemImage: String?
-    private let variant: Variant
-    private let isLoading: Bool
-    private let action: () -> Void
+    private let model: HKButtonModel
 
-    /// Creates a button.
+    /// Creates a button from its configuration.
     ///
-    /// - Parameters:
-    ///   - title: The localized title of the button. VoiceOver reads it even
-    ///     when only the icon is visible.
-    ///   - systemImage: The name of an SF Symbol shown before the title.
-    ///   - variant: The visual prominence of the button.
-    ///   - isLoading: Whether the action is in progress.
-    ///   - action: The action to perform when the user triggers the button.
-    public init(
-        _ title: LocalizedStringKey,
-        systemImage: String? = nil,
-        variant: Variant = .primary,
-        isLoading: Bool = false,
-        action: @escaping () -> Void
-    ) {
-        self.title = title
-        self.systemImage = systemImage
-        self.variant = variant
-        self.isLoading = isLoading
-        self.action = action
+    /// - Parameter model: The button's content, appearance and action.
+    public init(model: HKButtonModel) {
+        self.model = model
     }
 
     public var body: some View {
         let theme = themeManager.current(for: colorScheme)
-        let button = Button(action: action) {
+        let button = Button(action: model.action) {
             HStack(spacing: theme.spacing.medium) {
-                if isLoading {
+                if model.isLoading {
                     ProgressView()
                         .controlSize(.small)
                         .accessibilityHidden(true)
@@ -76,21 +42,22 @@ public struct HKButton: View {
             }
             .frame(minWidth: theme.spacing.minimumHitTarget, minHeight: theme.spacing.minimumHitTarget)
         }
-        .accessibilityValue(isLoading ? Text("Cargando") : Text(""))
-        .disabled(isLoading)
+        .accessibilityValue(model.isLoading ? Text("Cargando") : Text(""))
+        .disabled(model.isLoading || !model.isEnabled)
 
-        switch variant {
-        case .primary: button.buttonStyle(.glassProminent).tint(theme.colors.primary)
-        case .secondary: button.buttonStyle(.glass)
+        switch model.type {
+        case .filled: button.buttonStyle(.glassProminent).tint(theme.colors.primary)
+        case .outline: button.buttonStyle(.glass)
+        case .text: button.buttonStyle(.borderless).tint(theme.colors.primary)
         }
     }
 
     @ViewBuilder
     private var label: some View {
-        if let systemImage, !isLoading {
-            Label(title, systemImage: systemImage)
+        if let systemImage = model.systemImage, !model.isLoading {
+            Label(model.title, systemImage: systemImage)
         } else {
-            Text(title)
+            Text(model.title)
         }
     }
 }
@@ -98,12 +65,12 @@ public struct HKButton: View {
 #Preview("Button states") {
     HKGlassGroup(spacing: 12) {
         VStack(spacing: 12) {
-            HKButton("Continue") {}
-            HKButton("Apply", systemImage: "paperplane") {}
-            HKButton("Cancel", variant: .secondary) {}
-            HKButton("Saving", isLoading: true) {}
-            HKButton("Unavailable") {}
-                .disabled(true)
+            HKButton(model: .init(title: "Continuar") {})
+            HKButton(model: .init(title: "Aplicar", systemImage: "paperplane") {})
+            HKButton(model: .init(title: "Cancelar", variant: .outline) {})
+            HKButton(model: .init(title: "Más información", variant: .text) {})
+            HKButton(model: .init(title: "Guardando", isLoading: true) {})
+            HKButton(model: .init(title: "No disponible", isEnabled: false) {})
         }
     }
     .padding()
@@ -114,8 +81,8 @@ public struct HKButton: View {
 #Preview("Button, dark and large text") {
     HKGlassGroup(spacing: 12) {
         VStack(spacing: 12) {
-            HKButton("Continue") {}
-            HKButton("Cancel", variant: .secondary) {}
+            HKButton(model: .init(title: "Continuar") {})
+            HKButton(model: .init(title: "Cancelar", variant: .outline) {})
         }
     }
     .padding()

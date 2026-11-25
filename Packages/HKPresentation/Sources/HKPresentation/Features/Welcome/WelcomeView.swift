@@ -7,6 +7,8 @@ struct WelcomeView: View {
     @Environment(\.colorScheme) private var colorScheme
     @State private var viewModel: WelcomeViewModel
 
+    private let imageSize: CGFloat = 300
+
     init(viewModel: WelcomeViewModel) {
         _viewModel = State(initialValue: viewModel)
     }
@@ -15,8 +17,12 @@ struct WelcomeView: View {
         let theme = themeManager.current(for: colorScheme)
         VStack(spacing: theme.spacing.extraLarge) {
             Spacer(minLength: 0)
-            HKImage(.media("hk_placeholder"))
-                .padding(theme.spacing.extraLarge)
+            HKImage(
+                .media("hk_programmer_memoji")
+            )
+            .frame(width: imageSize, height: imageSize)
+            .padding(theme.spacing.extraLarge)
+
             HKGlassCard {
                 VStack(alignment: .leading, spacing: theme.spacing.medium) {
                     HKLabel("Bienvenido a HireKit", type: .title, tone: .accent)
@@ -26,15 +32,15 @@ struct WelcomeView: View {
                 }
             }
             Spacer(minLength: 0)
-            HKButton("Empecemos", isLoading: viewModel.isLoading) {
+            HKButton(model: .init(title: "Empecemos", isLoading: viewModel.isLoading) {
                 Task { await viewModel.start() }
-            }
+            })
             .frame(maxWidth: .infinity)
             .keyboardShortcut(.defaultAction)
         }
         .padding(theme.spacing.extraLarge)
-        .frame(maxWidth: 560)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
+
         .hkBackground()
         .alert("Algo salió mal", isPresented: $viewModel.isShowingError, presenting: viewModel.errorMessage) { _ in
             Button("Aceptar", role: .cancel) {}
