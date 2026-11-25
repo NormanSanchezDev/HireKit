@@ -1,0 +1,52 @@
+# macOS and per-user Xcode state
+.DS_Store
+xcuserdata/
+*.xcuserstate
+*.xccheckout
+*.xcscmblueprint
+
+# Xcode and SwiftPM build products
+DerivedData/
+build/
+.build/
+*.hmap
+*.ipa
+*.xcarchive
+*.xcresult
+*.dSYM
+*.dSYM.zip
+*.profraw
+*.profdata
+timeline.xctimeline
+playground.xcworkspace/
+
+# Local tooling and its generated instructions
+graphify-out/
+.graphify/
+.rtk/
+/CLAUDE.md
+RTK.md
+
+# Local environment, service credentials, and signing materials
+.env
+.env.*
+!.env.example
+!.env.template
+.netrc
+*.p8
+*.p12
+*.pfx
+*.pem
+*.key
+*.mobileprovision
+*.provisionprofile
+*.keychain
+*.keychain-db
+*.local.xcconfig
+[Ss]ecrets*.xcconfig
+[Ss]ecrets.plist
+[Ss]ecrets.json
+service-account*.json
+fastlane/AuthKey_*
+fastlane/report.xml
+fastlane/test_output/
