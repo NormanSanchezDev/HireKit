@@ -45,8 +45,8 @@ Xcode descarga Supabase Swift la primera vez que resuelve los paquetes.
 
 ### Configurar Supabase
 
-1. Copia `Config/Supabase.example.plist` a `HireKit/Supabase.plist`. Git ignora
-   ese archivo.
+1. Abre `HireKit/Supabase.plist`. Git ignora ese archivo, así que las
+   credenciales nunca se suben al repositorio.
 2. Rellena `SupabaseURL` (`https://<ref>.supabase.co`) y
    `SupabasePublishableKey` con la clave publicable o anónima del proyecto.
    Nunca uses la clave `service_role`.

@@ -15,8 +15,8 @@ commit.
   `SignUpUseCase`, `AuthRepository` y `AuthenticationError` en HKDomain, y
   `SupabaseAuthRemoteDataSource` y `DefaultAuthRepository` en HKData.
 - Dependencia Supabase Swift 2.55.8 en HKData.
-- `Config/Supabase.example.plist` como plantilla de `HireKit/Supabase.plist`,
-  que Git ignora.
+- `HireKit/Supabase.plist` para la URL y la clave publicable de Supabase,
+  ignorado por Git.
 - Mensajes de error de acceso y aviso "Revisa tu correo" en español e inglés.
 - Conexiones salientes en el sandbox de macOS.
 - Componente `HKActionPrompt` para combinar texto de apoyo y una acción accesible en línea.
