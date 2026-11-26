@@ -6,6 +6,7 @@ import SwiftUI
 /// ViewModels never see the router.
 struct AuthFlowView: View {
     @State private var router: HKRouter<AuthRoute>
+    @State private var signUpDraft = SignUpDraft()
     private let factory: any HKViewModelFactory
     private let onAuthenticated: @MainActor () -> Void
 
@@ -37,8 +38,27 @@ struct AuthFlowView: View {
             ))
         case .signUp:
             SignUpView(viewModel: factory.makeSignUpViewModel(
-                onAuthenticated: onAuthenticated,
-                onConfirmationRequired: { [router] in router.popToRoot() }
+                onStart: { [router] in router.push(.personalInformation) },
+                onSignIn: { [router] in router.popToRoot() }
+            ))
+        case .personalInformation:
+            PersonalInformationView(viewModel: factory.makePersonalInformationViewModel(
+                draft: signUpDraft,
+                onContinue: { [router] in router.push(.contactInformation) },
+                onBack: { [router] in router.pop() }
+            ))
+        case .contactInformation:
+            ContactInformationView(viewModel: factory.makeContactInformationViewModel(
+                draft: signUpDraft,
+                onBack: { [router] in router.pop() },
+                onAuthenticated: { [signUpDraft, onAuthenticated] in
+                    signUpDraft.reset()
+                    onAuthenticated()
+                },
+                onConfirmationRequired: { [router, signUpDraft] in
+                    signUpDraft.reset()
+                    router.popToRoot()
+                }
             ))
         }
     }

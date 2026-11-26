@@ -28,7 +28,7 @@ Bienvenida ──▶ Acceso ──▶ Inicio
 | Flujo | Pantallas | Estado |
 | --- | --- | --- |
 | Bienvenida | `WelcomeView` | Completo. Guarda el progreso en el dispositivo. |
-| Acceso | `SignInView`, `SignUpView` | Inicio de sesión y registro con Supabase Auth. El registro pide nombre(s), apellido paterno, apellido materno opcional, fecha de nacimiento, teléfono con lada, correo y contraseña, y puede pedir confirmar el correo. |
+| Acceso | `SignInView`, `SignUpView`, `PersonalInformationView`, `ContactInformationView` | Inicio de sesión y registro con Supabase Auth. El registro empieza con una introducción (animación, carrusel de etapas, "Comenzar" y "Ya tengo una cuenta") y sigue en dos pasos: información personal (nombre(s), apellido paterno, apellido materno opcional y fecha de nacimiento) e información de contacto (correo, teléfono con lada y contraseña). Los datos se conservan al regresar. Supabase puede pedir confirmar el correo. |
 | Inicio · pestaña Inicio | `DashboardView`, `NotificationsView` | Saludo según la hora y estados vacíos. |
 | Inicio · pestaña Ajustes | `SettingsView`, `AppearanceView`, `AboutView` | Tema claro, oscuro o del sistema; reinicio de la bienvenida. |
 

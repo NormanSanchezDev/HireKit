@@ -14,9 +14,13 @@ let package = Package(
     products: [
         .library(name: "HKDesignSystem", targets: ["HKDesignSystem"]),
     ],
+    dependencies: [
+        .package(url: "https://github.com/airbnb/lottie-spm.git", from: "4.6.1"),
+    ],
     targets: [
         .target(
             name: "HKDesignSystem",
+            dependencies: [.product(name: "Lottie", package: "lottie-spm")],
             resources: [.process("Resources")],
             swiftSettings: swiftSettings
         ),

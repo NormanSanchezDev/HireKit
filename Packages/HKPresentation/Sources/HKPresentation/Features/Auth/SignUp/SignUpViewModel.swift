@@ -1,197 +1,124 @@
 import Foundation
-import HKDomain
 import Observation
-import SwiftUI
 
-/// The state and actions of the sign-up screen.
+/// The state and actions of the sign-up introduction.
 ///
-/// The ViewModel prepares ``SignUpUIState`` on first appearance, cleans names
-/// when their field loses focus, validates the form, creates the account
-/// through ``SignUpUseCase`` and reports navigation through callbacks.
+/// The ViewModel prepares ``SignUpUIState``, advances the carousel of
+/// registration stages on a timer, restarts the timer when the person picks a
+/// stage, and reports navigation once through callbacks.
 @MainActor
 @Observable
 public final class SignUpViewModel {
-    /// The screen state, created by ``onAppear()``.
+    /// The screen state, created by ``onAppear(allowsAutoAdvance:)``.
     public private(set) var uiState: SignUpUIState?
 
-    /// The given names the user typed. Edits before ``onAppear()`` are ignored.
-    public var firstName: String {
-        get { uiState?.firstName ?? "" }
-        set { uiState?.firstName = newValue }
-    }
-
-    /// The paternal surname the user typed. Edits before ``onAppear()`` are
-    /// ignored.
-    public var paternalLastName: String {
-        get { uiState?.paternalLastName ?? "" }
-        set { uiState?.paternalLastName = newValue }
-    }
-
-    /// The maternal surname the user typed. Edits before ``onAppear()`` are
-    /// ignored.
-    public var maternalLastName: String {
-        get { uiState?.maternalLastName ?? "" }
-        set { uiState?.maternalLastName = newValue }
-    }
-
-    /// The date of birth the user picked. Edits before ``onAppear()`` are
-    /// ignored.
-    public var birthDate: Date? {
-        get { uiState?.birthDate }
-        set { uiState?.birthDate = newValue }
-    }
-
-    /// The calling code of the phone number. Edits before ``onAppear()`` are
-    /// ignored.
-    public var dialCode: DialCode {
-        get { uiState?.dialCode ?? .mexico }
-        set { uiState?.dialCode = newValue }
-    }
-
-    /// The national phone number, digits only. Edits before ``onAppear()``
-    /// are ignored.
-    public var phoneDigits: String {
-        get { uiState?.phoneDigits ?? "" }
-        set { uiState?.phoneDigits = newValue }
-    }
-
-    /// The email the user typed. Edits before ``onAppear()`` are ignored.
-    public var email: String {
-        get { uiState?.email ?? "" }
-        set { uiState?.email = newValue }
-    }
-
-    /// The password the user typed. Edits before ``onAppear()`` are ignored.
-    public var password: String {
-        get { uiState?.password ?? "" }
-        set { uiState?.password = newValue }
-    }
-
-    /// A Boolean value that indicates whether the error alert is showing.
-    /// Setting it to `false` clears the error.
-    public var isShowingError: Bool {
-        get { uiState?.errorMessage != nil }
-        set { if !newValue { uiState?.errorMessage = nil } }
-    }
-
-    /// A Boolean value that indicates whether the confirmation alert is
-    /// showing. Setting it to `false` clears the pending address.
-    public var isShowingConfirmation: Bool {
-        get { uiState?.pendingConfirmationEmail != nil }
-        set { if !newValue { uiState?.pendingConfirmationEmail = nil } }
-    }
-
-    private let signUpUseCase: any SignUpUseCase
-    private let currentDate: () -> Date
-    private let onAuthenticated: @MainActor () -> Void
-    private let onConfirmationRequired: @MainActor () -> Void
+    private let autoAdvanceInterval: Duration
+    private let sleep: @Sendable (Duration) async throws -> Void
+    private let onStart: @MainActor () -> Void
+    private let onSignIn: @MainActor () -> Void
+    private var autoAdvanceTask: Task<Void, Never>?
+    private var hasRequestedNavigation = false
 
     /// Creates the ViewModel.
     ///
     /// - Parameters:
-    ///   - signUp: The use case that creates the account.
-    ///   - currentDate: Returns today's date, for the minimum age.
-    ///   - onAuthenticated: Called when the account is created with a session.
-    ///   - onConfirmationRequired: Called after the user acknowledges that the
-    ///     email must be confirmed before signing in.
+    ///   - autoAdvanceInterval: How long each stage stays on screen.
+    ///   - sleep: Waits for a duration. Tests replace it to control time.
+    ///   - onStart: Called when the person starts the registration.
+    ///   - onSignIn: Called when the person already has an account.
     public init(
-        signUp: any SignUpUseCase,
-        currentDate: @escaping () -> Date = { .now },
-        onAuthenticated: @escaping @MainActor () -> Void,
-        onConfirmationRequired: @escaping @MainActor () -> Void
+        autoAdvanceInterval: Duration = .seconds(4),
+        sleep: @escaping @Sendable (Duration) async throws -> Void = { try await Task.sleep(for: $0) },
+        onStart: @escaping @MainActor () -> Void,
+        onSignIn: @escaping @MainActor () -> Void
     ) {
-        signUpUseCase = signUp
-        self.currentDate = currentDate
-        self.onAuthenticated = onAuthenticated
-        self.onConfirmationRequired = onConfirmationRequired
+        self.autoAdvanceInterval = autoAdvanceInterval
+        self.sleep = sleep
+        self.onStart = onStart
+        self.onSignIn = onSignIn
     }
 
-    /// Prepares the screen once, preserving typed values and in-flight work
-    /// on later appearances.
-    public func onAppear() {
-        guard uiState == nil else { return }
-        uiState = SignUpUIState(
-            birthDateRange: BirthDateRule.allowedRange(today: currentDate()),
-            onSignUp: { [weak self] in
-                Task { await self?.signUp() }
-            },
-            onConfirmationAcknowledged: { [weak self] in
-                self?.acknowledgeConfirmation()
-            }
-        )
-    }
-
-    /// Cleans a name after its field loses focus: removes punctuation and
-    /// extra spaces and capitalizes each word.
+    /// Prepares the screen on first appearance and starts the carousel timer.
     ///
-    /// - Parameter field: The name field that lost focus.
-    public func nameEditingEnded(_ field: SignUpNameField) {
-        switch field {
-        case .firstName: firstName = PersonName.cleaned(firstName)
-        case .paternalLastName: paternalLastName = PersonName.cleaned(paternalLastName)
-        case .maternalLastName: maternalLastName = PersonName.cleaned(maternalLastName)
+    /// Later appearances keep the selected stage and allow navigation again.
+    ///
+    /// - Parameter allowsAutoAdvance: Whether the carousel may advance on its
+    ///   own. The view passes `false` when Reduce Motion or VoiceOver is on.
+    public func onAppear(allowsAutoAdvance: Bool) {
+        hasRequestedNavigation = false
+        if uiState == nil {
+            uiState = SignUpUIState(
+                onStart: { [weak self] in self?.start() },
+                onSignIn: { [weak self] in self?.signIn() }
+            )
+        }
+        allowsAutoAdvanceChanged(allowsAutoAdvance)
+    }
+
+    /// Stops the carousel timer while the screen is hidden.
+    public func onDisappear() {
+        autoAdvanceTask?.cancel()
+        autoAdvanceTask = nil
+    }
+
+    /// Turns the automatic advance off or on when the accessibility settings
+    /// change.
+    ///
+    /// - Parameter allowed: Whether the carousel may advance on its own.
+    public func allowsAutoAdvanceChanged(_ allowed: Bool) {
+        uiState?.isAutoAdvanceEnabled = allowed
+        restartAutoAdvance()
+    }
+
+    /// Shows the stage the person picked and restarts the timer.
+    ///
+    /// - Parameter index: The position of the stage.
+    public func select(_ index: Int) {
+        guard let state = uiState, state.steps.indices.contains(index) else { return }
+        uiState?.selectedStep = index
+        restartAutoAdvance()
+    }
+
+    /// Starts the registration. Repeated calls navigate only once.
+    public func start() {
+        guard requestNavigation() else { return }
+        onStart()
+    }
+
+    /// Returns to sign in. Repeated calls navigate only once.
+    public func signIn() {
+        guard requestNavigation() else { return }
+        onSignIn()
+    }
+
+    private func requestNavigation() -> Bool {
+        guard uiState != nil, !hasRequestedNavigation else { return false }
+        hasRequestedNavigation = true
+        onDisappear()
+        return true
+    }
+
+    private func restartAutoAdvance() {
+        autoAdvanceTask?.cancel()
+        autoAdvanceTask = nil
+        guard uiState?.isAutoAdvanceEnabled == true else { return }
+        let interval = autoAdvanceInterval
+        let sleep = sleep
+        autoAdvanceTask = Task { [weak self] in
+            while !Task.isCancelled {
+                do {
+                    try await sleep(interval)
+                } catch {
+                    return
+                }
+                guard !Task.isCancelled else { return }
+                self?.advance()
+            }
         }
     }
 
-    /// Cleans the names, validates the form and, when it is valid, creates
-    /// the account.
-    ///
-    /// It does nothing before ``onAppear()`` or while a request is in flight.
-    public func signUp() async {
-        guard let current = uiState, !current.isLoading else { return }
-        nameEditingEnded(.firstName)
-        nameEditingEnded(.paternalLastName)
-        nameEditingEnded(.maternalLastName)
-        guard let account = validatedAccount() else { return }
-
-        uiState?.errorMessage = nil
-        uiState?.isLoading = true
-        defer { uiState?.isLoading = false }
-        do throws(AuthenticationError) {
-            switch try await signUpUseCase.execute(account) {
-            case .signedIn:
-                onAuthenticated()
-            case let .confirmationRequired(email):
-                uiState?.pendingConfirmationEmail = email
-            }
-        } catch {
-            uiState?.errorMessage = error.message
-        }
-    }
-
-    /// Closes the confirmation alert and returns to sign in.
-    public func acknowledgeConfirmation() {
-        uiState?.pendingConfirmationEmail = nil
-        onConfirmationRequired()
-    }
-
-    private func validatedAccount() -> NewAccount? {
-        guard var state = uiState else { return nil }
-        state.firstNameError = AuthInputValidator.requiredNameError(state.firstName)
-        state.paternalLastNameError = AuthInputValidator.requiredNameError(state.paternalLastName)
-        state.maternalLastNameError = AuthInputValidator.optionalNameError(state.maternalLastName)
-        state.birthDateError = AuthInputValidator.birthDateError(state.birthDate, today: currentDate())
-        state.phoneError = AuthInputValidator.phoneError(state.phoneDigits)
-        state.emailError = AuthInputValidator.emailError(state.email)
-        state.passwordError = AuthInputValidator.passwordError(state.password)
-        uiState = state
-
-        let hasErrors = [
-            state.firstNameError, state.paternalLastNameError, state.maternalLastNameError,
-            state.birthDateError, state.phoneError, state.emailError, state.passwordError,
-        ].contains { $0 != nil }
-        guard !hasErrors,
-              let birthDate = state.birthDate,
-              let phone = PhoneNumber(dialCode: state.dialCode, digits: state.phoneDigits)
-        else { return nil }
-
-        return NewAccount(
-            firstName: state.firstName,
-            paternalLastName: state.paternalLastName,
-            maternalLastName: state.maternalLastName.isEmpty ? nil : state.maternalLastName,
-            birthDate: birthDate,
-            phone: phone,
-            credentials: AuthCredentials(email: state.email, password: state.password)
-        )
+    private func advance() {
+        guard let state = uiState else { return }
+        uiState?.selectedStep = (state.selectedStep + 1) % state.steps.count
     }
 }

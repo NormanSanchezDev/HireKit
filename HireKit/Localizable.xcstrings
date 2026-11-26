@@ -375,6 +375,23 @@
         }
       }
     },
+    "common_back" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regresar"
+          }
+        }
+      }
+    },
     "common_cancel" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -388,6 +405,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Cancelar"
+          }
+        }
+      }
+    },
+    "common_carousel_page_%lld_of_%lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %1$lld of %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Etapa %1$lld de %2$lld"
           }
         }
       }
@@ -936,6 +970,23 @@
         }
       }
     },
+    "common_retry" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Retry"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reintentar"
+          }
+        }
+      }
+    },
     "common_save" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -983,6 +1034,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrar contraseña"
+          }
+        }
+      }
+    },
+    "common_step_%lld_of_%lld" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step %1$lld of %2$lld"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paso %1$lld de %2$lld"
           }
         }
       }
@@ -1119,6 +1187,74 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Advertencia: %@"
+          }
+        }
+      }
+    },
+    "contact_information_create_account_button_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create account"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crear cuenta"
+          }
+        }
+      }
+    },
+    "contact_information_description_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your contact details and set up your access to HireKit."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega tus datos de contacto y configura tu acceso a HireKit."
+          }
+        }
+      }
+    },
+    "contact_information_navigation_title_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step 2"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paso 2"
+          }
+        }
+      }
+    },
+    "contact_information_title_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact information"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información de contacto"
           }
         }
       }
@@ -1340,6 +1476,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notificaciones"
+          }
+        }
+      }
+    },
+    "personal_information_description_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Let's get to know you. Enter your personal details to create your profile."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comencemos por conocerte. Ingresa tus datos personales para crear tu perfil."
+          }
+        }
+      }
+    },
+    "personal_information_navigation_title_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Step 1"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paso 1"
+          }
+        }
+      }
+    },
+    "personal_information_title_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal information"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información personal"
           }
         }
       }
@@ -1684,6 +1871,23 @@
         }
       }
     },
+    "sign_up_description_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Complete your profile to organize your applications and follow up on your hiring processes."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Completa tu perfil para organizar tus postulaciones y dar seguimiento a tus procesos de contratación."
+          }
+        }
+      }
+    },
     "sign_up_email_placeholder_txt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1714,6 +1918,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Correo"
+          }
+        }
+      }
+    },
+    "sign_up_existing_account_button_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I already have an account"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya tengo una cuenta"
           }
         }
       }
@@ -1939,19 +2160,121 @@
         }
       }
     },
-    "sign_up_submit_button_txt" : {
+    "sign_up_start_button_txt" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create account"
+            "value" : "Start"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crear cuenta"
+            "value" : "Comenzar"
+          }
+        }
+      }
+    },
+    "sign_up_step_contact_description_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Add your contact details and set up your sign-in credentials."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Agrega tus datos de contacto y configura tus credenciales de acceso."
+          }
+        }
+      }
+    },
+    "sign_up_step_contact_title_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contact information"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información de contacto"
+          }
+        }
+      }
+    },
+    "sign_up_step_get_started_description_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finish signing up and start organizing your job opportunities."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finaliza tu registro y comienza a organizar tus oportunidades laborales."
+          }
+        }
+      }
+    },
+    "sign_up_step_get_started_title_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Get started"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comienza"
+          }
+        }
+      }
+    },
+    "sign_up_step_personal_description_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter your personal information to start building your profile."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ingresa tu información personal para comenzar a crear tu perfil."
+          }
+        }
+      }
+    },
+    "sign_up_step_personal_title_txt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Personal information"
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Información personal"
           }
         }
       }
@@ -1962,13 +2285,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Create your account"
+            "value" : "Create your HireKit account"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Crea tu cuenta"
+            "value" : "Crea tu cuenta en HireKit"
           }
         }
       }

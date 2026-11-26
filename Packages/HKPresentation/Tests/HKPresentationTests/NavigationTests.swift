@@ -15,6 +15,18 @@ struct HKRouterTests {
         #expect(router.isAtRoot)
     }
 
+    @Test func signUpStepsPushAndReturnInFlowOrder() {
+        let router = HKRouter<AuthRoute>()
+        router.push(.signUp)
+        router.push(.personalInformation)
+        router.push(.contactInformation)
+        #expect(router.path == [.signUp, .personalInformation, .contactInformation])
+        router.pop()
+        #expect(router.path == [.signUp, .personalInformation])
+        router.popToRoot()
+        #expect(router.isAtRoot)
+    }
+
     @Test func popOnEmptyStackIsSafe() {
         let router = HKRouter<AuthRoute>()
         router.pop()

@@ -1,5 +1,6 @@
-/// A name field of the sign-up form that is cleaned when it loses focus.
-public enum SignUpNameField: Sendable {
+/// A name field of the personal information step that is cleaned and
+/// validated when it loses focus.
+public enum PersonalInformationField: Sendable {
     /// The given names.
     case firstName
 

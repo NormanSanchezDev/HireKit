@@ -23,8 +23,22 @@ Casos de uso: GetOnboardingState, CompleteOnboarding, ResetOnboarding
 
 ## Acceso
 
-Primero se valida el formulario en `AuthInputValidator`. Si es válido, el
-ViewModel llama al caso de uso, que verifica las credenciales con Supabase Auth.
+Primero se valida el formulario. Correo y contraseña se validan en
+`AuthInputValidator` (también los usa inicio de sesión), los nombres y la
+fecha en `PersonalInformationValidator` y el teléfono en
+`ContactInformationValidator`. Si es válido, el ViewModel llama al caso de
+uso, que verifica las credenciales con Supabase Auth.
+
+El registro tiene dos pasos. Información personal habilita "Continuar" solo
+cuando nombre(s), apellido paterno, apellido materno (si se escribe) y fecha
+son válidos. Información de contacto valida correo, teléfono y contraseña,
+arma `NewAccount(personal:contact:)` y llama a `SignUpUseCase`. Mientras la
+solicitud está en curso, "Crear cuenta" muestra carga y no acepta otro toque.
+Un error de red ofrece "Reintentar"; los demás errores muestran su mensaje.
+
+La contraseña vive solo en el estado de `ContactInformationViewModel`: no va
+en el borrador, no se guarda en `UserDefaults` ni en disco, no se escribe en
+logs, se envía solo a Supabase Auth por HTTPS y se borra al terminar.
 
 | Campo | Regla | Mensaje |
 | --- | --- | --- |
@@ -35,8 +49,8 @@ ViewModel llama al caso de uso, que verifica las credenciales con Supabase Auth.
 | Nombre(s) y apellido paterno (registro) | Obligatorios | "Este campo es obligatorio." |
 | Nombre(s) y apellidos (registro) | Mayúscula inicial, al menos 2 letras, solo letras, espacios, apóstrofo y guion (`PersonName.isValid`) | "Usa solo letras, empieza con mayúscula y escribe al menos 2 letras." |
 | Apellido materno (registro) | Opcional; si se escribe, sigue la regla anterior | Igual que arriba |
-| Fecha de nacimiento (registro) | Obligatoria; un día real, escrito como `ddmmaaaa` o elegido en el calendario, y no más de 120 años atrás | "Escribe una fecha válida con formato dd/mm/aaaa." |
-| Fecha de nacimiento (registro) | Al menos 18 años cumplidos, sin fechas futuras (`BirthDateRule`) | "Debes tener al menos 18 años." |
+| Fecha de nacimiento (registro) | Obligatoria; un día real, escrito como `ddmmaaaa` o elegido en el calendario, no futura y no más de 120 años atrás | "Escribe una fecha válida con formato dd/mm/aaaa." |
+| Fecha de nacimiento (registro) | Al menos 18 años cumplidos (`BirthDateRule`) | "Debes tener al menos 18 años." |
 | Teléfono (registro) | Obligatorio | "Escribe tu número de teléfono." |
 | Teléfono (registro) | Exactamente 10 dígitos (`PhoneNumber`) | "El número debe tener 10 dígitos." |
 

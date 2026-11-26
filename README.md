@@ -8,7 +8,7 @@
   <img src="https://img.shields.io/badge/UI-SwiftUI%20%2B%20Liquid%20Glass-5E5CE6" alt="SwiftUI y Liquid Glass">
   <img src="https://img.shields.io/badge/arquitectura-MVVM%20%2B%20Clean-30B0C7" alt="MVVM y Clean Architecture">
   <img src="https://img.shields.io/badge/tests-Swift%20Testing-FF9F0A" alt="Swift Testing">
-  <img src="https://img.shields.io/badge/dependencias%20externas-1-34C759" alt="Una dependencia externa">
+  <img src="https://img.shields.io/badge/dependencias%20externas-2-34C759" alt="Dos dependencias externas">
   <img src="https://img.shields.io/badge/idioma-es-8E8E93" alt="Idioma español">
 </p>
 
@@ -18,8 +18,8 @@ HireKit acompaña a las personas durante un proceso de contratación: organiza
 cada proceso, sus etapas y sus próximos pasos en una sola app para iPhone, iPad
 y Mac, con una interfaz en español construida por completo con Liquid Glass.
 
-Hoy la app incluye la bienvenida, el acceso (inicio de sesión y registro con
-validación local), el inicio con pestañas y los ajustes de apariencia. El
+Hoy la app incluye la bienvenida, el acceso (inicio de sesión y registro en tres
+pantallas con validación local), el inicio con pestañas y los ajustes de apariencia. El
 detalle de lo que existe y de lo planeado está en
 [documentation/app.md](documentation/app.md).
 
@@ -101,7 +101,7 @@ README.
 
 ## Dependencias
 
-HireKit usa frameworks de Apple y Supabase Swift. Cualquier dependencia nueva se registra
+HireKit usa frameworks de Apple, Supabase Swift y Lottie. Cualquier dependencia nueva se registra
 aquí, en el README del paquete que la usa y en el [CHANGELOG](CHANGELOG.md).
 
 | Dependencia | Tipo | Versión | Usada por | Motivo |
@@ -112,8 +112,9 @@ aquí, en el README del paquete que la usa y en el [CHANGELOG](CHANGELOG.md).
 | Swift Testing | Framework de Apple | Swift 6.4 | Tests de todos los paquetes | Pruebas unitarias |
 | XCTest | Framework de Apple | SDK 27 | HireKitUITests | Pruebas de interfaz |
 | [Supabase Swift](https://github.com/supabase/supabase-swift) | Terceros (SPM) | 2.55.8 | HKData | Autenticación con Supabase Auth |
+| [Lottie](https://github.com/airbnb/lottie-spm) | Terceros (SPM) | 4.6.1 | HKDesignSystem | Animaciones Lottie (`HKAnimation`) |
 
-Dependencias de terceros: **Supabase Swift**, solo en `HKData`.
+Dependencias de terceros: **Supabase Swift**, solo en `HKData`, y **Lottie**, solo en `HKDesignSystem`.
 
 ## Cambios
 

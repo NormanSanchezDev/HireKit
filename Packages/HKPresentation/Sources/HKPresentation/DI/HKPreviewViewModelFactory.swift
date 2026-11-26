@@ -41,13 +41,35 @@ public final class HKPreviewViewModelFactory: HKViewModelFactory {
         )
     }
 
-    /// Returns a sign-up ViewModel that always asks to confirm the email.
+    /// Returns a sign-up introduction ViewModel with the default timer.
     public func makeSignUpViewModel(
+        onStart: @escaping @MainActor () -> Void,
+        onSignIn: @escaping @MainActor () -> Void
+    ) -> SignUpViewModel {
+        SignUpViewModel(onStart: onStart, onSignIn: onSignIn)
+    }
+
+    /// Returns a personal information ViewModel that uses the current date.
+    public func makePersonalInformationViewModel(
+        draft: SignUpDraft,
+        onContinue: @escaping @MainActor () -> Void,
+        onBack: @escaping @MainActor () -> Void
+    ) -> PersonalInformationViewModel {
+        PersonalInformationViewModel(draft: draft, onContinue: onContinue, onBack: onBack)
+    }
+
+    /// Returns a contact information ViewModel whose sign-up always asks to
+    /// confirm the email.
+    public func makeContactInformationViewModel(
+        draft: SignUpDraft,
+        onBack: @escaping @MainActor () -> Void,
         onAuthenticated: @escaping @MainActor () -> Void,
         onConfirmationRequired: @escaping @MainActor () -> Void
-    ) -> SignUpViewModel {
-        SignUpViewModel(
+    ) -> ContactInformationViewModel {
+        ContactInformationViewModel(
+            draft: draft,
             signUp: DefaultSignUpUseCase(repository: authRepository),
+            onBack: onBack,
             onAuthenticated: onAuthenticated,
             onConfirmationRequired: onConfirmationRequired
         )

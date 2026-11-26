@@ -45,6 +45,26 @@ public struct NewAccount: Sendable, Equatable {
         self.credentials = credentials
     }
 
+    /// Creates the data of a new account from the two sign-up steps.
+    ///
+    /// An empty maternal surname means the person has none.
+    ///
+    /// - Parameters:
+    ///   - personal: The personal details of the first step.
+    ///   - contact: The contact details and password of the second step.
+    /// - Returns: `nil` when the personal details have no date of birth.
+    public init?(personal: PersonalInformation, contact: ContactInformation) {
+        guard let birthDate = personal.birthDate else { return nil }
+        self.init(
+            firstName: personal.firstName,
+            paternalLastName: personal.paternalLastName,
+            maternalLastName: personal.maternalLastName.isEmpty ? nil : personal.maternalLastName,
+            birthDate: birthDate,
+            phone: contact.phone,
+            credentials: AuthCredentials(email: contact.email, password: contact.password)
+        )
+    }
+
     /// The account with cleaned names, an empty maternal surname removed and
     /// the credentials normalized.
     var normalized: NewAccount {

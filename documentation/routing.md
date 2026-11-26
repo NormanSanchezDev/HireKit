@@ -38,10 +38,24 @@ cambio de flujo.
 | --- | --- | --- |
 | `AuthRoute.signIn` | Raíz | — |
 | `AuthRoute.signUp` | Push | "Crear cuenta" en inicio de sesión |
+| `AuthRoute.personalInformation` | Push | "Comenzar" en la introducción del registro (paso 1 de 2) |
+| `AuthRoute.contactInformation` | Push | "Continuar" en información personal (paso 2 de 2) |
 
-Coordinador: `AuthFlowView`. Si el registro pide confirmar el correo,
-`onConfirmationRequired` hace `popToRoot()` y el usuario vuelve a inicio de
-sesión.
+Coordinador: `AuthFlowView`. Es dueño de un `SignUpDraft` en memoria que
+comparten los dos pasos, así los datos sobreviven a `pop()` y a un nuevo
+`push`. La contraseña no va en el borrador.
+
+- Introducción: "Comenzar" empuja `.personalInformation`; "Ya tengo una
+  cuenta" hace `popToRoot()`.
+- Información personal: "Continuar" empuja `.contactInformation`; "Regresar"
+  hace `pop()`.
+- Información de contacto: "Regresar" hace `pop()`. Si Supabase devuelve
+  sesión, se reinicia el borrador y se llama `onAuthenticated`. Si pide
+  confirmar el correo, se reinicia el borrador y `popToRoot()` vuelve a inicio
+  de sesión.
+
+Cada ViewModel navega una sola vez por aparición, así un doble toque no
+empuja dos pantallas.
 
 ### Inicio
 

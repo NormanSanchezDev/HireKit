@@ -62,6 +62,8 @@ struct OfferRow: View {
 | `HKDatePicker` | Fecha escrita con máscara `dd/mm/aaaa` (`HKDateFormat`); el botón de calendario abre un calendario gráfico limitado a un rango que guarda con "Listo" | `HKDatePicker(model: .init(title: "sign_up_birth_date_txt", range: range), date: $birthDate)` |
 | `HKDropdown` | Menú compacto de opciones, sin superficie propia | `HKDropdown(title: "common_dial_code", options: options, selection: $code)` |
 | `HKPhoneField` | Lada (`HKDropdown`) y número con máscara `(XX) XX XX XX XX`; enlaza solo dígitos | `HKPhoneField(model: model, dialCode: $code, digits: $digits)` |
+| `HKAnimation` | Animación Lottie decorativa en bucle; muestra el primer cuadro con Reduce Motion y una imagen alternativa si el archivo no carga; oculta a VoiceOver | `HKAnimation(model: .init(name: "hk_sign_up", fallback: .system("person.crop.circle.badge.plus")))` |
+| `HKStepCarousel` | Carrusel paginado de tarjetas de vidrio con indicador; el dueño decide la página, así puede avanzar con un temporizador | `HKStepCarousel(model: state.carousel, onSelect: viewModel.select)` |
 | `HKImage` | Media, assets, recursos y SF Symbols | `HKImage(.media("hk_placeholder"))` |
 | `HKLabel` | Texto con estilo del tema | `HKLabel("dashboard_navigation_title_txt", type: .title, tone: .accent)` |
 | `HKActionPrompt` | Texto de apoyo y acción en línea | `HKActionPrompt(model: prompt) { viewModel.continue() }` |

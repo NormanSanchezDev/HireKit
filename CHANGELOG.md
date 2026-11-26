@@ -11,6 +11,20 @@ commit.
 
 ### Añadido
 
+- Registro en tres pantallas (HK-US-001, HK-US-002, HK-US-003): introducción
+  con animación, carrusel automático de etapas, "Comenzar" y "Ya tengo una
+  cuenta"; información personal (paso 1 de 2) e información de contacto
+  (paso 2 de 2) con "Crear cuenta", carga, "Reintentar" ante errores de red y
+  datos conservados al regresar.
+- Rutas `AuthRoute.personalInformation` y `AuthRoute.contactInformation`, y
+  `SignUpDraft` compartido por los pasos.
+- `PersonalInformation` y `ContactInformation` en HKDomain, y
+  `NewAccount.init?(personal:contact:)`.
+- Componentes `HKAnimation` (Lottie, con imagen alternativa y Reduce Motion) y
+  `HKStepCarousel`, y la animación `hk_sign_up.json`.
+- Dependencia Lottie (`lottie-spm`) 4.6.1 en HKDesignSystem.
+- Textos de la introducción y de los dos pasos en español e inglés.
+
 - Registro completo: nombre(s), apellido paterno, apellido materno opcional,
   fecha de nacimiento (18 años mínimo), teléfono con lada 🇲🇽 +52 / 🇺🇸 +1,
   correo y contraseña. Los nombres se limpian y capitalizan al perder el foco.
@@ -46,6 +60,14 @@ commit.
 
 ### Cambiado
 
+- `SignUpView` pasa de formulario único a introducción del registro. El
+  carrusel no avanza solo con Reduce Motion o VoiceOver.
+- `AuthInputValidator` valida solo correo y contraseña; los nombres y la fecha
+  pasan a `PersonalInformationValidator` y el teléfono a
+  `ContactInformationValidator`. Una fecha futura ahora muestra "fecha
+  inválida" en vez de "menor de edad".
+- `HKViewModelFactory` crea un ViewModel por pantalla del registro.
+
 - `NewAccount` reemplaza `name` por el perfil completo y
   `AuthRemoteDataSource.signUp` recibe un `RemoteNewProfile`. Supabase guarda
   el perfil en metadatos con claves `first_name`, `paternal_last_name`, etc.
@@ -80,6 +102,10 @@ commit.
   exigen mantener README, CHANGELOG y documentación al día.
 
 ### Eliminado
+
+- Formulario único del registro, `SignUpNameField` y la clave
+  `sign_up_submit_button_txt`.
+- Pantalla provisional `AddressInfo`.
 
 - Campo único "Nombre" del registro y la clave de metadatos `name`.
 

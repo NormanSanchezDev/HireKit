@@ -12,9 +12,10 @@ Ninguna.
 Sources/HKDomain/
 ├── Entities/
 │   ├── OnboardingState
-│   ├── Auth/        AuthCredentials, NewAccount, AuthUser, SignUpResult,
-│   │                AuthenticationError
-│   └── Profile/     PersonName, DialCode, PhoneNumber, BirthDateRule
+│   ├── Auth/        AuthCredentials, NewAccount, ContactInformation, AuthUser,
+│   │                SignUpResult, AuthenticationError
+│   └── Profile/     PersonName, DialCode, PhoneNumber, BirthDateRule,
+│                    PersonalInformation
 ├── Repositories/    OnboardingRepository, AuthRepository
 └── UseCases/
     ├── Onboarding/  GetOnboardingState, CompleteOnboarding, ResetOnboarding

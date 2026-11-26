@@ -25,6 +25,7 @@ HireKit (app, raíz de composición)
 | Dependencia | Versión | Paquete | Uso |
 | --- | --- | --- | --- |
 | Supabase Swift | 2.55.8 | `HKData` | Inicio de sesión y registro con Supabase Auth. |
+| Lottie (`lottie-spm`) | 4.6.1 | `HKDesignSystem` | Animación de la introducción del registro (`HKAnimation`). |
 
 El resto son frameworks de Apple (SwiftUI, Observation, Foundation, Swift
 Testing). Una librería de terceros requiere aprobación y se registra en la

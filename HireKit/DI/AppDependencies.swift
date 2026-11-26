@@ -79,11 +79,30 @@ extension AppDependencies: HKViewModelFactory {
     }
 
     func makeSignUpViewModel(
+        onStart: @escaping @MainActor () -> Void,
+        onSignIn: @escaping @MainActor () -> Void
+    ) -> SignUpViewModel {
+        SignUpViewModel(onStart: onStart, onSignIn: onSignIn)
+    }
+
+    func makePersonalInformationViewModel(
+        draft: SignUpDraft,
+        onContinue: @escaping @MainActor () -> Void,
+        onBack: @escaping @MainActor () -> Void
+    ) -> PersonalInformationViewModel {
+        PersonalInformationViewModel(draft: draft, onContinue: onContinue, onBack: onBack)
+    }
+
+    func makeContactInformationViewModel(
+        draft: SignUpDraft,
+        onBack: @escaping @MainActor () -> Void,
         onAuthenticated: @escaping @MainActor () -> Void,
         onConfirmationRequired: @escaping @MainActor () -> Void
-    ) -> SignUpViewModel {
-        SignUpViewModel(
+    ) -> ContactInformationViewModel {
+        ContactInformationViewModel(
+            draft: draft,
             signUp: container.resolve(),
+            onBack: onBack,
             onAuthenticated: onAuthenticated,
             onConfirmationRequired: onConfirmationRequired
         )

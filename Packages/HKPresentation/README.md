@@ -4,9 +4,11 @@ Vistas, ViewModels, coordinadores y routers de HireKit. La navegación está des
 
 Las pantallas y sus mensajes de validación usan claves de `HireKit/Localizable.xcstrings` en español e inglés.
 
-La bienvenida, el inicio de sesión y el registro obtienen el contenido, los
-campos, la acción principal y el estado de carga y error de `uiState`
-(`WelcomeUIState`, `SignInUIState`, `SignUpUIState`) al aparecer. Antes de
+La bienvenida, el inicio de sesión y las tres pantallas del registro obtienen
+el contenido, los campos, la acción principal y el estado de carga y error de
+`uiState` (`WelcomeUIState`, `SignInUIState`, `SignUpUIState`,
+`PersonalInformationUIState`, `ContactInformationUIState`) al aparecer. Los
+pasos del registro comparten un `SignUpDraft` en memoria, sin contraseña. Antes de
 `onAppear()` el estado es `nil`.
 
 ## Dependencias
@@ -26,8 +28,12 @@ Sources/HKPresentation/
 ├── Root/        HKRootView, RootViewModel
 └── Features/
     ├── Welcome/   WelcomeView, WelcomeViewModel
-    ├── Auth/      AuthFlowView, AuthRoute, AuthForm, mensajes de AuthenticationError,
-    │              SignIn/SignUp (View, ViewModel, Model/…UIState)
+    ├── Auth/      AuthFlowView, AuthRoute, AuthForm, AuthInputValidator,
+    │              mensajes de AuthenticationError, DialCode+Presentation,
+    │              SignIn/ (View, ViewModel, Model/…UIState)
+    │              SignUp/ (introducción, SignUpDraft, SignUpStep)
+    │              PersonalInformation/ (paso 1, validador)
+    │              ContactInformation/ (paso 2, validador)
     ├── Home/      HomeView, HomeCoordinator, HomeTab, rutas, DashboardView
     └── Settings/  SettingsView, SettingsViewModel, AppearanceView, AboutView
 ```

@@ -8,7 +8,8 @@ Los textos de los componentes reciben `LocalizedStringKey` y se resuelven en el 
 
 ## Dependencias
 
-Ninguna. SwiftUI y Observation.
+- [Lottie](https://github.com/airbnb/lottie-spm) 4.6.1 (SPM): reproduce las animaciones de `HKAnimation`.
+- SwiftUI y Observation.
 
 ## Contenido
 
@@ -17,7 +18,9 @@ Sources/HKDesignSystem/
 ├── Tokens/      HKColors, HKTypography, HKSpacing, HKRadius, HKGlassStyle
 ├── Theme/       HKTheme, EnvironmentValues.hkTheme, HKThemeMode, HKThemeManager
 ├── Components/
+│   ├── Animation/ HKAnimation, HKAnimationModel (Lottie)
 │   ├── Background/ HKBackground, View.hkBackground (doodles animados)
+│   ├── Carousel/ HKStepCarousel, HKStepCarouselModel, HKStepCarouselItem
 │   ├── Glass/   HKGlassCard, HKGlassGroup, View.hkGlass
 │   ├── Button/  HKButton, HKButtonModel, HKButtonType
 │   ├── Field/   HKField, HKFieldModel, HKFieldValidation, HKFieldContentType,
@@ -27,7 +30,7 @@ Sources/HKDesignSystem/
 │   ├── PhoneField/ HKPhoneField, HKPhoneFieldModel, HKPhoneFormat
 │   ├── Image/   HKImage, HKImageModel, HKImageSource
 │   └── Label/   HKActionPrompt, HKActionPromptModel, HKLabel, HKLabelModel, HKLabelType, HKLabelTone, HKRowLabel
-└── Resources/   Media.xcassets
+└── Resources/   Media.xcassets, Animations/hk_sign_up.json
 ```
 
 ## Uso

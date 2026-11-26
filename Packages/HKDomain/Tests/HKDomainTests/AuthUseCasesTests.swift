@@ -70,6 +70,25 @@ struct AuthUseCasesTests {
         #expect(result == .confirmationRequired(email: "ana@hirekit.app"))
     }
 
+    @Test func newAccountCombinesBothSignUpSteps() throws {
+        let personal = PersonalInformation(firstName: "Ana", paternalLastName: "López", birthDate: Self.birthDate)
+        let contact = ContactInformation(email: "ana@hirekit.app", phone: Self.phone, password: "secreta123")
+        let combined = try #require(NewAccount(personal: personal, contact: contact))
+        #expect(combined == account())
+    }
+
+    @Test func newAccountKeepsMaternalSurnameAndNeedsBirthDate() {
+        let contact = ContactInformation(email: "ana@hirekit.app", phone: Self.phone, password: "secreta123")
+        let withMaternal = PersonalInformation(
+            firstName: "Ana",
+            paternalLastName: "López",
+            maternalLastName: "Cruz",
+            birthDate: Self.birthDate
+        )
+        #expect(NewAccount(personal: withMaternal, contact: contact)?.maternalLastName == "Cruz")
+        #expect(NewAccount(personal: PersonalInformation(firstName: "Ana"), contact: contact) == nil)
+    }
+
     @Test func signUpPropagatesRepositoryErrors() async {
         let useCase = DefaultSignUpUseCase(repository: RecordingAuthRepository(failure: .emailAlreadyRegistered))
         await #expect(throws: AuthenticationError.emailAlreadyRegistered) {
